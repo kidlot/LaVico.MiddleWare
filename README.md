@@ -36,7 +36,7 @@ Server OS: ubuntu server 12.04
 4. 在tomcat webapps 下建立 WEB-INF 的软连接
 
    ```
-   ln -s `pwd`/WEB-INF /var/lib/tomcat7/webapps
+   ln -s `pwd` /var/lib/tomcat7/webapps/
    ```
 
 > 如果需要，可以编辑 `WEB-INF/src/applicationContext.xml` 中的配置（如JDBC）；编辑后，需要重新执行 `ant`
