@@ -55,21 +55,31 @@ Server OS: ubuntu server 12.04
 # 接口文档说明
 
 
-* 申请会员卡 MemeberApply
+### 申请会员卡 MemeberApply
 
-  ### 参数：
+#### 参数：
 
-  * openid 微信id
+  * openid
   
-  * MEM_PSN_BIRTHDAY 生日 yyyy-mm-dd格式
+      微信id
+  
+  * MEM_PSN_BIRTHDAY
 
-  * MOBILE_TELEPHONE_NO 手机号码
+      生日 yyyy-mm-dd格式
 
-  * MEM_PSN_SEX 性别，0=女, 1=男
+  * MOBILE_TELEPHONE_NO
+ 
+      手机号码
 
-  * MEM_PSN_CNAME 用户名字
+  * MEM_PSN_SEX
 
-  ### 返回：
+      性别，0=女, 1=男
+
+  * MEM_PSN_CNAME
+
+      用户名字
+
+#### 返回：
 
   {"MEMBER_ID":9114883,"issuccessed":true,"error":""}
 
@@ -81,19 +91,27 @@ Server OS: ubuntu server 12.04
  
 
 
-* 会员卡绑定 MemeberBind
+### 会员卡绑定 /MemeberBind
 
-  ### 参数：
+#### 参数：
 
-  * openid 微信id
+  * openid
   
-  * MOBILE_TELEPHONE_NO 手机号码
+      微信id
+  
+  * MOBILE_TELEPHONE_NO
+ 
+      手机号码
 
-  * MEM_OLDCARD_NO 实体会员卡卡号（俗称老卡卡号）
+  * MEM_OLDCARD_NO
 
-  * MEM_PSN_CNAME 用户名字
+      实体会员卡卡号（俗称老卡卡号）
 
-  ### 返回：
+  * MEM_PSN_CNAME
+
+      用户名字
+
+#### 返回：
 
   {"MEMBER_ID":9114883,"issuccessed":true,"error":""}
 
@@ -105,15 +123,19 @@ Server OS: ubuntu server 12.04
  
 
 
-* 会员卡解除绑定 MemeberUnbind
+### 会员卡解除绑定 MemeberUnbind
 
-  ### 参数：
+#### 参数：
 
-  * openid 微信id
+  * openid
+
+      微信id
   
-  * MEMBER_ID 海澜CRM 用户id，由 MemberApple/MemberBind 返回
+  * MEMBER_ID
 
-  ### 返回：
+      海澜CRM 用户id，由 MemberApple/MemberBind 返回
+
+#### 返回：
 
   {"issuccessed":true,"error":""}
 
