@@ -1,6 +1,6 @@
 package com.welab.lavico.middleware.rest;
 
-import javax.servlet.http.HttpServlet;
+//import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -13,9 +13,7 @@ import com.welab.lavico.middleware.DB;
 import com.welab.lavico.middleware.DocumentNoService;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class Member extends HttpServlet {
-	
-    private static final long serialVersionUID = 1L;
+public class MemberApply extends RestBase {
  
     public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws IOException, ServletException {
@@ -68,13 +66,4 @@ public class Member extends HttpServlet {
 	}
     }
     
-    private void rspn(HttpServletResponse response,int mid,String issuceed,String error){
-    	response.setContentType("text/javascript;charset=UTF-8");
-    	try {
-	    response.getWriter().println("{\"O_PUB_MEMBER_ID\":"+mid+",\"O_ISSUCCEED\":\""+issuceed+"\",\"O_HINT\":\""+error+"\"}");
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-
-    }
 }

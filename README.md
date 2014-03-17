@@ -30,8 +30,10 @@ Server OS: ubuntu server 12.04
 
    ```
    cd lavico.middleware
-   ant
+   ant --buildfile build-ubuntu.xml
    ```
+
+   > mac 下改为 `ant --buildfile build-osx.xml`
 
 4. 在tomcat webapps 下建立软连接
 

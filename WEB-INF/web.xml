@@ -16,12 +16,30 @@
 
 
    <servlet>
-      <servlet-name>Member</servlet-name>
-      <servlet-class>com.welab.lavico.middleware.rest.Member</servlet-class>
+      <servlet-name>MemberApply</servlet-name>
+      <servlet-class>com.welab.lavico.middleware.rest.MemberApply</servlet-class>
    </servlet>
    <servlet-mapping>
-      <servlet-name>Member</servlet-name>
-      <url-pattern>/Member</url-pattern>
+      <servlet-name>MemberApply</servlet-name>
+      <url-pattern>/MemberApply</url-pattern>
+   </servlet-mapping>
+
+   <servlet>
+      <servlet-name>MemberUnbind</servlet-name>
+      <servlet-class>com.welab.lavico.middleware.rest.MemberUnbind</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>MemberUnbind</servlet-name>
+      <url-pattern>/MemberUnbind</url-pattern>
+   </servlet-mapping>
+
+   <servlet>
+      <servlet-name>MemberBind</servlet-name>
+      <servlet-class>com.welab.lavico.middleware.rest.MemberBind</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>MemberBind</servlet-name>
+      <url-pattern>/MemberBind</url-pattern>
    </servlet-mapping>
    
 </web-app>
