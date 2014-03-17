@@ -1,41 +1,37 @@
 package com.welab.lavico.middleware.rest;
 
-//import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import javax.servlet.ServletException;
-import java.text.SimpleDateFormat;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Types;
 import com.welab.lavico.middleware.DB;
-import com.welab.lavico.middleware.DocumentNoService;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class MemberBind extends RestBase {
- 
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-	throws IOException, ServletException {
+public class MemberBind extends HttpServlet {
 
-	//
-	if(request.getParameter("openid")==null){
-	    rspn(response,0,"N","missing arg openid") ;
-	    return ;
-	}
-	if(request.getParameter("MOBILE_TELEPHONE_NO")==null){
-	    rspn(response,0,"N","missing arg MOBILE_TELEPHONE_NO") ;
-	    return ;
-	}
-	if(request.getParameter("MEM_OLDCARD_NO")==null){
-	    rspn(response,0,"N","missing arg MEM_OLDCARD_NO") ;
-	    return ;
-	}
-	
-	
-	
-	
-	// http://127.0.0.1:8080/LaVico/Member?openid=123&MEM_PSN_CNAME=alee&MOBILE_TELEPHONE_NO=18812341234
+	private static final long serialVersionUID = 2L;
+
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+	throws IOException, ServletException {
+		
+		//
+		if(request.getParameter("openid")==null){
+		    rspn(response,0,false,"missing arg openid") ;
+		    return ;
+		}
+		if(request.getParameter("MOBILE_TELEPHONE_NO")==null){
+		    rspn(response,0,false,"missing arg MOBILE_TELEPHONE_NO") ;
+		    return ;
+		}
+		if(request.getParameter("MEM_OLDCARD_NO")==null){
+		    rspn(response,0,false,"missing arg MEM_OLDCARD_NO") ;
+		    return ;
+		}
     	
     	JdbcTemplate jdbcTpl = DB.getJdbcTemplate() ;
     	try {
@@ -62,12 +58,25 @@ public class MemberBind extends RestBase {
 				
 		    statement.execute() ;
 				
-		    rspn(response,statement.getInt(11),statement.getString(12),statement.getString(13)) ;
+		    rspn(
+		    	response,statement.getInt(11)
+		    	, statement.getString(12)=="Y"? true: false
+		    	, statement.getString(13)
+		    ) ;
 		    
 		} catch (Exception e) {
-		    rspn(response,0,"N","occur error:"+e.getMessage()) ;
+		    rspn(response,0,false,"occur error:"+e.getMessage()) ;
 		    e.printStackTrace();
 		}
     }
-    
+
+
+    private void rspn(HttpServletResponse response,int mid,Boolean issuceed,String error){
+	    response.setContentType("text/javascript;charset=UTF-8");
+	    try {
+		    response.getWriter().println("{\"MEMBER_ID\":"+mid+",\"issuccessed\":"+(issuceed?"true":"false")+",\"error\":\""+error+"\"}");
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+    }
 }
