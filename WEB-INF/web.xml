@@ -41,5 +41,14 @@
       <servlet-name>MemberBind</servlet-name>
       <url-pattern>/MemberBind</url-pattern>
    </servlet-mapping>
+
+   <servlet>
+      <servlet-name>Promotions</servlet-name>
+      <servlet-class>com.welab.lavico.middleware.rest.Promotions</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>Promotions</servlet-name>
+      <url-pattern>/Promotions</url-pattern>
+   </servlet-mapping>
    
 </web-app>

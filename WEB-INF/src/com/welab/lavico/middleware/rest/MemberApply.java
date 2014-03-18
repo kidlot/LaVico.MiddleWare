@@ -71,9 +71,7 @@ public class MemberApply extends HttpServlet {
 		    	, statement.getString(12)=="Y"?true:false
 		    	, statement.getString(13)
 		    ) ;
-				
-				 
-	
+
 		} catch (Exception e) {
 		    rspn(response,0,false,"occur error:"+e.getMessage()) ;
 		    e.printStackTrace();
