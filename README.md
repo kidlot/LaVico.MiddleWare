@@ -55,7 +55,7 @@ Server OS: ubuntu server 12.04
 # 接口文档说明
 
 
-### 申请会员卡 MemeberApply
+### 申请会员卡 MemberApply
 
 #### 参数：
 
@@ -91,7 +91,7 @@ Server OS: ubuntu server 12.04
  
 
 
-### 会员卡绑定 /MemeberBind
+### 会员卡绑定 /MemberBind
 
 #### 参数：
 
@@ -123,7 +123,7 @@ Server OS: ubuntu server 12.04
  
 
 
-### 会员卡解除绑定 MemeberUnbind
+### 会员卡解除绑定 MemberUnbind
 
 #### 参数：
 
