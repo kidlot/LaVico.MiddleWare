@@ -142,3 +142,30 @@ Server OS: ubuntu server 12.04
   * issuccessed: true/false 操作是否成功
 
   * error: 如果失败，返回的错误提示
+
+
+### 活动列表 Promotions
+
+#### 参数：
+
+     无参数
+
+#### 返回：
+
+```javascript
+    {
+        "promotions":[
+            {
+                "PROMOTION_CODE":"1207",
+                "PROMOTION_NAME":"每满500减200",
+                "PROMOTION_DESC":"每满500减200"
+	    },
+	    {
+                "PROMOTION_CODE":"L2013112709",
+                "PROMOTION_NAME":"无限制现金券",
+                "PROMOTION_DESC":"无限制现金券"
+            },
+            ... ...
+        ]
+    }
+```
