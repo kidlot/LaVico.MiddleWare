@@ -169,3 +169,33 @@ Server OS: ubuntu server 12.04
         ]
     }
 ```
+
+
+### 会员积分 Points
+
+#### 参数：
+
+  * MEMBER_ID
+
+      海澜CRM 用户id，由 MemberApple/MemberBind 返回    
+
+#### 返回：
+
+```javascript
+    {
+	"remaining": 1234 ,
+        "log":[
+            {
+                "value":"1207",
+                "time":"yyyy-mm-dd GG:ii:ss",
+                "memo":"每满500减200"
+	    },
+	    {
+                "value":"1207",
+                "time":"yyyy-mm-dd GG:ii:ss",
+                "memo":"每满500减200"
+            },
+            ... ...
+        ]
+    }
+```

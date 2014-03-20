@@ -41,7 +41,7 @@ public class Points extends HttpServlet {
 		}
 
     	List rows = jdbcTpt.queryForList("select "
-    			+ "IO_FLAG, POT_DATE, POT_KIND, POT_QTY"
+    			+ "IO_FLAG, POT_DATE, MEMO, POT_QTY"
     			+ " from PUB_MEMBER_POINT"
     			+ " where SYS_MEMBER_ID=?",new Object[]{request.getParameter("MEMBER_ID")}) ;
     	Iterator iter = rows.iterator() ;
@@ -61,8 +61,8 @@ public class Points extends HttpServlet {
     		int point = (((String)userMap.get("IO_FLAG")).equals("1")? +1 : -1) * ((java.math.BigDecimal)userMap.get("POT_QTY")).intValue() ;
 
     		outBuff+= "\"value\":\"" + point + "\"," ;
-    		outBuff+= "\"date\":\"" + escape(((java.sql.Timestamp) userMap.get("POT_DATE")).toString()) + "\"," ;
-    		outBuff+= "\"kind\":\"" + escape((String) userMap.get("POT_KIND")) + "\"" ;
+    		outBuff+= "\"time\":\"" + escape(((java.sql.Timestamp) userMap.get("POT_DATE")).toString()) + "\"," ;
+    		outBuff+= "\"memo\":\"" + escape((String) userMap.get("MEMO")) + "\"" ;
     		outBuff+= "}" ;
     	}
     	outBuff+= "]}" ;
