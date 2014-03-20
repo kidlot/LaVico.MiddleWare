@@ -184,6 +184,7 @@ Server OS: ubuntu server 12.04
 ```javascript
     {
 	"remaining": 1234 ,
+	"level": "01",			// 01: 白卡, 02: 普通VIP卡, 03: 白金VIP卡
         "log":[
             {
                 "value":"1207",

@@ -25,13 +25,19 @@ public class Points extends HttpServlet {
 		}
 
     	JdbcTemplate jdbcTpt = DB.getJdbcTemplate() ;
-    	Integer remaining = 0 ;
+    	Map member ;
+    	String level = "" ;
     	try {
-	    	remaining = (Integer)jdbcTpt.queryForObject(
-	    			"select TOTAL_CUR_POT from PUB_MEMBER_ID where SYS_MEMBER_ID=?"
+    		member = jdbcTpt.queryForMap(
+	    			"select TOTAL_CUR_POT, SYS_MEMBER_CARD_ID from PUB_MEMBER_ID where SYS_MEMBER_ID=?"
 	    			, new Object[]{request.getParameter("MEMBER_ID")}
-		    		, java.lang.Integer.class
 		    	) ;
+	    	level = (String)jdbcTpt.queryForObject(
+	    			"select MEM_CARD_TYPE from PUB_MEMBER_CARD where SYS_MEMBER_CARD_ID=?"
+	    			, new Object[]{member.get("SYS_MEMBER_CARD_ID")}
+	    			, java.lang.String.class
+		    	) ;
+	    	
     	} catch (IncorrectResultSizeDataAccessException e) {
     		if(e.getActualSize()==0){
     			rspn(response,null,"指定的会员不存在") ;
@@ -45,9 +51,9 @@ public class Points extends HttpServlet {
     			+ " from PUB_MEMBER_POINT"
     			+ " where SYS_MEMBER_ID=?",new Object[]{request.getParameter("MEMBER_ID")}) ;
     	Iterator iter = rows.iterator() ;
-
     	String outBuff = "{"
-    			+ "\"remaining\":" + remaining.toString() + ","
+    			+ "\"remaining\":" + ((java.math.BigDecimal)member.get("TOTAL_CUR_POT")).intValue() + ","
+    	    	+ "\"level\":" + level.toString() + ","
     			+ "\"log\":[" ;
     	int idx = 0 ;
     	while(iter.hasNext()){
