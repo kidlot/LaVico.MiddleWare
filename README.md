@@ -253,6 +253,7 @@ Server OS: ubuntu server 12.04
 #### CRM数据库说明：
 
      相关数据表： PUB_MEMBER_COUPON、DRP_PROMOTION_COUPON、DRP_PROMOTION_THEME
+     
      ```sql
      SELECT 
      	    DRP_PROMOTION_COUPON.BEGIN_DATE
