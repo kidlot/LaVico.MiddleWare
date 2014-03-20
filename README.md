@@ -188,15 +188,66 @@ Server OS: ubuntu server 12.04
         "log":[
             {
                 "value":"1207",
-                "time":"yyyy-mm-dd GG:ii:ss",
+                "time":"2014-03-06 00:00:00.0",
                 "memo":"每满500减200"
 	    },
 	    {
                 "value":"1207",
-                "time":"yyyy-mm-dd GG:ii:ss",
+                "time":"2014-03-06 00:00:00.0",
                 "memo":"每满500减200"
             },
             ... ...
         ]
     }
 ```
+
+
+### 会员所获优惠券的列表 Coupons
+
+#### 参数：
+
+  * MEMBER_ID
+
+      海澜CRM 用户id，由 MemberApple/MemberBind 返回    
+
+#### 返回：
+
+```javascript
+    {
+        "coupons":[
+            {
+                "begin":"2014-03-06 00:00:00.0",
+                "end":"2014-03-06 00:00:00.0",
+                "status":"01",				//  01: 未生效  02: 已生效  03: 已使用  04: 已到期失效
+		"promotion_code":"CQA201401030002",	//  活动代号，和 Promotions 接口的 PROMOTION_CODE 一致
+		"coupon_no": "AV1403060004"		//  优惠券券号
+	    },
+            ... ...
+        ]
+    }
+```
+
+### 领取优惠券 GetCoupon
+
+#### 参数：
+
+  * openid
+
+  * WECHAT_PTHEME_ID
+
+    微信活动识别ID，由 WebLab 这边提供
+
+  * PROMOTION_CODE
+
+    海澜CRM 活动代码，由 Promotions 接口返回
+
+
+#### 返回：
+
+  {"coupon_no":9114883,"issuccessed":true,"error":""}
+
+  * coupon_no: 优惠券券号
+
+  * issuccessed: true/false 操作是否成功
+
+  * error: 如果失败，返回的错误提示

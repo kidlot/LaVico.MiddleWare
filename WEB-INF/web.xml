@@ -59,5 +59,23 @@
       <servlet-name>Points</servlet-name>
       <url-pattern>/Points</url-pattern>
    </servlet-mapping>
-   
+
+   <servlet>
+      <servlet-name>GetCoupon</servlet-name>
+      <servlet-class>com.welab.lavico.middleware.rest.GetCoupon</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>GetCoupon</servlet-name>
+      <url-pattern>/GetCoupon</url-pattern>
+   </servlet-mapping>
+
+   <servlet>
+      <servlet-name>Coupons</servlet-name>
+      <servlet-class>com.welab.lavico.middleware.rest.Coupons</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>Coupons</servlet-name>
+      <url-pattern>/Coupons</url-pattern>
+   </servlet-mapping>
+
 </web-app>
