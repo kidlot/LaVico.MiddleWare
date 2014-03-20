@@ -88,7 +88,10 @@ Server OS: ubuntu server 12.04
   * issuccessed: true/false 操作是否成功
 
   * error: 如果失败，返回的错误提示
- 
+
+#### CRM数据库说明：
+     
+     调用海澜CRM数据库中定义的过程 PRO_MEMBER_APPORBIND
 
 
 ### 会员卡绑定 /MemberBind
@@ -122,6 +125,10 @@ Server OS: ubuntu server 12.04
   * error: 如果失败，返回的错误提示
  
 
+#### CRM数据库说明：
+     
+     调用海澜CRM数据库中定义的过程 PRO_MEMBER_APPORBIND
+
 
 ### 会员卡解除绑定 MemberUnbind
 
@@ -142,6 +149,12 @@ Server OS: ubuntu server 12.04
   * issuccessed: true/false 操作是否成功
 
   * error: 如果失败，返回的错误提示
+
+
+#### CRM数据库说明：
+     
+     相关数据表： PUB_MEMBER_ID （清空会员的SYS_MEMBER_MIC_ID字段）
+
 
 
 ### 活动列表 Promotions
@@ -169,6 +182,11 @@ Server OS: ubuntu server 12.04
         ]
     }
 ```
+
+
+#### CRM数据库说明：
+     
+     相关数据表： DRP_PROMOTION_THEME （完整返回该数据表中的记录）
 
 
 ### 会员积分 Points
@@ -201,6 +219,11 @@ Server OS: ubuntu server 12.04
     }
 ```
 
+#### CRM数据库说明：
+
+     相关数据表： PUB_MEMBER_ID、PUB_MEMBER_CARD
+
+
 
 ### 会员所获优惠券的列表 Coupons
 
@@ -227,6 +250,23 @@ Server OS: ubuntu server 12.04
     }
 ```
 
+#### CRM数据库说明：
+
+     相关数据表： PUB_MEMBER_COUPON、DRP_PROMOTION_COUPON、DRP_PROMOTION_THEME
+     ```sql
+     SELECT 
+     	    DRP_PROMOTION_COUPON.BEGIN_DATE
+	    , DRP_PROMOTION_COUPON.END_DATE
+	    , COUPON_STATUS
+	    , DRP_PROMOTION_THEME.PROMOTION_CODE
+	    , DRP_PROMOTION_COUPON.COUPON_NO
+     FROM PUB_MEMBER_COUPON
+     	  left join DRP_PROMOTION_COUPON on (PUB_MEMBER_COUPON.SYS_PCOUPON_ID=DRP_PROMOTION_COUPON.SYS_PCOUPON_ID)
+     	  left join DRP_PROMOTION_THEME on (DRP_PROMOTION_COUPON.SYS_PTHEME_ID=DRP_PROMOTION_THEME.SYS_PTHEME_ID)
+     WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
+     ```
+
+
 ### 领取优惠券 GetCoupon
 
 #### 参数：
@@ -251,3 +291,8 @@ Server OS: ubuntu server 12.04
   * issuccessed: true/false 操作是否成功
 
   * error: 如果失败，返回的错误提示
+
+
+#### CRM数据库说明：
+     
+     调用海澜CRM数据库中定义的过程 PRO_MEMBER_GET_COUPON
