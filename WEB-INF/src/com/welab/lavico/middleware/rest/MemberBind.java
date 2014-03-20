@@ -17,7 +17,7 @@ public class MemberBind extends HttpServlet {
 
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
-	throws IOException, ServletException {
+			throws IOException, ServletException {
 		
 		//
 		if(request.getParameter("openid")==null){
@@ -60,7 +60,7 @@ public class MemberBind extends HttpServlet {
 				
 		    rspn(
 		    	response,statement.getInt(11)
-		    	, statement.getString(12)=="Y"? true: false
+		    	, statement.getString(12).equals("Y")? true: false
 		    	, statement.getString(13)
 		    ) ;
 		    

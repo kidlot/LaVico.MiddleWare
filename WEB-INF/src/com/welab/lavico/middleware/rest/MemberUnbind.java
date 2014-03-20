@@ -17,7 +17,7 @@ public class MemberUnbind extends HttpServlet {
 	 */
     public void doGet(HttpServletRequest request, HttpServletResponse response)
     		throws IOException, ServletException {
-    	
+
 		if(request.getParameter("openid")==null){
 		    rspn(response,false,"missing arg openid") ;
 		    return ;
