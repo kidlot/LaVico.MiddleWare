@@ -50,5 +50,14 @@
       <servlet-name>Promotions</servlet-name>
       <url-pattern>/Promotions</url-pattern>
    </servlet-mapping>
+
+   <servlet>
+      <servlet-name>Points</servlet-name>
+      <servlet-class>com.welab.lavico.middleware.rest.Points</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>Points</servlet-name>
+      <url-pattern>/Points</url-pattern>
+   </servlet-mapping>
    
 </web-app>
