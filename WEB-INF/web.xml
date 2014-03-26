@@ -1,81 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
- 
-<web-app>
-
-   <display-name>WeLab</display-name>
-   
-   <servlet>
-      <servlet-name>HelloWorld</servlet-name>
-      <servlet-class>com.welab.lavico.middleware.HelloWorld</servlet-class>
-   </servlet>
-   <servlet-mapping>
-      <servlet-name>HelloWorld</servlet-name>
-      <url-pattern>/HelloWorld</url-pattern>
-   </servlet-mapping>
-
-
-   <servlet>
-      <servlet-name>MemberApply</servlet-name>
-      <servlet-class>com.welab.lavico.middleware.rest.MemberApply</servlet-class>
-   </servlet>
-   <servlet-mapping>
-      <servlet-name>MemberApply</servlet-name>
-      <url-pattern>/MemberApply</url-pattern>
-   </servlet-mapping>
-
-   <servlet>
-      <servlet-name>MemberUnbind</servlet-name>
-      <servlet-class>com.welab.lavico.middleware.rest.MemberUnbind</servlet-class>
-   </servlet>
-   <servlet-mapping>
-      <servlet-name>MemberUnbind</servlet-name>
-      <url-pattern>/MemberUnbind</url-pattern>
-   </servlet-mapping>
-
-   <servlet>
-      <servlet-name>MemberBind</servlet-name>
-      <servlet-class>com.welab.lavico.middleware.rest.MemberBind</servlet-class>
-   </servlet>
-   <servlet-mapping>
-      <servlet-name>MemberBind</servlet-name>
-      <url-pattern>/MemberBind</url-pattern>
-   </servlet-mapping>
-
-   <servlet>
-      <servlet-name>Promotions</servlet-name>
-      <servlet-class>com.welab.lavico.middleware.rest.Promotions</servlet-class>
-   </servlet>
-   <servlet-mapping>
-      <servlet-name>Promotions</servlet-name>
-      <url-pattern>/Promotions</url-pattern>
-   </servlet-mapping>
-
-   <servlet>
-      <servlet-name>Points</servlet-name>
-      <servlet-class>com.welab.lavico.middleware.rest.Points</servlet-class>
-   </servlet>
-   <servlet-mapping>
-      <servlet-name>Points</servlet-name>
-      <url-pattern>/Points</url-pattern>
-   </servlet-mapping>
-
-   <servlet>
-      <servlet-name>GetCoupon</servlet-name>
-      <servlet-class>com.welab.lavico.middleware.rest.GetCoupon</servlet-class>
-   </servlet>
-   <servlet-mapping>
-      <servlet-name>GetCoupon</servlet-name>
-      <url-pattern>/GetCoupon</url-pattern>
-   </servlet-mapping>
-
-   <servlet>
-      <servlet-name>Coupons</servlet-name>
-      <servlet-class>com.welab.lavico.middleware.rest.Coupons</servlet-class>
-   </servlet>
-   <servlet-mapping>
-      <servlet-name>Coupons</servlet-name>
-      <url-pattern>/Coupons</url-pattern>
-   </servlet-mapping>
-
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	
+	<display-name>WeLab</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	
+	<!-- The context params that read by ContextLoaderListener  -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/applicationContext.xml
+		</param-value>
+	</context-param>
+	
+	<!-- This listener will load other application context file in addition to springweb-servlet.xml -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>rest</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>rest</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
 </web-app>

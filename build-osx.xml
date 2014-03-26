@@ -28,6 +28,13 @@
         <pathelement location="WEB-INF/lib/org.springframework.expression-3.0.5.RELEASE.jar"/>
         <pathelement location="WEB-INF/lib/commons-dbcp-1.4.jar"/>
         <pathelement location="WEB-INF/lib/commons-pool-1.6.jar"/>
+        <pathelement location="WEB-INF/lib/spring-web-3.0.5.RELEASE.jar"/>
+        <pathelement location="WEB-INF/lib/org.springframework.web_3.0.5.RELEASE.jar"/>
+        <pathelement location="WEB-INF/lib/org.springframework.web.servlet-3.0.5.RELEASE.jar"/>
+        <pathelement location="WEB-INF/lib/jstl-1.2.jar"/>
+        <pathelement location="WEB-INF/lib/jstl-standard.jar"/>
+        <pathelement location="WEB-INF/lib/org.springframework.oxm-3.0.5.RELEASE.jar"/>
+        <pathelement location="WEB-INF/lib/jackson-mapper-asl-1.9.13.jar"/>
     </path>
     <target name="init">
         <mkdir dir="WEB-INF/classes"/>
