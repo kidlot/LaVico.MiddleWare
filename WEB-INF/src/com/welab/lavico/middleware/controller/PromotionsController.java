@@ -20,10 +20,10 @@ public class PromotionsController {
     public @ResponseBody Map<String,Object> getPromotions(@PathVariable String brand) {
 
 		Map<String, Object> rspn = new HashMap<String, Object>();
-		JdbcTemplate jdbcTpt ;
+		JdbcTemplate jdbcTpl ;
 		
 		try{
-			jdbcTpt = DB.getJdbcTemplate(brand) ;
+			jdbcTpl = DB.getJdbcTemplate(brand) ;
 		} catch(NoSuchBeanDefinitionException e) {
 			rspn.put("error", "The paramter brand is invalid.") ;
 			rspn.put("count", 0) ;
@@ -31,21 +31,21 @@ public class PromotionsController {
 		}
 
 		// 查询有效的活动
-		List<Map<String, Object>> promotions = jdbcTpt.queryForList("SELECT PROMOTION_CODE, PROMOTION_NAME, PROMOTION_DESC FROM DRP_PROMOTION_THEME WHERE PROMOTION_CLASS='02' AND ACTIVE = '1'") ;
+		List<Map<String, Object>> promotions = jdbcTpl.queryForList("SELECT PROMOTION_CODE, PROMOTION_NAME, PROMOTION_DESC FROM DRP_PROMOTION_THEME WHERE PROMOTION_CLASS='02' AND ACTIVE = '1'") ;
 		
 		Iterator<Map<String, Object>> iter = promotions.iterator() ;
     	while(iter.hasNext()){
     		Map promo = (Map) iter.next();
     		
     		// 活动所有优惠券
-			int total = jdbcTpt.queryForInt(
+			int total = jdbcTpl.queryForInt(
 				"select count(*) from drp_promotion_coupon a left join drp_promotion_theme b on a.sys_ptheme_id = b.sys_ptheme_id where b.promotion_code = ?"
 				, new Object[] { (String)promo.get("PROMOTION_CODE") }
 			) ;
 			promo.put("total",total) ;
     		
 			// 已发优惠券
-			int used = jdbcTpt.queryForInt(
+			int used = jdbcTpl.queryForInt(
 				"select count(*) from drp_promotion_coupon a left join drp_promotion_theme b on a.sys_ptheme_id = b.sys_ptheme_id where a.bind_flag = '1' and b.promotion_code = ?"
 				, new Object[] { (String)promo.get("PROMOTION_CODE") }
 			) ;
