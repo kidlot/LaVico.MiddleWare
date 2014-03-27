@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import com.welab.lavico.middleware.DB;
 
+
 @Controller
 public class PromotionsController {
 
