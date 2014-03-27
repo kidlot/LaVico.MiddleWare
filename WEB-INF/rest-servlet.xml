@@ -18,6 +18,11 @@
     </bean>
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="alwaysUseFullPath" value="true" />
+    	<property name="messageConverters">  
+		<list>
+	     	<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+		</list> 
+    	</property>  
     </bean>
 	
 	<context:annotation-config />  
@@ -42,5 +47,7 @@
 		    </list>
 		</property>
 	</bean>
+	
+	
 	
 </beans>

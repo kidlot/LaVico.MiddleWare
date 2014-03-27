@@ -25,6 +25,6 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/jstl-1.2.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/jstl-standard.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/org.springframework.oxm-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WEB-INF/lib/jackson-mapper-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/jackson-all-1.9.11.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
