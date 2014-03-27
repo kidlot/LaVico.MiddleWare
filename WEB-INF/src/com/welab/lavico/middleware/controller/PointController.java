@@ -44,7 +44,6 @@ public class PointController {
 		}
 
 		Map<String,Object> member ;
-    	String level = "" ;
     	try {
     		member = jdbcTpl.queryForMap(
 	    			"select TOTAL_CUR_POT, SYS_MEMBER_CARD_ID from PUB_MEMBER_ID where SYS_MEMBER_ID=?"
@@ -52,11 +51,12 @@ public class PointController {
 		    	) ;
         	rspn.put( "remaining", ((java.math.BigDecimal)member.get("TOTAL_CUR_POT")).intValue() ) ;
         	
-	    	level = (String)jdbcTpl.queryForObject(
+        	String level = (String)jdbcTpl.queryForObject(
 	    			"select MEM_CARD_TYPE from PUB_MEMBER_CARD where SYS_MEMBER_CARD_ID=?"
 	    			, new Object[]{member.get("SYS_MEMBER_CARD_ID")}
 	    			, java.lang.String.class
 		    	) ;
+	    	rspn.put("level",level) ;
 
     	} catch (IncorrectResultSizeDataAccessException e) {
     		if(e.getActualSize()==0){
@@ -86,8 +86,7 @@ public class PointController {
     		userMap.remove("MEMO") ;
     		userMap.remove("POT_QTY") ;
     	}
-
-    	rspn.put("level",level) ;
+    	
     	rspn.put("log",rows) ;
 
 		return rspn ;
