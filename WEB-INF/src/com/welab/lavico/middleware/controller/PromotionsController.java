@@ -54,7 +54,7 @@ public class PromotionsController {
     	}
 		
 		rspn.put("promotions", promotions) ;
-		rspn.put("count", promotions.size()) ;
+		rspn.put("length", promotions.size()) ;
     	return rspn ;
     }
 }

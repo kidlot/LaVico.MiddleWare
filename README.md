@@ -54,8 +54,22 @@ Server OS: ubuntu server 12.04
 
 # 接口文档说明
 
+## REST 路径
 
-### 申请会员卡 MemberApply
+```
+http://<server ip>:<port>/<appname>/{brand}/<interface name>?<paramters>
+```
+
+例如，申请会员卡：
+
+```
+http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPHONE_NO=12334527644&MEM_PSN_CNAME=alee&MEM_PSN_SEX=1&MEM_PSN_BIRTHDAY=1982-10-11
+```
+
+> `L` 代表 LaVico ，`Member/Apply` 是接口名称
+
+
+### 申请会员卡 Member/Apply
 
 #### 参数：
 
@@ -94,7 +108,7 @@ Server OS: ubuntu server 12.04
 调用海澜CRM数据库中定义的过程 PRO_MEMBER_APPORBIND
 
 
-### 会员卡绑定 /MemberBind
+### 会员卡绑定 Member/Bind
 
 #### 参数：
 
@@ -130,7 +144,7 @@ Server OS: ubuntu server 12.04
      调用海澜CRM数据库中定义的过程 PRO_MEMBER_APPORBIND
 
 
-### 会员卡解除绑定 MemberUnbind
+### 会员卡解除绑定 Member/Unbind
 
 #### 参数：
 
@@ -171,15 +185,20 @@ Server OS: ubuntu server 12.04
             {
                 "PROMOTION_CODE":"1207",
                 "PROMOTION_NAME":"每满500减200",
-                "PROMOTION_DESC":"每满500减200"
-	    },
-	    {
+                "PROMOTION_DESC":"每满500减200",
+                "total":100,
+                "used":50
+            },
+            {
                 "PROMOTION_CODE":"L2013112709",
                 "PROMOTION_NAME":"无限制现金券",
-                "PROMOTION_DESC":"无限制现金券"
+                "PROMOTION_DESC":"无限制现金券",
+                "total":100,
+                "used":50
             },
             ... ...
-        ]
+        ] ,
+        "length": 30
     }
 ```
 
