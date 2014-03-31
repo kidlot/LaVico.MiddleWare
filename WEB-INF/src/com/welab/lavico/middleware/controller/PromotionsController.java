@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import com.welab.lavico.middleware.DB;
+import com.welab.lavico.middleware.service.DaoBrandError;
+import com.welab.lavico.middleware.service.SpringJdbcDaoSupport;
 
 
 @Controller
@@ -21,13 +21,12 @@ public class PromotionsController {
     public @ResponseBody Map<String,Object> getPromotions(@PathVariable String brand) {
 
 		Map<String, Object> rspn = new HashMap<String, Object>();
+
 		JdbcTemplate jdbcTpl ;
-		
 		try{
-			jdbcTpl = DB.getJdbcTemplate(brand) ;
-		} catch(NoSuchBeanDefinitionException e) {
-			rspn.put("error", "The paramter brand is invalid.") ;
-			rspn.put("count", 0) ;
+			jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
+		} catch(DaoBrandError e) {
+			rspn.put("error", e.getMessage()) ;
 			return rspn ;
 		}
 

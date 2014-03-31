@@ -18,7 +18,7 @@
 		<property name="removeAbandonedTimeout" value="180" />
 		<property name="logAbandoned" value="true" />
 	</bean>
-	<bean id="jdbcDao_L" class="com.welab.lavico.middleware.SpringJdbcDaoSupport">
+	<bean id="jdbcDao_L" class="com.welab.lavico.middleware.service.SpringJdbcDaoSupport">
 		<property name="dataSource">
 			<ref bean="LaVicoDataSource" />
 		</property>

@@ -1,14 +1,10 @@
 package com.welab.lavico.middleware.controller;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -16,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.welab.lavico.middleware.DB;
+import com.welab.lavico.middleware.service.DaoBrandError;
+import com.welab.lavico.middleware.service.SpringJdbcDaoSupport;
 
 @Controller
 public class PointController {
@@ -35,11 +31,10 @@ public class PointController {
 		}
 		
 		JdbcTemplate jdbcTpl ;
-		
 		try{
-			jdbcTpl = DB.getJdbcTemplate(brand) ;
-		} catch(NoSuchBeanDefinitionException e) {
-			rspn.put("error", "The paramter brand is invalid.") ;
+			jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
+		} catch(DaoBrandError e) {
+			rspn.put("error", e.getMessage()) ;
 			return rspn ;
 		}
 
