@@ -1,89 +1,131 @@
 package com.welab.lavico.middleware.controller;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.welab.lavico.middleware.model.PointLogModel;
 import com.welab.lavico.middleware.service.DaoBrandError;
+import com.welab.lavico.middleware.service.MemberCardInfoService;
 import com.welab.lavico.middleware.service.SpringJdbcDaoSupport;
 
 @Controller
 public class PointController {
 
-	@RequestMapping(method=RequestMethod.GET, value="{brand}/Points")
-    public @ResponseBody Map<String,Object> getPoints(@PathVariable String brand,HttpServletRequest request) {
+
+	/**
+	 * 获取会员的积分
+	 * 
+	 * Path Variables:
+	 * @param {brand} 			品牌名称
+	 * @param {memberId}		会员 MEMBER_ID
+	 * 
+	 * @return
+	 * {
+	 * 	point:  <int>
+	 * 	error:	<string>
+	 * }
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="{brand}/Point/{memberId}")
+    public @ResponseBody Map<String,Object> getPoint(@PathVariable String brand,@PathVariable int memberId) {
 
 		Map<String, Object> rspn = new HashMap<String, Object>();
-		rspn.put("remaining", 0) ;
-		rspn.put("level", "") ;
-
-		if(request.getParameter("MEMBER_ID")==null){
-			rspn.put("error", "missing arg MEMBER_ID") ;
-		    return rspn ;
+		
+		try{
+			int point = new MemberCardInfoService().getCurrentPoint(brand,memberId) ;
+			rspn.put("point",point) ;
+		} catch(DaoBrandError e) {
+			rspn.put("point",-1) ;
+			rspn.put("error",e.getMessage()) ;
 		}
 		
-		JdbcTemplate jdbcTpl ;
+		return rspn ;
+	}
+
+
+	/**
+	 * 获取会员的积分
+	 * 
+	 * Path Variables:
+	 * @param {brand} 					品牌名称
+	 * @param {memberId}				会员 MEMBER_ID
+	 * 
+	 * HTTP Get Query Variables:
+	 * @param pageNum=1 				第几页
+	 * @param perPage=20 				每页多少行
+	 * 
+	 * @return
+	 * {
+	 * 	total:   <int>					该会员所有积分明细的行数
+	 *  pageNum: <int>					第几页
+	 *  perPage: <int>					每页多少行
+	 *  log: [
+	 *  	{
+	 *  		value:	<signed int>	单笔记录积分值
+	 *  		time:	<string/time>	记录时间
+	 *  		memo:	<string>		备注
+	 *  	}
+	 *  	...
+	 *  ]
+	 * }
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="{brand}/Point/Log/{memberId}")
+    public @ResponseBody Map<String,Object> getPointLog(@PathVariable String brand,@PathVariable int memberId,HttpServletRequest request) {
+
+		Map<String, Object> rspn = new HashMap<String, Object>();
+		rspn.put("total",0) ;
+		
+		// 处理Get参数 pageNum
+		String sPage = request.getParameter("pageNum") ;
+		if(sPage==null){
+			sPage = "1" ;		// 默认值
+		}
+		int iPage = 1 ;
 		try{
-			jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
-		} catch(DaoBrandError e) {
-			rspn.put("error", e.getMessage()) ;
+			iPage = Integer.parseInt(sPage) ;
+		} catch (NumberFormatException e) {
+			rspn.put("error","parameter pageNum is not valid format.") ;
 			return rspn ;
 		}
 
-		Map<String,Object> member ;
-    	try {
-    		member = jdbcTpl.queryForMap(
-	    			"select TOTAL_CUR_POT, SYS_MEMBER_CARD_ID from PUB_MEMBER_ID where SYS_MEMBER_ID=?"
-	    			, new Object[]{request.getParameter("MEMBER_ID")}
-		    	) ;
-        	rspn.put( "remaining", ((java.math.BigDecimal)member.get("TOTAL_CUR_POT")).intValue() ) ;
-        	
-        	String level = (String)jdbcTpl.queryForObject(
-	    			"select MEM_CARD_TYPE from PUB_MEMBER_CARD where SYS_MEMBER_CARD_ID=?"
-	    			, new Object[]{member.get("SYS_MEMBER_CARD_ID")}
-	    			, java.lang.String.class
-		    	) ;
-	    	rspn.put("level",level) ;
-
-    	} catch (IncorrectResultSizeDataAccessException e) {
-    		if(e.getActualSize()==0){
-    			rspn.put("error","指定的会员不存在") ;
-			    return rspn ;
-    		}
-		    throw e ;
+		// 处理Get参数 perPage
+		String nPerPage = request.getParameter("perPage") ;
+		if(nPerPage==null){
+			nPerPage = "20" ;	// 默认值
+		}
+		int iPerPage = 20 ;
+		try{
+			iPerPage = Integer.parseInt(nPerPage) ;
+		} catch (NumberFormatException e) {
+			rspn.put("error","parameter perPage is not valid format.") ;
+			return rspn ;
 		}
 
-    	List<Map<String,Object>> rows = jdbcTpl.queryForList("select "
-    			+ "IO_FLAG, POT_DATE, MEMO, POT_QTY"
-    			+ " from PUB_MEMBER_POINT"
-    			+ " where SYS_MEMBER_ID=?",new Object[]{request.getParameter("MEMBER_ID")}) ;
-    	Iterator<Map<String,Object>> iter = rows.iterator() ;
+		rspn.put("pageNum", iPage) ;
+		rspn.put("perPage", iPerPage) ;
 
-    	while(iter.hasNext()){
+		JdbcTemplate jdbcTpl = null ;
+		try{
+			jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
+		}catch(DaoBrandError e){
+			rspn.put("error",e.getMessage()) ;
+			return rspn ;
+		}
 
-    		Map<String,Object> userMap = (Map<String,Object>) iter.next();
-    		
-    		int point = (((String)userMap.get("IO_FLAG")).equals("1")? +1 : -1) * ((java.math.BigDecimal)userMap.get("POT_QTY")).intValue() ;
-    		userMap.put("value", point) ;
-    		userMap.put("time", ((java.sql.Timestamp) userMap.get("POT_DATE")).toString()) ;
-    		userMap.put("memo", (String) userMap.get("MEMO")) ;
+		PointLogModel logModel = new PointLogModel(jdbcTpl,memberId) ;
 
-    		userMap.remove("IO_FLAG") ;
-    		userMap.remove("POT_DATE") ;
-    		userMap.remove("MEMO") ;
-    		userMap.remove("POT_QTY") ;
-    	}
-    	
-    	rspn.put("log",rows) ;
-
+		List<Map<String,Object>> logList = logModel.queryPage(iPage,iPerPage) ;
+		rspn.put("log", logList) ;
+		
+		// 总长度
+		rspn.put("total", logModel.totalLength() ) ;
+		
 		return rspn ;
 	}
 }

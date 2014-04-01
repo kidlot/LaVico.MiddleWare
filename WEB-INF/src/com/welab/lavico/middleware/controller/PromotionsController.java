@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.welab.lavico.middleware.service.DaoBrandError;
 import com.welab.lavico.middleware.service.SpringJdbcDaoSupport;
 
-
 @Controller
 public class PromotionsController {
 

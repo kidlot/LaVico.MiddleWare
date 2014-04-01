@@ -172,9 +172,9 @@ public class MemberCardService {
 		if(name==null||name.isEmpty()){
 			throw new Error("missing arg member name.") ;
 		}
-		
+
 	    Connection conn = jdbcTpl.getDataSource().getConnection();
-	
+
 	    CallableStatement statement = conn.prepareCall("{call PRO_MEMBER_APPORBIND(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
 	    statement.setString(1, brand);
 	    statement.setString(2, openid); 

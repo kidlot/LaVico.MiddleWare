@@ -3,6 +3,7 @@ package com.welab.lavico.middleware.controller;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,8 @@ public class MemberController {
 	public @ResponseBody Map<String,Object> doApply(@PathVariable String brand,HttpServletRequest request) {
 
 		Map<String, Object> rspn = new HashMap<String, Object>();
+
+		Logger.getLogger("Member").info(brand+"/Member/Apply");
 		
 		try{
 			int memid = new MemberCardService().apply(
@@ -55,8 +58,8 @@ public class MemberController {
 			rspn.remove("MEMBER_ID") ;
 			rspn.put("issuccessed", false) ;
 			rspn.put("error", e.getMessage()) ;
-			
-			e.printStackTrace();
+
+			Logger.getLogger("Member-error").error("oops, got an Exception:",e);
 		}
 
 		return rspn ;
@@ -85,7 +88,7 @@ public class MemberController {
 	public @ResponseBody Map<String,Object> doBind(@PathVariable String brand,HttpServletRequest request) {
 
 		Map<String, Object> rspn = new HashMap<String, Object>();
-		
+
 		try{
 			int memid = new MemberCardService().bind(
 					brand
@@ -102,7 +105,7 @@ public class MemberController {
 			rspn.put("issuccessed", false) ;
 			rspn.put("error", e.getMessage()) ;
 
-			e.printStackTrace();
+			Logger.getLogger("Member-error").error("oops, got an Exception:",e);
 		}
 
 		return rspn ;
@@ -137,11 +140,10 @@ public class MemberController {
 					, request.getParameter("MEMBER_ID")
 			) ;
 			rspn.put("issuccessed", succ) ;
-			
 		} catch(Throwable e) {
 			rspn.put("issuccessed", false) ;
 			rspn.put("error", e.getMessage()) ;
-			e.printStackTrace();
+			Logger.getLogger("Member-error").error("oops, got an Exception:",e);
 		}
 
 		return rspn ;
