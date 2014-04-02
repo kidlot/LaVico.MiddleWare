@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//WEB-INF/src/com/welab/lavico/middleware/controller/MemberController.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/controller/PointController.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/controller/PromotionsController.java=UTF-8
+encoding//WEB-INF/src/com/welab/lavico/middleware/model/PromotionListModel.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/service/DocumentNoService.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/service/MemberCardInfoService.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/service/MemberCardService.java=UTF-8

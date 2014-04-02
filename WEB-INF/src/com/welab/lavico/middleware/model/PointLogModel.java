@@ -19,7 +19,6 @@ public class PointLogModel {
     			, new Object[]{memberId}
     	) ;
 	}
-	
 
 	public List<Map<String,Object>> queryPage(int pageNum){
 		return queryPage(pageNum,20) ;
