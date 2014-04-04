@@ -21,15 +21,19 @@ public class CouponListModel {
 		return jdbcTpl.queryForInt(sql,new Object[]{memberId} ) ;
 	}
 
-	public List<Map<String,Object>> queryCouponList(int memberId){
-		return queryCouponList(memberId,1,20) ;
+	public List<Map<String,Object>> queryCouponList(int memberId,String status){
+		return queryCouponList(memberId,status,1,20) ;
 	}
 
-	public List<Map<String,Object>> queryCouponList(int memberId,int pageNum){
-		return queryCouponList(memberId,pageNum,20) ;
+	public List<Map<String,Object>> queryCouponList(int memberId,String status,int pageNum){
+		return queryCouponList(memberId,status,pageNum,20) ;
 	}
 	
-	public List<Map<String,Object>> queryCouponList(int memberId,int pageNum,int perPage){
+	public List<Map<String,Object>> queryCouponList(int memberId,String status,int pageNum,int perPage){
+
+		if(status==null){
+			status = "02" ;
+		}
 
 		String sql = "SELECT"
 				+ " DRP_PROMOTION_COUPON.BEGIN_DATE"
@@ -41,7 +45,7 @@ public class CouponListModel {
 			+ " FROM PUB_MEMBER_COUPON "
 				+ " left join DRP_PROMOTION_COUPON on (PUB_MEMBER_COUPON.SYS_PCOUPON_ID=DRP_PROMOTION_COUPON.SYS_PCOUPON_ID)"
 				+ " left join DRP_PROMOTION_THEME on (DRP_PROMOTION_COUPON.SYS_PTHEME_ID=DRP_PROMOTION_THEME.SYS_PTHEME_ID)"
-				+ " WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=?" ;
+				+ " WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=? and DRP_PROMOTION_COUPON.COUPON_STATUS=?" ;
 		
 		sql = " select *"
 				+ "	from (select *"
@@ -49,7 +53,7 @@ public class CouponListModel {
 				+ "     where p.\"row_number\">?)"
 				+ " where rownum<=?" ;
 		
-		List<Map<String,Object>> list = jdbcTpl.queryForList( sql,new Object[]{ memberId, (pageNum-1)*perPage, perPage } ) ;
+		List<Map<String,Object>> list = jdbcTpl.queryForList( sql,new Object[]{ memberId, status, (pageNum-1)*perPage, perPage } ) ;
 	
 		Iterator<Map<String, Object>> iter = list.iterator() ;
     	while(iter.hasNext()){

@@ -302,6 +302,12 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 
 #### 参数：
 
+  * status
+
+		优惠券状态 01: 未生效  02: 已生效  03: 已使用  04: 已到期失效
+		
+		默认 02
+		
   * memberId
 
       海澜CRM 用户id，由 MemberApple/MemberBind 返回    

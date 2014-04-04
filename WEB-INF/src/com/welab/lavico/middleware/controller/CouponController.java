@@ -185,6 +185,12 @@ public class CouponController {
 
 		Map<String, Object> rspn = new HashMap<String, Object>();
 		
+
+		String status = request.getParameter("status") ;
+		if(status==null||status.isEmpty()){
+			status = "02" ;
+		}
+		
 		String sMemberId = request.getParameter("memberId") ;
 		if(sMemberId==null||sMemberId.isEmpty()){
 			rspn.put("error","miss parameter memberId.") ;
@@ -238,7 +244,7 @@ public class CouponController {
 		
 
 		CouponListModel listModel = new CouponListModel(jdbcTpl) ;
-		List<Map<String,Object>> list = listModel.queryCouponList(iMemberId,iPage,iPerPage) ;
+		List<Map<String,Object>> list = listModel.queryCouponList(iMemberId,status,iPage,iPerPage) ;
 
 		rspn.put("list",list) ;
 		rspn.put("total",listModel.totalLength(iMemberId)) ;
