@@ -298,7 +298,7 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 
 
 
-### 会员所获优惠券的列表 {brand}/Coupon/GetCoupons/{memberId}
+### 会员所获优惠券的列表 {brand}/Coupon/GetCoupons
 
 #### 参数：
 
@@ -321,11 +321,12 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
     {
         "coupons":[
             {
-                "begin":"2014-03-06 00:00:00.0",
-                "end":"2014-03-06 00:00:00.0",
-                "status":"01",				//  01: 未生效  02: 已生效  03: 已使用  04: 已到期失效
-				"promotion_code":"CQA201401030002",	//  活动代号，和 Promotions 接口的 PROMOTION_CODE 一致
-				"coupon_no": "AV1403060004"		//  优惠券券号
+                "BEGIN_DATE":"2014-03-06 00:00:00",
+                "END_DATE":"2014-03-06 00:00:00",
+                "COUPON_STATUS":"01",				//  01: 未生效  02: 已生效  03: 已使用  04: 已到期失效
+				"PROMOTION_CODE":"CQA201401030002",	//  活动代号，和 Promotions 接口的 PROMOTION_CODE 一致
+				"COUPON_NO": "AV1403060004"	,	//  优惠券券号
+				"row_number": 1					//  序号
 			},
             ... ...
         ],

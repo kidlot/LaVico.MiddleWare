@@ -3,7 +3,9 @@ package com.welab.lavico.middleware.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.welab.lavico.middleware.model.CouponListModel;
 import com.welab.lavico.middleware.model.PromotionListModel;
 import com.welab.lavico.middleware.service.CouponService;
 import com.welab.lavico.middleware.service.DaoBrandError;
@@ -110,8 +114,8 @@ public class CouponController {
 	 * 
 	 * @return {success:true/false,error:"error message",coupon_id:"xxxxx"}
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="{brand}/Coupon/GetCoupon")
-    public @ResponseBody Map<String,Object> getCoupon(@PathVariable String brand,HttpServletRequest request) {
+	@RequestMapping(method=RequestMethod.GET, value="{brand}/Coupon/FetchCoupon")
+    public @ResponseBody Map<String,Object> fetchCoupon(@PathVariable String brand,HttpServletRequest request) {
 
 		Map<String, Object> rspn = new HashMap<String, Object>();
 		rspn.put("success",false) ;
@@ -156,6 +160,88 @@ public class CouponController {
 			Logger.getLogger("Promotion-error").error("oops, got an Exception:",e);
 			e.printStackTrace();
 		}
+		
+		return rspn ;
+	}
+	
+
+	/**
+	 * 获取优惠券
+	 * 
+	 * Path Variables:
+	 * @param {brand} 					品牌名称
+	 * 
+	 * HTTP Get Query Variables:
+	 * @param openid 					微信id
+	 * @param otherPromId 				第三方系统活动ID
+	 * @param PROMOTION_CODE 			CRM活动代码
+	 * @param qty 						优惠券金额
+	 * @param point 					积分增减：>0 增加积分; <0 扣减积分; =0 无积分变化
+	 * 
+	 * @return {success:true/false,error:"error message",coupon_id:"xxxxx"}
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="{brand}/Coupon/GetCoupons")
+    public @ResponseBody Map<String,Object> getCoupons(@PathVariable String brand,HttpServletRequest request) {
+
+		Map<String, Object> rspn = new HashMap<String, Object>();
+		
+		String sMemberId = request.getParameter("memberId") ;
+		if(sMemberId==null||sMemberId.isEmpty()){
+			rspn.put("error","miss parameter memberId.") ;
+			return rspn ;
+		}
+		int iMemberId = 0 ;
+		try{
+			iMemberId = Integer.parseInt(sMemberId) ;
+		} catch (NumberFormatException e) {
+			rspn.put("error","parameter memberId is not valid format.") ;
+			return rspn ;
+		}
+		
+
+		// 处理Get参数 pageNum
+		String sPage = request.getParameter("pageNum") ;
+		if(sPage==null){
+			sPage = "1" ;		// 默认值
+		}
+		int iPage = 1 ;
+		try{
+			iPage = Integer.parseInt(sPage) ;
+		} catch (NumberFormatException e) {
+			rspn.put("error","parameter pageNum is not valid format.") ;
+			return rspn ;
+		}
+		
+		// 处理Get参数 perPage
+		String nPerPage = request.getParameter("perPage") ;
+		if(nPerPage==null){
+			nPerPage = "20" ;	// 默认值
+		}
+		int iPerPage = 20 ;
+		try{
+			iPerPage = Integer.parseInt(nPerPage) ;
+		} catch (NumberFormatException e) {
+			rspn.put("error","parameter perPage is not valid format.") ;
+			return rspn ;
+		}
+
+		rspn.put("pageNum", iPage) ;
+		rspn.put("perPage", iPerPage) ;
+
+		JdbcTemplate jdbcTpl = null ;
+		try{
+			jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
+		}catch(DaoBrandError e){
+			rspn.put("error",e.getMessage()) ;
+			return rspn ;
+		}
+		
+
+		CouponListModel listModel = new CouponListModel(jdbcTpl) ;
+		List<Map<String,Object>> list = listModel.queryCouponList(iMemberId,iPage,iPerPage) ;
+
+		rspn.put("list",list) ;
+		rspn.put("total",listModel.totalLength(iMemberId)) ;
 		
 		return rspn ;
 	}
