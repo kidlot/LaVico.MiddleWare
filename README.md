@@ -69,7 +69,7 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 > `L` 代表 LaVico ，`Member/Apply` 是接口名称
 
 
-### 申请会员卡 Member/Apply
+### 申请会员卡 {brand}/Member/Apply
 
 #### 参数：
 
@@ -95,11 +95,11 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 
 #### 返回：
 
-  {"MEMBER_ID":9114883,"issuccessed":true,"error":""}
+  {"MEMBER_ID":9114883,"success":true,"error":""}
 
   * MEMBER_ID: 海澜CRM会员ID
 
-  * issuccessed: true/false 操作是否成功
+  * success: true/false 操作是否成功
 
   * error: 如果失败，返回的错误提示
 
@@ -108,7 +108,7 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 调用海澜CRM数据库中定义的过程 PRO_MEMBER_APPORBIND
 
 
-### 会员卡绑定 Member/Bind
+### 会员卡绑定 {brand}/Member/Bind
 
 #### 参数：
 
@@ -130,11 +130,11 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 
 #### 返回：
 
-  {"MEMBER_ID":9114883,"issuccessed":true,"error":""}
+  {"MEMBER_ID":9114883,"success":true,"error":""}
 
   * MEMBER_ID: 海澜CRM会员ID
 
-  * issuccessed: true/false 操作是否成功
+  * success: true/false 操作是否成功
 
   * error: 如果失败，返回的错误提示
  
@@ -144,7 +144,7 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
      调用海澜CRM数据库中定义的过程 PRO_MEMBER_APPORBIND
 
 
-### 会员卡解除绑定 Member/Unbind
+### 会员卡解除绑定 {brand}/Member/Unbind
 
 #### 参数：
 
@@ -158,9 +158,9 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 
 #### 返回：
 
-  {"issuccessed":true,"error":""}
+  {"success":true,"error":""}
 
-  * issuccessed: true/false 操作是否成功
+  * success: true/false 操作是否成功
 
   * error: 如果失败，返回的错误提示
 
@@ -171,36 +171,52 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 
 
 
-### 活动列表 Promotions
+### 优惠券活动列表 {brand}/Coupon/Promotions
 
 #### 参数：
 
-     无参数
+  * perPage
+  
+  		每页多少行记录，默认 20
+  
+  * pageNum
+
+		第几页，默认 1
 
 #### 返回：
 
 ```javascript
     {
-        "promotions":[
+        "list":[
             {
                 "PROMOTION_CODE":"1207",
                 "PROMOTION_NAME":"每满500减200",
                 "PROMOTION_DESC":"每满500减200",
-                "total":100,
-                "used":50
+                "coupons": [
+                	{"QTY":50,"COUNT":5,"USED":0},
+                	{"QTY":100,"COUNT":1,"USED":1},
+                	{"QTY":200,"COUNT":1,"USED":1}
+                ]
             },
             {
                 "PROMOTION_CODE":"L2013112709",
                 "PROMOTION_NAME":"无限制现金券",
                 "PROMOTION_DESC":"无限制现金券",
-                "total":100,
-                "used":50
+                "coupons": [
+                	{"QTY":50,"COUNT":5,"USED":0},
+                	{"QTY":100,"COUNT":1,"USED":1},
+                	{"QTY":200,"COUNT":1,"USED":1}
+                ]
             },
             ... ...
         ] ,
-        "length": 30
+        "total": 30,
+        "perPage": 20,
+        "pageNum": 20
     }
 ```
+
+* QTY 表示优惠券面额
 
 
 #### CRM数据库说明：
@@ -208,34 +224,25 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 相关数据表： DRP_PROMOTION_THEME （完整返回该数据表中的记录）
 
 
-### 会员积分 Points
+### 会员积分 {brand}/Point/{memberId}
 
 #### 参数：
 
-  * MEMBER_ID
+  * memberId
 
       海澜CRM 用户id，由 MemberApple/MemberBind 返回    
 
 #### 返回：
 
 ```javascript
-    {
-	"remaining": 1234 ,
-	"level": "01",			// 01: 白卡, 02: 普通VIP卡, 03: 白金VIP卡
-        "log":[
-            {
-                "value":"1207",
-                "time":"2014-03-06 00:00:00.0",
-                "memo":"每满500减200"
-	    },
-	    {
-                "value":"1207",
-                "time":"2014-03-06 00:00:00.0",
-                "memo":"每满500减200"
-            },
-            ... ...
-        ]
-    }
+    { "point": 1234 }
+```
+
+如果失败：
+
+
+```javascript
+    { "error": "error message text" }
 ```
 
 #### CRM数据库说明：
@@ -243,14 +250,70 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 相关数据表： PUB_MEMBER_ID、PUB_MEMBER_CARD
 
 
-
-### 会员所获优惠券的列表 Coupons
+### 会员积分明细 {brand}/Point/Log/{memberId}
 
 #### 参数：
 
-  * MEMBER_ID
+  * memberId
 
       海澜CRM 用户id，由 MemberApple/MemberBind 返回    
+
+  * perPage
+  
+  		每页多少行记录，默认 20
+  
+  * pageNum
+
+		第几页，默认 1
+
+	
+#### 返回：
+
+```javascript
+    {
+        "log":[
+            {
+                "value":"1207",
+                "time":"2014-03-06 00:00:00.0",
+                "memo":"每满500减200"
+	    	},
+	    	{
+                "value":"1207",
+                "time":"2014-03-06 00:00:00.0",
+                "memo":"每满500减200"
+            },
+            ... ...
+        ],
+        "total": 30,
+        "perPage": 20,
+        "pageNum": 20
+    }
+```
+
+#### CRM数据库说明：
+
+相关数据表： PUB_MEMBER_POINT
+
+
+
+
+
+### 会员所获优惠券的列表 {brand}/Coupon/GetCoupons/{memberId}
+
+#### 参数：
+
+  * memberId
+
+      海澜CRM 用户id，由 MemberApple/MemberBind 返回    
+
+  * perPage
+  
+  		每页多少行记录，默认 20
+  
+  * pageNum
+
+		第几页，默认 1
+
 
 #### 返回：
 
@@ -261,11 +324,14 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
                 "begin":"2014-03-06 00:00:00.0",
                 "end":"2014-03-06 00:00:00.0",
                 "status":"01",				//  01: 未生效  02: 已生效  03: 已使用  04: 已到期失效
-		"promotion_code":"CQA201401030002",	//  活动代号，和 Promotions 接口的 PROMOTION_CODE 一致
-		"coupon_no": "AV1403060004"		//  优惠券券号
-	    },
+				"promotion_code":"CQA201401030002",	//  活动代号，和 Promotions 接口的 PROMOTION_CODE 一致
+				"coupon_no": "AV1403060004"		//  优惠券券号
+			},
             ... ...
-        ]
+        ],
+        "total": 30,
+        "perPage": 20,
+        "pageNum": 20
     }
 ```
 
@@ -287,13 +353,13 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 ```
 
 
-### 领取优惠券 GetCoupon
+### 领取优惠券 FetchCoupon
 
 #### 参数：
 
   * openid
 
-  * WECHAT_PTHEME_ID
+  * otherPromId
 
     微信活动识别ID，由 WebLab 这边提供
 
@@ -301,14 +367,22 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 
     海澜CRM 活动代码，由 Promotions 接口返回
 
+  * qty
+
+    优惠券金额
+
+  * point
+
+    积分增减：>0 增加积分; <0 扣减积分; =0 无积分变化
+
 
 #### 返回：
 
-  {"coupon_no":9114883,"issuccessed":true,"error":""}
+  {success:true/false,error:"error message",coupon_id:"xxxxx"}
 
   * coupon_no: 优惠券券号
 
-  * issuccessed: true/false 操作是否成功
+  * success: true/false 操作是否成功
 
   * error: 如果失败，返回的错误提示
 
