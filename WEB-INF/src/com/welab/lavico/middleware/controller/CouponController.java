@@ -247,7 +247,7 @@ public class CouponController {
 		List<Map<String,Object>> list = listModel.queryCouponList(iMemberId,status,iPage,iPerPage) ;
 
 		rspn.put("list",list) ;
-		rspn.put("total",listModel.totalLength(iMemberId)) ;
+		rspn.put("total",listModel.totalLength(iMemberId,status)) ;
 		
 		return rspn ;
 	}

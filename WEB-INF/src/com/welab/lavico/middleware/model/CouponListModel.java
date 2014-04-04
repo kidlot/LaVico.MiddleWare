@@ -12,13 +12,13 @@ public class CouponListModel {
 		this.jdbcTpl = jdbcTpl ;
 	}
 	
-	public int totalLength(int memberId){
+	public int totalLength(int memberId,String status){
 		String sql = "SELECT count(*)"
 			+ " FROM PUB_MEMBER_COUPON "
 				+ " left join DRP_PROMOTION_COUPON on (PUB_MEMBER_COUPON.SYS_PCOUPON_ID=DRP_PROMOTION_COUPON.SYS_PCOUPON_ID)"
 				+ " left join DRP_PROMOTION_THEME on (DRP_PROMOTION_COUPON.SYS_PTHEME_ID=DRP_PROMOTION_THEME.SYS_PTHEME_ID)"
-				+ " WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=?" ;
-		return jdbcTpl.queryForInt(sql,new Object[]{memberId} ) ;
+				+ " WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=? and DRP_PROMOTION_COUPON.COUPON_STATUS=?" ;
+		return jdbcTpl.queryForInt(sql,new Object[]{memberId,status} ) ;
 	}
 
 	public List<Map<String,Object>> queryCouponList(int memberId,String status){

@@ -44,7 +44,7 @@ public class PointLogModel {
     		
     		int point = (((String)userMap.get("IO_FLAG")).equals("1")? +1 : -1) * ((java.math.BigDecimal)userMap.get("POT_QTY")).intValue() ;
     		userMap.put("value", point) ;
-    		userMap.put("time", ((java.sql.Timestamp) userMap.get("POT_DATE")).toString().substring(0,10)) ;
+    		userMap.put("time", ((java.sql.Timestamp) userMap.get("POT_DATE")).toString().substring(0,19)) ;
     		userMap.put("memo", (String) userMap.get("MEMO")) ;
 
     		userMap.remove("IO_FLAG") ;
