@@ -30,9 +30,9 @@ public class MemberController {
 	 * 
 	 * @return
 	 * {
-	 * 	MEMBER_ID:   <int>
-	 *  issuccessed: <boolean>
-	 *  error:		 <string>
+	 * 	MEMBER_ID:  <int>
+	 *  success: 	<boolean>
+	 *  error:		<string>
 	 * }
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="{brand}/Member/Apply")
@@ -52,11 +52,11 @@ public class MemberController {
 					, request.getParameter("MEM_PSN_BIRTHDAY")
 			) ;
 			rspn.put("MEMBER_ID",memid) ;
-			rspn.put("issuccessed", true) ;
+			rspn.put("success", true) ;
 			
 		} catch(Throwable e) {
 			rspn.remove("MEMBER_ID") ;
-			rspn.put("issuccessed", false) ;
+			rspn.put("success", false) ;
 			rspn.put("error", e.getMessage()) ;
 
 			Logger.getLogger("Member-error").error("oops, got an Exception:",e);
@@ -79,9 +79,9 @@ public class MemberController {
 	 * 
 	 * @return
 	 * {
-	 * 	MEMBER_ID:   <int>
-	 *  issuccessed: <boolean>
-	 *  error:		 <string>
+	 * 	MEMBER_ID:  <int>
+	 *  success: 	<boolean>
+	 *  error:		<string>
 	 * }
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="{brand}/Member/Bind")
@@ -98,11 +98,11 @@ public class MemberController {
 					, request.getParameter("MEM_OLDCARD_NO")
 			) ;
 			rspn.put("MEMBER_ID",memid) ;
-			rspn.put("issuccessed", true) ;
+			rspn.put("success", true) ;
 
 		} catch(Throwable e) {
 			rspn.remove("MEMBER_ID") ;
-			rspn.put("issuccessed", false) ;
+			rspn.put("success", false) ;
 			rspn.put("error", e.getMessage()) ;
 
 			Logger.getLogger("Member-error").error("oops, got an Exception:",e);
@@ -124,8 +124,8 @@ public class MemberController {
 	 * 
 	 * @return
 	 * {
-	 *  issuccessed: <boolean>
-	 *  error:		 <string>
+	 *  success: 	<boolean>
+	 *  error:		<string>
 	 * }
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="{brand}/Member/Unbind")
@@ -139,9 +139,9 @@ public class MemberController {
 					, request.getParameter("openid")
 					, request.getParameter("MEMBER_ID")
 			) ;
-			rspn.put("issuccessed", succ) ;
+			rspn.put("success", succ) ;
 		} catch(Throwable e) {
-			rspn.put("issuccessed", false) ;
+			rspn.put("success", false) ;
 			rspn.put("error", e.getMessage()) ;
 			Logger.getLogger("Member-error").error("oops, got an Exception:",e);
 		}

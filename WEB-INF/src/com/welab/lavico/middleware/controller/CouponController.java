@@ -102,16 +102,19 @@ public class CouponController {
 	 * @param {brand} 					品牌名称
 	 * 
 	 * HTTP Get Query Variables:
-	 * @param pageNum=1 				第几页
-	 * @param perPage=20 				每页多少行
-	 * @param request
-	 * @return
+	 * @param openid 					微信id
+	 * @param otherPromId 				第三方系统活动ID
+	 * @param PROMOTION_CODE 			CRM活动代码
+	 * @param qty 						优惠券金额
+	 * @param point 					积分增减：>0 增加积分; <0 扣减积分; =0 无积分变化
+	 * 
+	 * @return {success:true/false,error:"error message",coupon_id:"xxxxx"}
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="{brand}/Coupon/GetCoupon")
     public @ResponseBody Map<String,Object> getCoupon(@PathVariable String brand,HttpServletRequest request) {
 
 		Map<String, Object> rspn = new HashMap<String, Object>();
-		rspn.put("issuccessed",false) ;
+		rspn.put("success",false) ;
 
 		String openid = request.getParameter("openid") ;
 		String otherPromId = request.getParameter("otherPromId") ;
@@ -146,7 +149,7 @@ public class CouponController {
 		
 		try{
 			int couponNo = new CouponService().GetCoupon(brand, openid, promCode, otherPromId, qty, point) ;
-			rspn.put("issuccessed",true) ;
+			rspn.put("success",true) ;
 			rspn.put("coupon_no",couponNo) ;
 		} catch(Error e) {
 			rspn.put("error",e.getMessage()) ;
