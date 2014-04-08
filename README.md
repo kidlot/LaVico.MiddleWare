@@ -360,7 +360,7 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 ```
 
 
-### 领取优惠券 FetchCoupon
+### 领取优惠券 {brand}/Coupon/FetchCoupon
 
 #### 参数：
 
@@ -397,3 +397,42 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 #### CRM数据库说明：
      
 调用海澜CRM数据库中定义的过程 PRO_MEMBER_GET_COUPON
+
+
+
+### 门店列表 {brand}/Shops
+
+#### 参数：
+
+
+  * perPage
+  
+  		每页多少行记录，默认 20
+  
+  * pageNum
+
+		第几页，默认 1
+
+
+#### 返回：
+
+```javascript
+  {
+  	list:[
+  		CODE: ""
+  		NAME: "",
+  		ADDR: "",
+  		TEL: "",
+  		CITY: "",
+  		PROVINCE: ""
+  	],
+  	total: 123,
+  	perPage: 20,
+  	pageNum: 1
+  }
+```
+
+
+#### CRM数据库说明：
+     
+相关数据表 PUB_CUSTOMER_TRANSIT

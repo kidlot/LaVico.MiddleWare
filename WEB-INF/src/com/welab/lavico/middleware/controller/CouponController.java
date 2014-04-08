@@ -3,9 +3,7 @@ package com.welab.lavico.middleware.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -13,12 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.welab.lavico.middleware.controller.util.Paginator;
 import com.welab.lavico.middleware.model.CouponListModel;
 import com.welab.lavico.middleware.model.PromotionListModel;
 import com.welab.lavico.middleware.service.CouponService;
-import com.welab.lavico.middleware.service.DaoBrandError;
 import com.welab.lavico.middleware.service.SpringJdbcDaoSupport;
 
 @Controller
@@ -177,48 +173,18 @@ public class CouponController {
 			rspn.put("error","parameter memberId is not valid format.") ;
 			return rspn ;
 		}
-		
-
-		// 处理Get参数 pageNum
-		String sPage = request.getParameter("pageNum") ;
-		if(sPage==null){
-			sPage = "1" ;		// 默认值
-		}
-		int iPage = 1 ;
-		try{
-			iPage = Integer.parseInt(sPage) ;
-		} catch (NumberFormatException e) {
-			rspn.put("error","parameter pageNum is not valid format.") ;
-			return rspn ;
-		}
-		
-		// 处理Get参数 perPage
-		String nPerPage = request.getParameter("perPage") ;
-		if(nPerPage==null){
-			nPerPage = "20" ;	// 默认值
-		}
-		int iPerPage = 20 ;
-		try{
-			iPerPage = Integer.parseInt(nPerPage) ;
-		} catch (NumberFormatException e) {
-			rspn.put("error","parameter perPage is not valid format.") ;
-			return rspn ;
-		}
-
-		rspn.put("pageNum", iPage) ;
-		rspn.put("perPage", iPerPage) ;
 
 		JdbcTemplate jdbcTpl = null ;
 		try{
+			Paginator.paginate(request,rspn) ;
 			jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
-		}catch(DaoBrandError e){
+		}catch(Throwable e){
 			rspn.put("error",e.getMessage()) ;
 			return rspn ;
 		}
 		
-
 		CouponListModel listModel = new CouponListModel(jdbcTpl) ;
-		List<Map<String,Object>> list = listModel.queryCouponList(iMemberId,status,iPage,iPerPage) ;
+		List<Map<String,Object>> list = listModel.queryCouponList(iMemberId,status,(int)rspn.get("pageNum"),(int)rspn.get("perPage")) ;
 
 		rspn.put("list",list) ;
 		rspn.put("total",listModel.totalLength(iMemberId,status)) ;

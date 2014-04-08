@@ -26,7 +26,7 @@ public class ShopController {
 	 * @return
 	 * {
 	 * 	list:  [
-	 * 		{
+	 * 			CODE:		<string>
 	 * 			NAME:		<string>
 	 * 			ADDR:		<string>
 	 * 			TEL:		<string>
@@ -34,6 +34,7 @@ public class ShopController {
 	 * 			PROVINCE:	<string>
 	 * 		},
 	 * 		{
+	 * 			CODE:		<string>
 	 * 			NAME:		<string>
 	 * 			ADDR:		<string>
 	 * 			TEL:		<string>

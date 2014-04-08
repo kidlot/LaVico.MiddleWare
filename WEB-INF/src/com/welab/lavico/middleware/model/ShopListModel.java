@@ -26,7 +26,7 @@ public class ShopListModel {
 
 		String sql = " select *"
 				+ "	from (select *"
-				+ "  	from (select CUSTOMER_NAME as name, CUSTOMER_ADDRESS as addr, CUSTOMER_TELEPHONE as tel, CUSTOMER_CITY as city, CUSTOMER_PROVINCE as  province, row_number() OVER(ORDER BY null) AS \"row_number\""
+				+ "  	from (select CUSTOMER_CODE as code, CUSTOMER_NAME as name, CUSTOMER_ADDRESS as addr, CUSTOMER_TELEPHONE as tel, CUSTOMER_CITY as city, CUSTOMER_PROVINCE as  province, row_number() OVER(ORDER BY null) AS \"row_number\""
 				+ "			from PUB_CUSTOMER_TRANSIT) p"
 				+ "     where p.\"row_number\">?)"
 				+ " where rownum<=?" ;
