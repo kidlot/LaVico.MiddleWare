@@ -49,7 +49,7 @@ public class ShopController {
 	 * }
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="{brand}/Shops")
-    public @ResponseBody Map<String,Object> getPoint(@PathVariable String brand,HttpServletRequest request) {
+    public @ResponseBody Map<String,Object> getShops(@PathVariable String brand,HttpServletRequest request) {
 
 		Map<String, Object> rspn = new HashMap<String, Object>();
 		rspn.put("total",0) ;

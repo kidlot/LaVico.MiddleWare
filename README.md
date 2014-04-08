@@ -436,3 +436,41 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 #### CRM数据库说明：
      
 相关数据表 PUB_CUSTOMER_TRANSIT
+
+
+
+### 会员消费记录 {brand}/Member/Spending/{memberId}
+
+#### 参数：
+
+
+  * perPage
+  
+  		每页多少行记录，默认 20
+  
+  * pageNum
+
+		第几页，默认 1
+
+
+#### 返回：
+
+```javascript
+  {
+  	list:[
+		AMT:			<int>					消费金额
+		DATE:			<int:UNIX TIME STAMPE>	日期
+		POINT:			<int>					获得积分
+		SHOP_NAME:		<string>				门店名称
+		PRODUCT_NAME:	<string>				商品名称
+  	],
+  	total: 123,
+  	perPage: 20,
+  	pageNum: 1
+  }
+```
+
+
+#### CRM数据库说明：
+     
+相关数据表 DRP_RETAIL_HEADER, DRP_RETAIL_DETAIL, PUB_CUSTOMER_TRANSIT, PUB_BARCODE
