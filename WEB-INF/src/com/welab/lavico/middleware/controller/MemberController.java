@@ -1,10 +1,8 @@
 package com.welab.lavico.middleware.controller;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -12,10 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.welab.lavico.middleware.controller.util.Paginator;
+import com.welab.lavico.middleware.model.MemberCardModel;
 import com.welab.lavico.middleware.model.MemberSpendingListModel;
 import com.welab.lavico.middleware.model.PointLogModel;
+import com.welab.lavico.middleware.service.DaoBrandError;
+import com.welab.lavico.middleware.service.MemberCardInfoService;
 import com.welab.lavico.middleware.service.MemberCardService;
 import com.welab.lavico.middleware.service.SpringJdbcDaoSupport;
 
@@ -216,6 +216,41 @@ public class MemberController {
 		rspn.put("log", lstModel.queryPage((int)rspn.get("pageNum"),(int)rspn.get("perPage"))) ;
 		rspn.put("total", lstModel.totalLength() ) ;
 
+		return rspn ;
+	}
+
+	/**
+	 * 获取会员卡的等级
+	 * 
+	 * Path Variables:
+	 * @param {brand} 			品牌名称
+	 * @param {memberId}		会员 MEMBER_ID
+	 * 
+	 * @return
+	 * {
+	 * 	level:  <int>
+	 * 	error:	<string>
+	 * }
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="{brand}/Member/Level/{memberId}")
+    public @ResponseBody Map<String,Object> getPoint(@PathVariable String brand,@PathVariable int memberId) {
+
+		Map<String, Object> rspn = new HashMap<String, Object>();
+		
+		try{
+			JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
+			String level = new MemberCardModel(jdbcTpl,memberId).queryLevel() ;
+			if(level.isEmpty()){
+				rspn.put("error","会员卡号不存在") ;
+			}
+			else{
+				rspn.put("level",level) ;
+			}
+		} catch(DaoBrandError e) {
+			rspn.put("level",null) ;
+			rspn.put("error",e.getMessage()) ;
+		}
+		
 		return rspn ;
 	}
 }

@@ -474,3 +474,25 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 #### CRM数据库说明：
      
 相关数据表 DRP_RETAIL_HEADER, DRP_RETAIL_DETAIL, PUB_CUSTOMER_TRANSIT, PUB_BARCODE
+
+
+
+### 会员卡等级 {brand}/Member/Level/{memberId}
+
+#### 参数：
+
+无
+
+#### 返回：
+
+```javascript
+  {
+  	level: "01"
+  	error: "ooxx"
+  }
+```
+
+
+#### CRM数据库说明：
+     
+相关数据表 PUB_MEMBER_CARD

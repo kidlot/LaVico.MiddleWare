@@ -4,6 +4,7 @@ encoding//WEB-INF/src/com/welab/lavico/middleware/controller/MemberController.ja
 encoding//WEB-INF/src/com/welab/lavico/middleware/controller/PointController.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/controller/ShopController.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/controller/util/Paginator.java=UTF-8
+encoding//WEB-INF/src/com/welab/lavico/middleware/model/MemberCardModel.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/model/MemberSpendingListModel.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/model/PromotionListModel.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/model/ShopListModel.java=UTF-8
