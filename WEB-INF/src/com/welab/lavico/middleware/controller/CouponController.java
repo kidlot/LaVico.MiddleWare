@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.welab.lavico.middleware.controller.util.Paginator;
 import com.welab.lavico.middleware.model.CouponListModel;
 import com.welab.lavico.middleware.model.PromotionListModel;
 import com.welab.lavico.middleware.service.CouponService;
@@ -52,48 +53,21 @@ public class CouponController {
     public @ResponseBody Map<String,Object> getPromotions(@PathVariable String brand,HttpServletRequest request) {
 
 		Map<String, Object> rspn = new HashMap<String, Object>();
+		rspn.put("total",0) ;
 
-		// 处理Get参数 pageNum
-		String sPage = request.getParameter("pageNum") ;
-		if(sPage==null){
-			sPage = "1" ;		// 默认值
-		}
-		int iPage = 1 ;
-		try{
-			iPage = Integer.parseInt(sPage) ;
-		} catch (NumberFormatException e) {
-			rspn.put("error","parameter pageNum is not valid format.") ;
-			return rspn ;
-		}
-		
-		// 处理Get参数 perPage
-		String nPerPage = request.getParameter("perPage") ;
-		if(nPerPage==null){
-			nPerPage = "20" ;	// 默认值
-		}
-		int iPerPage = 20 ;
-		try{
-			iPerPage = Integer.parseInt(nPerPage) ;
-		} catch (NumberFormatException e) {
-			rspn.put("error","parameter perPage is not valid format.") ;
-			return rspn ;
-		}
-
-		rspn.put("pageNum", iPage) ;
-		rspn.put("perPage", iPerPage) ;
 
 		JdbcTemplate jdbcTpl = null ;
 		try{
+			Paginator.paginate(request,rspn) ;
 			jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
-		}catch(DaoBrandError e){
+		}catch(Throwable e){
 			rspn.put("error",e.getMessage()) ;
 			return rspn ;
 		}
 		
 		PromotionListModel promotionModel = new PromotionListModel(jdbcTpl) ;
-		List<Map<String,Object>> list = promotionModel.queryPage(iPage,iPerPage) ;
 
-		rspn.put("list",list) ;
+		rspn.put("list",promotionModel.queryPage((int)rspn.get("pageNum"),(int)rspn.get("perPage"))) ;
 		rspn.put("total",promotionModel.totalLength()) ;
 
     	return rspn ;

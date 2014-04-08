@@ -1,7 +1,6 @@
 package com.welab.lavico.middleware.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.welab.lavico.middleware.controller.util.Paginator;
 import com.welab.lavico.middleware.model.PointLogModel;
 import com.welab.lavico.middleware.service.DaoBrandError;
 import com.welab.lavico.middleware.service.MemberCardInfoService;
@@ -81,49 +81,22 @@ public class PointController {
 		Map<String, Object> rspn = new HashMap<String, Object>();
 		rspn.put("total",0) ;
 		
-		// 处理Get参数 pageNum
-		String sPage = request.getParameter("pageNum") ;
-		if(sPage==null){
-			sPage = "1" ;		// 默认值
-		}
-		int iPage = 1 ;
-		try{
-			iPage = Integer.parseInt(sPage) ;
-		} catch (NumberFormatException e) {
-			rspn.put("error","parameter pageNum is not valid format.") ;
-			return rspn ;
-		}
-
-		// 处理Get参数 perPage
-		String nPerPage = request.getParameter("perPage") ;
-		if(nPerPage==null){
-			nPerPage = "20" ;	// 默认值
-		}
-		int iPerPage = 20 ;
-		try{
-			iPerPage = Integer.parseInt(nPerPage) ;
-		} catch (NumberFormatException e) {
-			rspn.put("error","parameter perPage is not valid format.") ;
-			return rspn ;
-		}
-
-		rspn.put("pageNum", iPage) ;
-		rspn.put("perPage", iPerPage) ;
-
 		JdbcTemplate jdbcTpl = null ;
+		
 		try{
+			
+			Paginator.paginate(request,rspn) ;
+			
 			jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
-		}catch(DaoBrandError e){
+			
+		}catch(Throwable e){
 			rspn.put("error",e.getMessage()) ;
 			return rspn ;
 		}
 
 		PointLogModel logModel = new PointLogModel(jdbcTpl,memberId) ;
 
-		List<Map<String,Object>> logList = logModel.queryPage(iPage,iPerPage) ;
-		rspn.put("log", logList) ;
-		
-		// 总长度
+		rspn.put("log", logModel.queryPage((int)rspn.get("pageNum"),(int)rspn.get("perPage"))) ;
 		rspn.put("total", logModel.totalLength() ) ;
 		
 		return rspn ;
