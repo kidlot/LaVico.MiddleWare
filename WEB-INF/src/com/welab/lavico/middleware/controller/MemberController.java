@@ -1,8 +1,12 @@
 package com.welab.lavico.middleware.controller;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -10,8 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.welab.lavico.middleware.controller.util.Paginator;
 import com.welab.lavico.middleware.model.MemberCardModel;
+import com.welab.lavico.middleware.model.MemberModel;
 import com.welab.lavico.middleware.model.MemberSpendingListModel;
 import com.welab.lavico.middleware.model.PointLogModel;
 import com.welab.lavico.middleware.service.DaoBrandError;
@@ -253,4 +259,109 @@ public class MemberController {
 		
 		return rspn ;
 	}
+	
+
+	/**
+	 * 保存会员资料
+	 * 
+	 * Path Variables:
+	 * @param {brand} 			品牌名称
+	 * @param {memberId}		会员 MEMBER_ID
+	 * 
+	 * HTTP Get Query Variables:
+	 * @param email 			电子邮箱
+	 * @param industry 			行业
+	 * @param province 			省份
+	 * @param city 				城市
+	 * @param addr 				地址
+	 * @param hoppy 			喜好款式
+	 * @param color 			喜好颜色
+	 * 
+	 * 
+	 * @return
+	 * {
+	 * 	success:  	<bool>
+	 * 	error:		<string>
+	 * }
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="{brand}/Member/SaveInfo/{memberId}")
+    public @ResponseBody Map<String,Object> saveInfo(@PathVariable String brand,@PathVariable int memberId,HttpServletRequest request) {
+
+		Map<String, Object> rspn = new HashMap<String, Object>();
+
+		String email = request.getParameter("email") ;
+		String industry = request.getParameter("industry") ;
+		String province = request.getParameter("province") ;
+		String city = request.getParameter("city") ;
+		String addr = request.getParameter("addr") ;
+		String hoppy = request.getParameter("hoppy") ;
+		String color = request.getParameter("color") ;
+		
+		try{
+			JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
+			
+			// 检查参数
+			if( email==null || email.isEmpty() || !Pattern.compile(emailRegexp).matcher(email).matches() ) 
+				throw new Error("email不是有效的电子邮箱地址") ;
+			if( industry==null || industry.isEmpty() ) 
+				throw new Error("缺少参数industry") ;
+			if( province==null || province.isEmpty() ) 
+				throw new Error("缺少参数province") ;
+			if( city==null || city.isEmpty() ) 
+				throw new Error("缺少参数city") ;
+			if( addr==null || addr.isEmpty() ) 
+				throw new Error("缺少参数addr") ;
+			if( hoppy==null || hoppy.isEmpty() ) 
+				throw new Error("缺少参数hoppy") ;
+			if( color==null || color.isEmpty() ) 
+				throw new Error("缺少参数color") ;
+
+			int aff = new MemberModel(jdbcTpl,memberId).save(email,industry,province,city,addr,hoppy,color) ;
+			System.out.println(aff);
+			
+			if(aff<1)
+				throw new Error("保存会员资料失败，memberId对应的会员可能不存在") ;
+
+			rspn.put("success",true) ;
+			
+		} catch(Throwable e) {
+			rspn.put("success",false) ;
+			rspn.put("error",e.getMessage()) ;
+		}
+		
+		return rspn ;
+	}
+	
+
+	/**
+	 * 保存会员资料
+	 * 
+	 * Path Variables:
+	 * @param {brand} 			品牌名称
+	 * @param {memberId}		会员 MEMBER_ID
+	 * 
+	 * @return
+	 * {
+	 * 	success:  	<bool>
+	 * 	error:		<string>
+	 * }
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="{brand}/Member/Info/{memberId}")
+    public @ResponseBody Map<String,Object> getInfo(@PathVariable String brand,@PathVariable int memberId) {
+
+		Map<String, Object> rspn = new HashMap<String, Object>();
+		
+		try{
+			JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
+			
+			rspn.put("info",new MemberModel(jdbcTpl,memberId).query()) ;
+		} catch(DaoBrandError e) {
+			rspn.put("error",e.getMessage()) ;
+		}
+		
+		return rspn ;
+	}
+		
+	
+	private static String  emailRegexp = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$" ;
 }

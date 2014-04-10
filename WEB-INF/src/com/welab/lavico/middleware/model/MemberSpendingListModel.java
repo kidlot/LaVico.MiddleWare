@@ -33,6 +33,7 @@ public class MemberSpendingListModel {
 				+ "				DRP_RETAIL_DETAIL.GAIN_POINT as point,"
 				+ "				PUB_CUSTOMER_TRANSIT.CUSTOMER_NAME as shop_name,"
 				+ "				PUB_BARCODE.PRODUCT_NAME as product_name,"
+				+ "				PUB_BARCODE.GOODS_STYLE_NO as goodsNo,"
 				+ "				row_number() OVER(ORDER BY null) AS \"row_number\""
 				+ "			from DRP_RETAIL_HEADER"
 				+ "				left join DRP_RETAIL_DETAIL on (DRP_RETAIL_HEADER.SYS_DOC_ID=DRP_RETAIL_DETAIL.SYS_DOC_ID)"
