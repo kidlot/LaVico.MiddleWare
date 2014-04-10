@@ -47,10 +47,11 @@ public class PromotionListModel {
 			while(qtyiter.hasNext()){
 	    		Map<String, Object> qty = qtyiter.next();
 	    		
+	    		
 	    		// 已发优惠券
 	    		sql = "select count(*) from drp_promotion_coupon a left join drp_promotion_theme b on a.sys_ptheme_id = b.sys_ptheme_id where a.bind_flag = '1' and a.COUPON_QTY=? and b.promotion_code = ?" ;
 				int used = jdbcTpl.queryForInt(
-					sql, new Object[] { ((java.math.BigDecimal)qty.get("qty")).intValue(), (String)promo.get("PROMOTION_CODE") }
+					sql, new Object[] { qty.get("qty"), (String)promo.get("PROMOTION_CODE") }
 				) ;
 				qty.put("USED",used) ;
 			}
