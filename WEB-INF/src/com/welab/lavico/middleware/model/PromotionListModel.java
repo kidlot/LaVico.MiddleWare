@@ -38,7 +38,7 @@ public class PromotionListModel {
     		Map<String, Object> promo = iter.next();
     		
     		// 活动所有优惠券
-    		sql = "select COUPON_QTY as qty, count(*) as count from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id where p.promotion_code=? group by COUPON_QTY" ;
+    		sql = "select COUPON_TYPE as type, COUPON_CLASS as cls, COUPON_QTY as qty, count(*) as count from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id where p.promotion_code=? group by COUPON_TYPE, COUPON_CLASS, COUPON_QTY" ;
 			List<Map<String,Object>> qtylist = jdbcTpl.queryForList(
 				sql, new Object[] { (String)promo.get("PROMOTION_CODE") }
 			) ;

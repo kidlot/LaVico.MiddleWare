@@ -99,7 +99,7 @@ public class CouponController {
 		int point ;
 		
 		if(sQty==null||sQty.isEmpty()){
-			sQty = "0" ;
+			sQty = "-1" ;
 		}
 		if(sPoint==null||sPoint.isEmpty()){
 			sPoint = "0" ;
@@ -122,7 +122,7 @@ public class CouponController {
 		}
 		
 		try{
-			int couponNo = new CouponService().GetCoupon(brand, openid, promCode, otherPromId, qty, point) ;
+			String couponNo = new CouponService().GetCoupon(brand, openid, promCode, otherPromId, qty, point) ;
 			rspn.put("success",true) ;
 			rspn.put("coupon_no",couponNo) ;
 		} catch(Error e) {
@@ -142,11 +142,7 @@ public class CouponController {
 	 * @param {brand} 					品牌名称
 	 * 
 	 * HTTP Get Query Variables:
-	 * @param openid 					微信id
-	 * @param otherPromId 				第三方系统活动ID
-	 * @param PROMOTION_CODE 			CRM活动代码
-	 * @param qty 						优惠券金额
-	 * @param point 					积分增减：>0 增加积分; <0 扣减积分; =0 无积分变化
+	 * @param memberId 					会员MEMBER_ID
 	 * 
 	 * @return {success:true/false,error:"error message",coupon_id:"xxxxx"}
 	 */

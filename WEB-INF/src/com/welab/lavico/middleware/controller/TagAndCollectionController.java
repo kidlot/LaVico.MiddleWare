@@ -60,6 +60,7 @@ public class TagAndCollectionController {
 				rspn.put("error","添加标签操作失败，可能给定的 memberId 无效") ;
 			}
 		}catch(Throwable e){
+			rspn.put("success",false) ;
 			rspn.put("error",e.getMessage()) ;
 		}
 		

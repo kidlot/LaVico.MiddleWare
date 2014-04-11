@@ -2,17 +2,21 @@ package com.welab.lavico.middleware.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.welab.lavico.middleware.controller.util.Paginator;
 import com.welab.lavico.middleware.model.PointLogModel;
 import com.welab.lavico.middleware.service.DaoBrandError;
 import com.welab.lavico.middleware.service.MemberCardInfoService;
+import com.welab.lavico.middleware.service.PointService;
 import com.welab.lavico.middleware.service.SpringJdbcDaoSupport;
 
 @Controller
@@ -50,7 +54,7 @@ public class PointController {
 
 
 	/**
-	 * 获取会员的积分
+	 * 获取会员的积分明细
 	 * 
 	 * Path Variables:
 	 * @param {brand} 					品牌名称
@@ -98,6 +102,54 @@ public class PointController {
 
 		rspn.put("log", logModel.queryPage((int)rspn.get("pageNum"),(int)rspn.get("perPage"))) ;
 		rspn.put("total", logModel.totalLength() ) ;
+		
+		return rspn ;
+	}
+	
+
+	/**
+	 * 获取会员的积分
+	 * 
+	 * Path Variables:
+	 * @param {brand} 					品牌名称
+	 * 
+	 * HTTP Get Query Variables:
+	 * @param memberId					会员 MEMBER_ID
+	 * @param qty		 				积分值，整数表示增加，负数表示减少
+	 * 
+	 * @return
+	 * {
+	 * 	success:  	<bool>
+	 * 	error:		<string>
+	 * }
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="{brand}/Point/Change")
+    public @ResponseBody Map<String,Object> changePoint(@PathVariable String brand,HttpServletRequest request) {
+
+		Map<String, Object> rspn = new HashMap<String, Object>();
+		
+		try{
+
+			String sMemberId = request.getParameter("memberId") ;
+			if(sMemberId==null || sMemberId.isEmpty()){
+				throw new Error("缺少参数 memberId") ;
+			}
+			int memberId = Integer.parseInt(sMemberId) ;
+
+			String sQty= request.getParameter("qty") ;
+			if(sQty==null || sQty.isEmpty()){
+				throw new Error("缺少参数 qty") ;
+			}
+			int qty = Integer.parseInt(sQty) ;
+			
+			new PointService(brand,memberId).change(qty) ;
+
+			rspn.put("success",true) ;
+			
+		}catch(Throwable e){
+			rspn.put("success",false) ;
+			rspn.put("error",e.getMessage()) ;
+		}
 		
 		return rspn ;
 	}

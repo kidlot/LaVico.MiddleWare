@@ -32,6 +32,10 @@ public class ShopController {
 	 * 			TEL:		<string>
 	 * 			CITY:		<string>
 	 * 			PROVINCE:	<string>
+	 * 			LOG:		<float>		经度
+	 * 			LAT:		<float>		纬度
+	 * 			PICURL:		<string>	门店图片地址
+	 * 			ACT:		<string>	活动介绍
 	 * 		},
 	 * 		{
 	 * 			CODE:		<string>
@@ -40,6 +44,10 @@ public class ShopController {
 	 * 			TEL:		<string>
 	 * 			CITY:		<string>
 	 * 			PROVINCE:	<string>
+	 * 			LOG:		<float>		经度
+	 * 			LAT:		<float>		纬度
+	 * 			PICURL:		<string>	门店图片地址
+	 * 			ACT:		<string>	活动介绍
 	 * 		},
 	 * 		...
 	 * 	],

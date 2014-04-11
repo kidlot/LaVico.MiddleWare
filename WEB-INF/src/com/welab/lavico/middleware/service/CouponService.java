@@ -21,23 +21,31 @@ public class CouponService {
 	 * @return
 	 * @throws Error
 	 */
-	public int GetCoupon(String brand,String openid
+	public String GetCoupon(String brand,String openid
 			,String promotionCode
 			,String otherPromId
 			,float qty
-			,int point ) throws Error {
+			,int point
+			) throws Error {
 
     	JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
 
     	try {
 		    Connection conn = jdbcTpl.getDataSource().getConnection();
 
-		    CallableStatement statement = conn.prepareCall("{call PRO_MEMBER_GET_COUPON(?,?,?,?,?,?,?,?,?,?)}");
+		    CallableStatement statement = conn.prepareCall("{call PRO_MEMBER_GET_COUPON(?,?,?,?,?,?,?,?,?,?,?,?)}");
 		    statement.setString(1, openid);
 		    statement.setString(2, otherPromId);
 		    statement.setString(3, promotionCode);
 		    statement.setString(4, brand+"999");
-	    	statement.setFloat(5, qty);
+		    
+		    
+		    if(qty<0){
+		    	statement.setString(5, null);
+		    }
+		    else{
+		    	statement.setFloat(5, qty);
+		    }
 
 		    if(point==0){
 			    statement.setString(6, null);
@@ -48,20 +56,23 @@ public class CouponService {
 			    statement.setInt(7, Math.abs(point));
 		    }
 
-		    statement.registerOutParameter(8, Types.VARCHAR);
-		    statement.registerOutParameter(9, Types.VARCHAR);
-		    statement.registerOutParameter(10, Types.INTEGER);
+		    statement.setString(8, "1");
+		    statement.setString(9, qty<0?"1":"0");
+
+		    statement.registerOutParameter(10, Types.VARCHAR);
+		    statement.registerOutParameter(11, Types.VARCHAR);
+		    statement.registerOutParameter(12, Types.VARCHAR);
 
 		    statement.execute() ;
 
-		    if( statement.getString(8).equals("N") ){
-		    	throw new Error(statement.getString(9)) ;
+		    if( statement.getString(10).equals("N") ){
+		    	throw new Error(statement.getString(11)) ;
 		    }
 		    
-		    return statement.getInt(10) ;
+		    return statement.getString(12) ;
 
     	} catch (SQLException e) {
-    		throw new Error("系统在为会员发放优惠券时，遇到了错误。",e) ;
+    		throw new Error("系统在为会员发放优惠券时，遇到了错误。"+e.getMessage(),e) ;
 		}
 	}
 }

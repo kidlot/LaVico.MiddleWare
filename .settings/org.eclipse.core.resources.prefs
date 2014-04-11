@@ -3,6 +3,7 @@ encoding//WEB-INF/src/com/welab/lavico/middleware/controller/CouponController.ja
 encoding//WEB-INF/src/com/welab/lavico/middleware/controller/MemberController.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/controller/PointController.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/controller/ShopController.java=UTF-8
+encoding//WEB-INF/src/com/welab/lavico/middleware/controller/SystemController.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/controller/TagAndCollectionController.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/controller/util/Paginator.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/model/MemberCardModel.java=UTF-8
@@ -14,4 +15,5 @@ encoding//WEB-INF/src/com/welab/lavico/middleware/service/CouponService.java=UTF
 encoding//WEB-INF/src/com/welab/lavico/middleware/service/DocumentNoService.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/service/MemberCardInfoService.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/service/MemberCardService.java=UTF-8
+encoding//WEB-INF/src/com/welab/lavico/middleware/service/PointService.java=UTF-8
 encoding//WEB-INF/src/com/welab/lavico/middleware/service/TagAndCollectionService.java=UTF-8

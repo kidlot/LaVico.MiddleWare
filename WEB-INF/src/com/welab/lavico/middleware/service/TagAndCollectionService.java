@@ -9,26 +9,73 @@ public class TagAndCollectionService {
 	}
 	
 
+	/**
+	 * 增加会员收藏
+	 * 
+	 * @param memberId
+	 * @param goodsCode
+	 * @return
+	 */
 	public boolean addCollection(int memberId,String goodsCode) {
 		return addCollection(memberId,goodsCode,brand+"999") ;
 	}
+	/**
+	 * 增加会员收藏
+	 * 
+	 * @param memberId
+	 * @param goodsCode
+	 * @param user
+	 * @return
+	 */
 	public boolean addCollection(int memberId,String goodsCode,String user) {
 		return add(memberId,goodsCode,user,"COLLECTION","GOODS_STYLE_CODE") ;
 	}
+	/**
+	 * 删除会员收藏
+	 * 
+	 * @param memberId
+	 * @param goodsCode
+	 * @return
+	 */
 	public boolean removeCollection(int memberId,String goodsCode) {
 		return remove(memberId,goodsCode,"COLLECTION","GOODS_STYLE_CODE") ;
 	}
 
+	// ---------------------
+	/**
+	 * 增加会员标签
+	 * 
+	 * @param memberId
+	 * @param tagName
+	 * @return
+	 */
 	public boolean addTag(int memberId,String tagName) {
 		return addTag(memberId,tagName,brand+"999") ;
 	}
+	/**
+	 * 添加会员标签
+	 * 
+	 * @param memberId
+	 * @param tagName
+	 * @param user
+	 * @return
+	 */
 	public boolean addTag(int memberId,String tagName,String user) {
 		return add(memberId,tagName,user,"TAGS","TAG") ;
 	}
+	/**
+	 * 移除会员标签
+	 * 
+	 * @param memberId
+	 * @param tagName
+	 * @return
+	 */
 	public boolean removeTag(int memberId,String tagName) {
 		return remove(memberId,tagName,"TAGS","TAG") ;
 	}
 
+	
+	
 	private boolean add(int memberId,String content,String user,String table,String column){
 
 		JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
