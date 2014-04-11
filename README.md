@@ -179,9 +179,13 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
   
   		每页多少行记录，默认 20
   
-  * pageNum
+  * pageNum  
 
 		第几页，默认 1
+		
+  * code [可选]
+  	
+  		指定的活动代号
 
 #### 返回：
 
@@ -308,10 +312,14 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 		
 		默认 02
 		
-  * memberId
+  * memberId [可选]
 
       海澜CRM 用户id，由 MemberApple/MemberBind 返回    
 
+  * promotionCode [可选]
+
+      活动代码
+      
   * perPage
   
   		每页多少行记录，默认 20
@@ -362,6 +370,8 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 
 ### 领取优惠券 {brand}/Coupon/FetchCoupon
 
+
+
 #### 参数：
 
   * openid
@@ -376,7 +386,7 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 
   * qty
 
-    优惠券金额
+    优惠券金额；定额优惠券固定为0，不定额（侃价）传入实际金额
 
   * point
 
@@ -496,3 +506,171 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 #### CRM数据库说明：
      
 相关数据表 PUB_MEMBER_CARD
+
+
+
+### 保存会员资料到CRM {brand}/Member/SaveInfo/{memberId}
+
+#### 参数：
+
+* email
+
+	
+* industry
+		
+	行业
+	
+* province
+
+	省份
+	
+* city
+
+	城市
+	
+* addr
+
+	地址
+	
+* hoppy
+
+	喜欢的款式
+	
+* color
+
+	喜欢的颜色
+
+#### 返回：
+
+```javascript
+  {
+  	success: true/false
+  	error: "ooxx"
+  }
+```
+
+
+### 从CRM读取会员资料 {brand}/Member/Info/{memberId}
+
+#### 参数：
+
+无
+
+#### 返回：
+
+```javascript
+  {
+  	email: ""
+  	, industry: ""
+  	, province: ""
+  	, city: ""
+  	, addr: ""
+  	, hoppy: ""
+  	, color: ""
+  }
+```
+
+
+### 会员积分增减 {brand}/Point/Change
+
+* memberId
+
+	会员 MEMBER_ID
+	
+* qty
+
+	积分值（正数表示增加，负数表示扣减）
+	
+
+#### 返回：
+
+```javascript
+  {
+  	success: true/false
+  	error: "ooxx"
+  }
+```
+
+
+### 会员增加标签 {brand}/Tag/Add
+
+* memberId
+
+	会员 MEMBER_ID
+	
+* tag
+
+	潮男
+
+
+#### 返回：
+
+```javascript
+  {
+  	success: true/false
+  	error: "ooxx"
+  }
+```
+
+
+### 会员移除标签 {brand}/Tag/Remove
+
+* memberId
+
+	会员 MEMBER_ID
+	
+* tag
+
+	潮男
+
+
+#### 返回：
+
+```javascript
+  {
+  	success: true/false
+  	error: "ooxx"
+  }
+```
+
+
+### 会员增加收藏 {brand}/Collection/Add
+
+* memberId
+
+	会员 MEMBER_ID
+	
+* goodsNo
+
+	商品品号
+
+
+#### 返回：
+
+```javascript
+  {
+  	success: true/false
+  	error: "ooxx"
+  }
+```
+
+
+### 会员移除收藏 {brand}/Collection/Remove
+
+* memberId
+
+	会员 MEMBER_ID
+	
+* goodsNo
+
+	商品品号
+
+
+#### 返回：
+
+```javascript
+  {
+  	success: true/false
+  	error: "ooxx"
+  }
+```

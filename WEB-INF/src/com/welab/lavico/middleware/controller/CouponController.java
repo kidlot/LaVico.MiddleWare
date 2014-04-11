@@ -3,7 +3,9 @@ package com.welab.lavico.middleware.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.welab.lavico.middleware.controller.util.Paginator;
 import com.welab.lavico.middleware.model.CouponListModel;
 import com.welab.lavico.middleware.model.PromotionListModel;
@@ -63,7 +66,7 @@ public class CouponController {
 		
 		PromotionListModel promotionModel = new PromotionListModel(jdbcTpl) ;
 
-		rspn.put("list",promotionModel.queryPage((int)rspn.get("pageNum"),(int)rspn.get("perPage"))) ;
+		rspn.put("list",promotionModel.queryPage((int)rspn.get("pageNum"),(int)rspn.get("perPage"),request.getParameter("code"))) ;
 		rspn.put("total",promotionModel.totalLength()) ;
 
     	return rspn ;
@@ -158,9 +161,17 @@ public class CouponController {
 		}
 		
 		String sMemberId = request.getParameter("memberId") ;
-		if(sMemberId==null||sMemberId.isEmpty()){
-			rspn.put("error","miss parameter memberId.") ;
+		String promotionCode = request.getParameter("promotionCode") ;
+		if( (promotionCode==null||promotionCode.isEmpty()) && (sMemberId==null||sMemberId.isEmpty()) ){
+			rspn.put("error","缺少参数 memberId 或 promotionCode.") ;
 			return rspn ;
+		}
+		
+		if(promotionCode==null||promotionCode.isEmpty())
+			promotionCode = "" ;
+
+		if(sMemberId==null||sMemberId.isEmpty()){
+			sMemberId = "0" ;
 		}
 		int iMemberId = 0 ;
 		try{
@@ -169,7 +180,7 @@ public class CouponController {
 			rspn.put("error","parameter memberId is not valid format.") ;
 			return rspn ;
 		}
-
+		
 		JdbcTemplate jdbcTpl = null ;
 		try{
 			Paginator.paginate(request,rspn) ;
@@ -180,10 +191,19 @@ public class CouponController {
 		}
 		
 		CouponListModel listModel = new CouponListModel(jdbcTpl) ;
-		List<Map<String,Object>> list = listModel.queryCouponList(iMemberId,status,(int)rspn.get("pageNum"),(int)rspn.get("perPage")) ;
+		
+		List<Map<String,Object>> list = 
+		promotionCode.isEmpty() ?
+				listModel.queryCouponList(iMemberId,status,(int)rspn.get("pageNum"),(int)rspn.get("perPage")) :
+				listModel.queryCouponList(promotionCode,status,(int)rspn.get("pageNum"),(int)rspn.get("perPage")) ;
 
 		rspn.put("list",list) ;
-		rspn.put("total",listModel.totalLength(iMemberId,status)) ;
+		rspn.put(
+				"total"
+				, promotionCode.isEmpty() ?
+						listModel.totalLength(iMemberId,status):
+						listModel.totalLength(promotionCode,status)
+		) ;
 		
 		return rspn ;
 	}

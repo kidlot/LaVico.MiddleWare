@@ -16,22 +16,31 @@ public class PromotionListModel {
 		return jdbcTpl.queryForInt( "select count(*) from DRP_PROMOTION_THEME where PROMOTION_CLASS='02' AND ACTIVE = '1'" ) ;
 	}
 	
-	public List<Map<String,Object>> queryPage(int pageNum){
-		return queryPage(pageNum,20) ;
+	public List<Map<String,Object>> queryPage(int pageNum,String code){
+		return queryPage(pageNum,20,code) ;
 	}
-	public List<Map<String,Object>> queryPage(int pageNum,int perPage){
+	public List<Map<String,Object>> queryPage(int pageNum,int perPage,String code){
+		
+		String codeWhere = "" ;
+		Object[] args ;
+		if(code!=null){
+			codeWhere = " and PROMOTION_CODE=?" ;
+			args = new Object[]{ code, (pageNum-1)*perPage, perPage } ;
+		}
+		else{
+			codeWhere = "" ;
+			args = new Object[]{ (pageNum-1)*perPage, perPage } ;
+		}
 
 		// 查询有效的活动
 		String sql = " select *"
 				+ "	from (select *"
 				+ "  	from (select PROMOTION_CODE, PROMOTION_NAME, PROMOTION_DESC, row_number() OVER(ORDER BY null) AS \"row_number\""
 				+ "			from DRP_PROMOTION_THEME"
-				+ "			where PROMOTION_CLASS='02' AND ACTIVE = '1') p"
+				+ "			where PROMOTION_CLASS='02' AND ACTIVE = '1'"+codeWhere+") p"
 				+ "     where p.\"row_number\">?)"
 				+ " where rownum<=?" ;
-    	List<Map<String,Object>> promotions = jdbcTpl.queryForList(
-    			sql, new Object[]{ (pageNum-1)*perPage, perPage }
-			) ;
+    	List<Map<String,Object>> promotions = jdbcTpl.queryForList( sql, args ) ;
 
 		Iterator<Map<String, Object>> iter = promotions.iterator() ;
     	while(iter.hasNext()){
