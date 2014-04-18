@@ -222,6 +222,7 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 
 * QTY 表示优惠券面额
 
+> comment by jacky
 
 #### CRM数据库说明：
      
@@ -548,6 +549,8 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
   	error: "ooxx"
   }
 ```
+
+> 行业、款式的最终定义及代号
 
 
 ### 从CRM读取会员资料 {brand}/Member/Info/{memberId}
