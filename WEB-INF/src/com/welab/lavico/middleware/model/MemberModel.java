@@ -42,14 +42,14 @@ public class MemberModel {
 		System.out.println(province) ;
     	int aff = jdbcTpl.update(
     			"update PUB_MEMBER_PSN set MEM_PSN_EMAIL=?"
-    			//+ " 	, MEM_PSN_INDUSTRY=?"
+    			+ " 	, MEM_INDUSTRY=?"
     			+ " 	, PROVINCE=?"
     			+ " 	, CITY=?"
     			+ " 	, MEM_PSN_ADDRESS=?"
     			+ " 	, MEM_PSN_HOPPY=?"
     			+ " 	, MEM_PSN_COLOR=?"
     			+ " WHERE SYS_MEMBER_PSN_ID=?"
-    			, new Object[]{ email/*,industry*/,province,city,addr,hoppy,color,psnId}
+    			, new Object[]{ email,industry,province,city,addr,hoppy,color,psnId}
     		) ;
     	System.out.println(aff);
     	return aff ;
@@ -58,7 +58,7 @@ public class MemberModel {
 	public Map<String,Object> query(){
 		return jdbcTpl.queryForMap(
     			"SELECT MEM_PSN_EMAIL"
-    			//+ " 	, MEM_PSN_INDUSTRY"
+    			+ " 	, MEM_INDUSTRY"
     			+ " 	, PROVINCE"
     			+ " 	, CITY"
     			+ " 	, MEM_PSN_ADDRESS"

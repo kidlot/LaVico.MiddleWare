@@ -45,7 +45,28 @@ public class PromotionListModel {
 		Iterator<Map<String, Object>> iter = promotions.iterator() ;
     	while(iter.hasNext()){
     		Map<String, Object> promo = iter.next();
-    		
+
+    		// 活动所有优惠券
+    		int total = jdbcTpl.queryForInt(
+    				"select count(*) as count from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id where p.promotion_code=?"
+    				, new Object[] { (String)promo.get("PROMOTION_CODE") }
+    		) ;
+    		int used = jdbcTpl.queryForInt(
+    				"select count(*) as count from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id where c.bind_flag = '1' and p.promotion_code=?"
+    				, new Object[] { (String)promo.get("PROMOTION_CODE") }
+    		) ;
+    		Map<String,Object>rcd = jdbcTpl.queryForMap(
+    				"select COUPON_TYPE as type, COUPON_CLASS as cls from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id"
+    				+ "	where p.promotion_code=? and rownum<=1"
+    				, new Object[] { (String)promo.get("PROMOTION_CODE") }
+    		) ;
+			promo.put("TYPE",rcd.get("TYPE")) ;
+			promo.put("CLS",rcd.get("CLASS")) ;
+			promo.put("TOTAL",total) ;
+			promo.put("USED",used) ;
+			
+			// ----------------------------------------
+
     		// 活动所有优惠券
     		sql = "select COUPON_TYPE as type, COUPON_CLASS as cls, COUPON_QTY as qty, count(*) as count from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id where p.promotion_code=? group by COUPON_TYPE, COUPON_CLASS, COUPON_QTY" ;
 			List<Map<String,Object>> qtylist = jdbcTpl.queryForList(
@@ -59,7 +80,7 @@ public class PromotionListModel {
 	    		
 	    		// 已发优惠券
 	    		sql = "select count(*) from drp_promotion_coupon a left join drp_promotion_theme b on a.sys_ptheme_id = b.sys_ptheme_id where a.bind_flag = '1' and a.COUPON_QTY=? and b.promotion_code = ?" ;
-				int used = jdbcTpl.queryForInt(
+				used = jdbcTpl.queryForInt(
 					sql, new Object[] { qty.get("qty"), (String)promo.get("PROMOTION_CODE") }
 				) ;
 				qty.put("USED",used) ;

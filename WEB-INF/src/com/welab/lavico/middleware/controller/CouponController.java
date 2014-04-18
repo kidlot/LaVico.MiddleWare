@@ -84,6 +84,8 @@ public class CouponController {
 	 * @param PROMOTION_CODE 			CRM活动代码
 	 * @param qty 						优惠券金额
 	 * @param point 					积分增减：>0 增加积分; <0 扣减积分; =0 无积分变化
+	 * @param memo 						备注
+	 * 
 	 * 
 	 * @return {success:true/false,error:"error message",coupon_id:"xxxxx"}
 	 */
@@ -125,7 +127,7 @@ public class CouponController {
 		}
 		
 		try{
-			String couponNo = new CouponService().GetCoupon(brand, openid, promCode, otherPromId, qty, point) ;
+			String couponNo = new CouponService().GetCoupon(brand, openid, promCode, otherPromId, qty, point, request.getParameter("memo")) ;
 			rspn.put("success",true) ;
 			rspn.put("coupon_no",couponNo) ;
 		} catch(Error e) {

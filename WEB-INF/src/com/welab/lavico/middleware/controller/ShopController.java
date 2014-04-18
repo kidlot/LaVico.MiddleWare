@@ -74,9 +74,9 @@ public class ShopController {
 
 		ShopListModel lstModel = new ShopListModel(jdbcTpl) ;
 
-		rspn.put("list", lstModel.queryPage((int)rspn.get("pageNum"),(int)rspn.get("perPage"))) ;
-		rspn.put("total", lstModel.totalLength() ) ;
-		
+		rspn.put("list", lstModel.queryPage((int)rspn.get("pageNum"),(int)rspn.get("perPage"),request.getParameter("city"))) ;
+		rspn.put("total", lstModel.totalLength(request.getParameter("city")) ) ;
+
 		return rspn ;
 	}
 }

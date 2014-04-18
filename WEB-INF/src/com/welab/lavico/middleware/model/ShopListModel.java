@@ -1,7 +1,9 @@
 package com.welab.lavico.middleware.model;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class ShopListModel {
@@ -14,15 +16,38 @@ public class ShopListModel {
 	 * 所有门店总数
 	 * @return
 	 */
-	public int totalLength(){
-		return jdbcTpl.queryForInt( "select count(*) from PUB_CUSTOMER_TRANSIT" ) ;
+	public int totalLength(String city){
+
+		String whereCity ;
+		Object[] args ;
+		if(city!=null){
+			whereCity = " where CUSTOMER_CITY=?" ;
+			args = new Object[]{ city } ;
+		}
+		else{
+			whereCity = "" ;
+			args = new Object[]{} ;
+		}
+		
+		return jdbcTpl.queryForInt( "select count(*) from PUB_CUSTOMER_TRANSIT"+whereCity, args ) ;
 	}
 
-	public List<Map<String,Object>> queryPage(int pageNum){
-		return queryPage(pageNum,20) ;
+	public List<Map<String,Object>> queryPage(int pageNum,String city){
+		return queryPage(pageNum,20,city) ;
 	}
 	
-	public List<Map<String,Object>> queryPage(int pageNum,int perPage){
+	public List<Map<String,Object>> queryPage(int pageNum,int perPage,String city){
+
+		String whereCity ;
+		Object[] args ;
+		if(city!=null){
+			whereCity = "where CUSTOMER_CITY=?" ;
+			args = new Object[]{ city, (pageNum-1)*perPage, perPage } ;
+		}
+		else{
+			whereCity = "" ;
+			args = new Object[]{ (pageNum-1)*perPage, perPage } ;
+		}
 
 		String sql = " select *"
 				+ "	from (select *"
@@ -39,12 +64,37 @@ public class ShopListModel {
 				+ "				, CUSTOMER_ACTIVITY as act"
 				+ "				, row_number() OVER(ORDER BY null"
 				+ "			) AS \"row_number\""
-				+ "			from PUB_CUSTOMER_TRANSIT) p"
+				+ "			from PUB_CUSTOMER_TRANSIT"
+				+ "			" + whereCity
+				+ "		) p"
 				+ "     where p.\"row_number\">?)"
 				+ " where rownum<=?" ;
-    	return jdbcTpl.queryForList(
-			sql, new Object[]{ (pageNum-1)*perPage, perPage }
-		) ;
+		List<Map<String,Object>> list = jdbcTpl.queryForList( sql, args ) ;
+		
+		Iterator<Map<String,Object>> iter = list.iterator() ;
+		while(iter.hasNext()){
+			Map<String,Object> row = iter.next() ;
+
+			// 删末尾的省字
+			String province = (String)row.get("PROVINCE") ;
+			if( province!=null ){
+				if( province.charAt(province.length()-1) == '省' ){
+					province = province.substring(0,province.length()-1) ;
+					row.put("PROVINCE", province) ;
+				}
+			}
+
+			// 删末尾的市字
+			city = (String)row.get("CITY") ;
+			if( city!=null ){
+				if( city.charAt(city.length()-1) == '市' ){
+					city = city.substring(0,city.length()-1) ;
+					row.put("CITY", city) ;
+				}
+			}
+		}
+		
+		return list ;
 	}
 
 	private JdbcTemplate jdbcTpl ;

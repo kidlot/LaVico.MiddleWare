@@ -10,7 +10,7 @@ public class PointService {
 		this.memberId = memberId ;
 	}
 	
-	public void change(int qty){
+	public void change(int qty,String memo){
 
 		JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
 
@@ -22,7 +22,7 @@ public class PointService {
 		}
 		
 		java.sql.Date now = new java.sql.Date(System.currentTimeMillis());
-		
+		System.out.println(memo) ;
 		jdbcTpl.update(
 				"insert into PUB_MEMBER_POINT ("
 				+ "SYS_MEMBER_POT_ID"
@@ -31,13 +31,15 @@ public class PointService {
 				+ ", ACTIVE"
 				+ ", POT_DATE"
 				+ ", POT_QTY"
-				+ ") values (SYS_DOC_ID.NEXTVAL,?,?,?,?,?)"
+				+ ", MEMO"
+				+ ") values (SYS_DOC_ID.NEXTVAL,?,?,?,?,?,?)"
 				, new Object[]{
 						memberId
 						, qty<0?"2":"1"
 						, "1"
 						, now
 						, Math.abs(qty)
+						, memo==null? "": memo
 				}) ;
 	}
 

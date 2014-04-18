@@ -4,7 +4,9 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
+
 import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.welab.lavico.middleware.service.SpringJdbcDaoSupport;
 
 public class CouponService {
@@ -26,6 +28,7 @@ public class CouponService {
 			,String otherPromId
 			,float qty
 			,int point
+			,String memo
 			) throws Error {
 
     	JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
@@ -69,8 +72,18 @@ public class CouponService {
 		    	throw new Error(statement.getString(11)) ;
 		    }
 		    
-		    return statement.getString(12) ;
+		    String couponno = statement.getString(12) ;
+		    
+		    // 更新 memo 
+		    if(memo!=null){
+			    jdbcTpl.update(
+			    		"update DRP_PROMOTION_COUPON set MEMO=? where COUPON_NO=?"
+			    		, new Object[]{memo,couponno}
+			    ) ;
+		    }
 
+		    return couponno ;
+		    		
     	} catch (SQLException e) {
     		throw new Error("系统在为会员发放优惠券时，遇到了错误。"+e.getMessage(),e) ;
 		}

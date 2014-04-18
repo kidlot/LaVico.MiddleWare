@@ -108,7 +108,7 @@ public class PointController {
 	
 
 	/**
-	 * 获取会员的积分
+	 * 增减会员的积分
 	 * 
 	 * Path Variables:
 	 * @param {brand} 					品牌名称
@@ -116,6 +116,7 @@ public class PointController {
 	 * HTTP Get Query Variables:
 	 * @param memberId					会员 MEMBER_ID
 	 * @param qty		 				积分值，整数表示增加，负数表示减少
+	 * @param memo						备注
 	 * 
 	 * @return
 	 * {
@@ -142,7 +143,7 @@ public class PointController {
 			}
 			int qty = Integer.parseInt(sQty) ;
 			
-			new PointService(brand,memberId).change(qty) ;
+			new PointService(brand,memberId).change(qty,request.getParameter("memo")) ;
 
 			rspn.put("success",true) ;
 			

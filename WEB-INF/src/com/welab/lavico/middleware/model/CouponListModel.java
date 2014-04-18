@@ -53,12 +53,14 @@ public class CouponListModel {
 				+ ", DRP_PROMOTION_COUPON.USED_DATE"
 				+ ", DRP_PROMOTION_THEME.PROMOTION_CODE"
 				+ ", DRP_PROMOTION_COUPON.COUPON_NO"
+				+ ", DRP_PROMOTION_COUPON.MEMO"
 				+ ", PUB_MEMBER_COUPON.SYS_MEMBER_ID"
 				+ ", row_number() OVER(ORDER BY null) AS \"row_number\""
 			+ " FROM PUB_MEMBER_COUPON "
 				+ " left join DRP_PROMOTION_COUPON on (PUB_MEMBER_COUPON.SYS_PCOUPON_ID=DRP_PROMOTION_COUPON.SYS_PCOUPON_ID)"
 				+ " left join DRP_PROMOTION_THEME on (DRP_PROMOTION_COUPON.SYS_PTHEME_ID=DRP_PROMOTION_THEME.SYS_PTHEME_ID)"
-			+ " WHERE "+column+"=? and DRP_PROMOTION_COUPON.COUPON_STATUS=?" ;
+			+ " WHERE "+column+"=? and DRP_PROMOTION_COUPON.COUPON_STATUS=?"
+			+ " ORDER by PUB_MEMBER_COUPON.SYS_PCOUPON_ID desc" ;
 		
 		sql = " select *"
 				+ "	from (select *"
@@ -66,16 +68,7 @@ public class CouponListModel {
 				+ "     where p.\"row_number\">?)"
 				+ " where rownum<=?" ;
 		
-		List<Map<String,Object>> list = jdbcTpl.queryForList( sql,new Object[]{ value, status, (pageNum-1)*perPage, perPage } ) ;
-	
-		Iterator<Map<String, Object>> iter = list.iterator() ;
-    	while(iter.hasNext()){
-    		Map<String, Object> coupon = (Map<String, Object>) iter.next();
-    		coupon.put("BEGIN_DATE", ((java.sql.Timestamp) coupon.get("BEGIN_DATE")).toString().substring(0,19)) ;
-    		coupon.put("END_DATE", ((java.sql.Timestamp) coupon.get("END_DATE")).toString().substring(0,19)) ;
-    	}
-	
-		return list ;
+		return jdbcTpl.queryForList( sql,new Object[]{ value, status, (pageNum-1)*perPage, perPage } ) ;
 	}
 
 	private JdbcTemplate jdbcTpl ;

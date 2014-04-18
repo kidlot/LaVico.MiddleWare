@@ -29,8 +29,9 @@ public class PointLogModel {
 		String sql = " select *"
 			+ "	from (select *"
 			+ "  	from (select IO_FLAG, POT_DATE, MEMO, POT_QTY, row_number() OVER(ORDER BY null) AS \"row_number\""
-			+ "			from PUB_MEMBER_POINT"
-			+ "				where SYS_MEMBER_ID=?) p"
+			+ "				from PUB_MEMBER_POINT"
+			+ "				where SYS_MEMBER_ID=?"
+			+ "				order by SYS_MEMBER_POT_ID desc) p"
 			+ "         where p.\"row_number\">?)"
 			+ " where rownum<=?" ;
     	List<Map<String,Object>> rows = jdbcTpl.queryForList( sql
@@ -44,7 +45,7 @@ public class PointLogModel {
     		
     		int point = (((String)userMap.get("IO_FLAG")).equals("1")? +1 : -1) * ((java.math.BigDecimal)userMap.get("POT_QTY")).intValue() ;
     		userMap.put("value", point) ;
-    		userMap.put("time", ((java.sql.Timestamp) userMap.get("POT_DATE")).toString().substring(0,19)) ;
+    		userMap.put("time", userMap.get("POT_DATE")) ;
     		userMap.put("memo", (String) userMap.get("MEMO")) ;
 
     		userMap.remove("IO_FLAG") ;

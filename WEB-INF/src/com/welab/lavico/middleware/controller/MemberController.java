@@ -334,7 +334,7 @@ public class MemberController {
 	
 
 	/**
-	 * 保存会员资料
+	 * 查询会员资料
 	 * 
 	 * Path Variables:
 	 * @param {brand} 			品牌名称
