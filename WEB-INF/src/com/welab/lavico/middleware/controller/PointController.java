@@ -74,6 +74,7 @@ public class PointController {
 	 *  		value:	<signed int>	单笔记录积分值
 	 *  		time:	<string/time>	记录时间
 	 *  		memo:	<string>		备注
+	 *  		source: <string>		来源：01.销售产生积分 02.微信修改积分 03.人工手动调整积分 
 	 *  	}
 	 *  	...
 	 *  ]

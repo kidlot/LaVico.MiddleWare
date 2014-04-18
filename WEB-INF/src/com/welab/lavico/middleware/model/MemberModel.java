@@ -41,7 +41,7 @@ public class MemberModel {
 	
 		System.out.println(province) ;
     	int aff = jdbcTpl.update(
-    			"update PUB_MEMBER_PSN set MEM_PSN_EMAIL=?"
+    			"update PUB_MEMBER_APPLY set MEM_PSN_EMAIL=?"
     			+ " 	, MEM_INDUSTRY=?"
     			+ " 	, PROVINCE=?"
     			+ " 	, CITY=?"

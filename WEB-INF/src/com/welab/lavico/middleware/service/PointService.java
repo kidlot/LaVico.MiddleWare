@@ -21,8 +21,8 @@ public class PointService {
 			throw new Error("memberId 无效") ;
 		}
 		
-		java.sql.Date now = new java.sql.Date(System.currentTimeMillis());
-		System.out.println(memo) ;
+		java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
+		
 		jdbcTpl.update(
 				"insert into PUB_MEMBER_POINT ("
 				+ "SYS_MEMBER_POT_ID"
@@ -32,7 +32,10 @@ public class PointService {
 				+ ", POT_DATE"
 				+ ", POT_QTY"
 				+ ", MEMO"
-				+ ") values (SYS_DOC_ID.NEXTVAL,?,?,?,?,?,?)"
+				+ ", INPUT_DATE"
+				+ ", INPUT_USER"
+				+ ", SOURCE_TYPE"
+				+ ") values (SYS_DOC_ID.NEXTVAL,?,?,?,?,?,?,?,?,?)"
 				, new Object[]{
 						memberId
 						, qty<0?"2":"1"
@@ -40,6 +43,9 @@ public class PointService {
 						, now
 						, Math.abs(qty)
 						, memo==null? "": memo
+						, now
+						, brand + "999"
+						, "02"
 				}) ;
 	}
 

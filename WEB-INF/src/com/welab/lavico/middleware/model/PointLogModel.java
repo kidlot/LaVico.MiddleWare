@@ -28,7 +28,7 @@ public class PointLogModel {
 		
 		String sql = " select *"
 			+ "	from (select *"
-			+ "  	from (select IO_FLAG, POT_DATE, MEMO, POT_QTY, row_number() OVER(ORDER BY null) AS \"row_number\""
+			+ "  	from (select IO_FLAG, POT_DATE, MEMO, POT_QTY, SOURCE_TYPE, row_number() OVER(ORDER BY null) AS \"row_number\""
 			+ "				from PUB_MEMBER_POINT"
 			+ "				where SYS_MEMBER_ID=?"
 			+ "				order by SYS_MEMBER_POT_ID desc) p"
@@ -47,11 +47,13 @@ public class PointLogModel {
     		userMap.put("value", point) ;
     		userMap.put("time", userMap.get("POT_DATE")) ;
     		userMap.put("memo", (String) userMap.get("MEMO")) ;
+    		userMap.put("source", (String) userMap.get("SOURCE_TYPE")) ;
 
     		userMap.remove("IO_FLAG") ;
     		userMap.remove("POT_DATE") ;
     		userMap.remove("MEMO") ;
     		userMap.remove("POT_QTY") ;
+    		userMap.remove("SOURCE_TYPE") ;
     	}
     	
     	return rows ;
