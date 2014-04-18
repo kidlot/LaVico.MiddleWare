@@ -503,6 +503,8 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
   }
 ```
 
+01: 白卡，02:普通VIP卡，03：白金VIP卡
+
 
 #### CRM数据库说明：
      
