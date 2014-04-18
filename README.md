@@ -221,14 +221,12 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 ```
 
 * QTY 表示优惠券面额
-
-> comment by jacky
+* Class：101 生日券，102 普通抵用券，103 返店券，104 积分券，105 回馈券，201 普通礼品券
+* Type：01 现金抵用券，02 礼品券
 
 #### CRM数据库说明：
      
 相关数据表： DRP_PROMOTION_THEME （完整返回该数据表中的记录）
-
-101 生日券，102 普通抵用券，103 返店券，104 积分券，105 回馈券，201 普通礼品券
 
 
 ### 会员积分 {brand}/Point/{memberId}
