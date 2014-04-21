@@ -55,13 +55,18 @@ public class PromotionListModel {
     				"select count(*) as count from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id where c.bind_flag = '1' and p.promotion_code=?"
     				, new Object[] { (String)promo.get("PROMOTION_CODE") }
     		) ;
-    		Map<String,Object>rcd = jdbcTpl.queryForMap(
-    				"select COUPON_TYPE as type, COUPON_CLASS as cls from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id"
-    				+ "	where p.promotion_code=? and rownum<=1"
-    				, new Object[] { (String)promo.get("PROMOTION_CODE") }
-    		) ;
-			promo.put("TYPE",rcd.get("TYPE")) ;
-			promo.put("CLS",rcd.get("CLASS")) ;
+    		try{
+	    		Map<String,Object>rcd = jdbcTpl.queryForMap(
+	    				"select COUPON_TYPE as type, COUPON_CLASS as cls from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id"
+	    				+ "	where p.promotion_code=? and rownum<=1"
+	    				, new Object[] { (String)promo.get("PROMOTION_CODE") }
+	    		) ;
+				promo.put("TYPE",rcd.get("TYPE")) ;
+				promo.put("CLS",rcd.get("CLASS")) ;
+    		}catch(org.springframework.dao.EmptyResultDataAccessException e){
+    			promo.put("TYPE",null) ;
+    			promo.put("CLS",null) ;
+    		}
 			promo.put("TOTAL",total) ;
 			promo.put("USED",used) ;
 			
