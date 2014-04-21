@@ -21,8 +21,9 @@ public class ShopListModel {
 		String whereCity ;
 		Object[] args ;
 		if(city!=null){
-			whereCity = " where CUSTOMER_CITY=?" ;
-			args = new Object[]{ city } ;
+			
+			whereCity = " where CUSTOMER_CITY=? or CUSTOMER_CITY=?" ;
+			args = new Object[]{ city, city+"市" } ;
 		}
 		else{
 			whereCity = "" ;
@@ -41,8 +42,8 @@ public class ShopListModel {
 		String whereCity ;
 		Object[] args ;
 		if(city!=null){
-			whereCity = "where CUSTOMER_CITY=?" ;
-			args = new Object[]{ city, (pageNum-1)*perPage, perPage } ;
+			whereCity = "where CUSTOMER_CITY=? or CUSTOMER_CITY=?" ;
+			args = new Object[]{ city, city+"市", (pageNum-1)*perPage, perPage } ;
 		}
 		else{
 			whereCity = "" ;
