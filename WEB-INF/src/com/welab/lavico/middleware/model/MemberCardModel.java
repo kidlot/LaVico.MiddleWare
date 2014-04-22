@@ -34,6 +34,44 @@ public class MemberCardModel {
 		}
 	}
 	
+	/**
+	 * 检查手机号码是否存在
+	 * 
+	 * @param mobile
+	 * @return true表示该手机号码已经存在
+	 */
+	public boolean isMobileExists(String brand,String mobile){
+		String sql = 
+			"SELECT COUNT(*) NUM "
+				+ "	FROM PUB_MEMBER_ID I,PUB_MEMBER_PSN P,PUB_MEMBER_CARD C "
+				+ " WHERE I.SYS_MEMBER_PSN_ID=P.SYS_MEMBER_PSN_ID"
+				+ " 	AND I.SYS_MEMBER_CARD_ID=C.SYS_MEMBER_CARD_ID"
+				+ " 	AND I.BRAND_CODE=?"
+				+ " 	AND P.MOBILE_TELEPHONE_NO=?" ;
+		return jdbcTpl.queryForInt(sql,new Object[]{brand,mobile})>0 ;
+	}
+	
+	/**
+	 * 检查电话是否验证过
+	 * 
+	 * @param mobile
+	 * @return true 表示该手机号码已经验证过
+	 */
+	public boolean isMobileChecked(String brand,String mobile){
+		String sql = 
+			"SELECT I.IS_CHECKED"
+			+ " FROM PUB_MEMBER_ID I,PUB_MEMBER_PSN P,PUB_MEMBER_CARD C"
+			+ " WHERE I.SYS_MEMBER_PSN_ID = P.SYS_MEMBER_PSN_ID"
+			+ "		AND I.SYS_MEMBER_CARD_ID = C.SYS_MEMBER_CARD_ID"
+			+ "		AND I.BRAND_CODE=?"
+			+ "		AND P.MOBILE_TELEPHONE_NO=?" ;
+		try{
+			return jdbcTpl.queryForInt(sql,new Object[]{brand,mobile})==1 ;
+		}catch(Throwable e){
+			e.printStackTrace();
+			return false ;
+		}
+	}
 	
 	private JdbcTemplate jdbcTpl ;
 	private int memberId ;

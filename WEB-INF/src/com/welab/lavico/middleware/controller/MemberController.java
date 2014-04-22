@@ -162,7 +162,48 @@ public class MemberController {
 
 		return rspn ;
 	}
-	
+
+	@RequestMapping(method=RequestMethod.GET, value="{brand}/Member/CheckMobileExists")
+	public @ResponseBody Map<String,Object> checkMobileExists(@PathVariable String brand,HttpServletRequest request) {
+
+		Map<String, Object> rspn = new HashMap<String, Object>();
+		
+		String mobile = request.getParameter("mobile") ;
+		
+		try{
+			JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
+			boolean exists = new MemberCardModel(jdbcTpl,0).isMobileExists(brand,mobile) ;
+			
+			rspn.put("exists", exists) ;
+			
+		} catch(Throwable e) {
+			rspn.put("error", e.getMessage()) ;
+			Logger.getLogger("Member-error").error("oops, got an Exception:",e);
+		}
+
+		return rspn ;
+	}
+
+	@RequestMapping(method=RequestMethod.GET, value="{brand}/Member/IsMobileChecked")
+	public @ResponseBody Map<String,Object> isMobileChecked(@PathVariable String brand,HttpServletRequest request) {
+
+		Map<String, Object> rspn = new HashMap<String, Object>();
+		
+		String mobile = request.getParameter("mobile") ;
+		
+		try{
+			JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
+			boolean exists = new MemberCardModel(jdbcTpl,0).isMobileChecked(brand,mobile) ;
+			
+			rspn.put("exists", exists) ;
+			
+		} catch(Throwable e) {
+			rspn.put("error", e.getMessage()) ;
+			Logger.getLogger("Member-error").error("oops, got an Exception:",e);
+		}
+
+		return rspn ;
+	}
 	
 
 	/**
