@@ -171,6 +171,9 @@ public class MemberController {
 		String mobile = request.getParameter("mobile") ;
 		
 		try{
+			if(mobile==null||mobile.isEmpty()){
+				throw new Error("缺少参数 mobile") ;
+			}
 			JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
 			boolean exists = new MemberCardModel(jdbcTpl,0).isMobileExists(brand,mobile) ;
 			
@@ -192,10 +195,41 @@ public class MemberController {
 		String mobile = request.getParameter("mobile") ;
 		
 		try{
+			if(mobile==null||mobile.isEmpty()){
+				throw new Error("缺少参数 mobile") ;
+			}
 			JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
-			boolean exists = new MemberCardModel(jdbcTpl,0).isMobileChecked(brand,mobile) ;
+			boolean checked = new MemberCardModel(jdbcTpl,0).isMobileChecked(brand,mobile) ;
 			
-			rspn.put("exists", exists) ;
+			rspn.put("checked", checked) ;
+			
+		} catch(Throwable e) {
+			rspn.put("error", e.getMessage()) ;
+			Logger.getLogger("Member-error").error("oops, got an Exception:",e);
+		}
+
+		return rspn ;
+	}
+
+	@RequestMapping(method=RequestMethod.GET, value="{brand}/Member/IsMobileAndOldcardValid")
+	public @ResponseBody Map<String,Object> isMobileAndOldcardValid(@PathVariable String brand,HttpServletRequest request) {
+
+		Map<String, Object> rspn = new HashMap<String, Object>();
+
+		String mobile = request.getParameter("mobile") ;
+		String oldcard = request.getParameter("oldcard") ;
+		
+		try{
+			if(mobile==null||mobile.isEmpty()){
+				throw new Error("缺少参数 mobile") ;
+			}
+			if(oldcard==null||oldcard.isEmpty()){
+				throw new Error("缺少参数 oldcard") ;
+			}
+			JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
+			boolean isValid = new MemberCardModel(jdbcTpl,0).isMobileAndOldcardValid(brand,mobile,oldcard) ;
+			
+			rspn.put("valid", isValid) ;
 			
 		} catch(Throwable e) {
 			rspn.put("error", e.getMessage()) ;

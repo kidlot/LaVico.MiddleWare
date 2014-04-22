@@ -83,9 +83,9 @@ public class MemberCardService {
 			, String oldCardNo
 			) throws DaoBrandError, Error, Exception {
 
-		if(oldCardNo==null||oldCardNo.isEmpty()){
+		/*if(oldCardNo==null||oldCardNo.isEmpty()){
 			throw new Error("missing arg old card NO.") ;
-		}
+		}*/
 		
 		JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
 		
