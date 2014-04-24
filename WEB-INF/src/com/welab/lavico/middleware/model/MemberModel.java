@@ -39,16 +39,18 @@ public class MemberModel {
 				"select SYS_MEMBER_PSN_ID from PUB_MEMBER_ID where SYS_MEMBER_ID=?"
 				, new Object[]{ memberId }) ;
 	
-		System.out.println(province) ;
+		System.out.println(memberId+">"+psnId) ;
     	int aff = jdbcTpl.update(
-    			"update PUB_MEMBER_APPLY set MEM_PSN_EMAIL=?"
-    			+ " 	, MEM_INDUSTRY=?"
-    			+ " 	, PROVINCE=?"
-    			+ " 	, CITY=?"
-    			+ " 	, MEM_PSN_ADDRESS=?"
-    			+ " 	, MEM_PSN_HOPPY=?"
-    			+ " 	, MEM_PSN_COLOR=?"
-    			+ " WHERE SYS_MEMBER_PSN_ID=?"
+    			"insert into PUB_MEMBER_APPLY (MEM_PSN_EMAIL"
+    			+ " 	, MEM_INDUSTRY"
+    			+ " 	, PROVINCE"
+    			+ " 	, CITY"
+    			+ " 	, MEM_PSN_ADDRESS"
+    			+ " 	, MEM_PSN_HOPPY"
+    			+ " 	, MEM_PSN_COLOR"
+    			+ "		, SYS_MEMBER_PSN_ID"
+    			+ "		, SYS_MEMBER_APPLY_ID"
+    			+ ") values (?,?,?,?,?,?,?,?,SYS_DOC_ID.NEXTVAL) "
     			, new Object[]{ email,industry,province,city,addr,hoppy,color,psnId}
     		) ;
     	System.out.println(aff);
