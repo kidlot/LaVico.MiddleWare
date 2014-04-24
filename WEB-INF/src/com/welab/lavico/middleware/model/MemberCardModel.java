@@ -67,7 +67,8 @@ public class MemberCardModel {
 			+ "		AND P.MOBILE_TELEPHONE_NO=?" ;
 		try{
 			String isChecked = (String)jdbcTpl.queryForObject(sql,String.class,new Object[]{brand,mobile}) ;
-			return isChecked == "1" ;
+			System.out.println("yyyyy:"+isChecked+":"+isChecked.length()) ;
+			return isChecked.equals("1") ;
 		}catch(Throwable e){
 			e.printStackTrace();
 			return false ;
