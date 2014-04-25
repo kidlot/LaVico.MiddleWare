@@ -35,6 +35,7 @@
         <pathelement location="WEB-INF/lib/org.springframework.oxm-3.0.5.RELEASE.jar"/>
         <pathelement location="WEB-INF/lib/jackson-all-1.9.11.jar"/>
         <pathelement location="WEB-INF/lib/log4j-1.2.17.jar"/>
+        <pathelement location="WEB-INF/lib/emayclient.jar"/>
     </path>
     <target name="init">
         <mkdir dir="WEB-INF/classes"/>
