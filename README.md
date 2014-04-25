@@ -395,7 +395,7 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 
   * memo
 
-    券名
+    应用 - 活动名称，例如：积分兑换 - 电饭煲；答题抢积分 - 你是哪类型男？
 
 
 #### 返回：
