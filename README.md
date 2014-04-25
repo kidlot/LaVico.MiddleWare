@@ -393,10 +393,14 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 
     积分增减：>0 增加积分; <0 扣减积分; =0 无积分变化
 
+  * memo
+
+    券名
+
 
 #### 返回：
 
-  {success:true/false,error:"error message",coupon_id:"xxxxx"}
+  {success:true/false,error:"error message",coupon_no:"xxxxx"}
 
   * coupon_no: 优惠券券号
 
