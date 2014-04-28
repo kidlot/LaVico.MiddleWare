@@ -130,12 +130,17 @@ public class MemberCardService {
 			throw new Error("missing arg openid") ;
 		}
 
-    	int res = jdbcTpl.update(
+    	if( jdbcTpl.update(
     			"update PUB_MEMBER_ID set SYS_MEMBER_MIC_ID='' where SYS_MEMBER_ID=? and SYS_MEMBER_MIC_ID=?" ,
     			new Object[]{ memberid, openid }
-    		) ;
+    		) < 1 )
+    	{
+    		return false ;
+    	}
     	
-    	return res>=1 ;
+    	// jdbcTpl.update("insert into pub_field_changehis ")
+    	
+    	return true ;
 	}
 
 

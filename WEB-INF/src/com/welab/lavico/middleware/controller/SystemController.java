@@ -68,13 +68,14 @@ public class SystemController {
 			if(mobile==null||mobile.isEmpty()){
 				throw new Error("miss arg mobile") ;
 			}
+			String[] mobiles = mobile.split(",") ;
 			String content = request.getParameter("content") ;
 			if(content==null||content.isEmpty()){
 				throw new Error("miss arg content") ;
 			}
 
-			int res = SmsClient.getClient().sendSMS(new String[] {mobile}, content, 5) ;
-			
+			int res = SmsClient.getClient().sendSMS(mobiles,content,5) ;
+
 			if(res==0){
 				rspn.put("success",true) ;
 			} else {

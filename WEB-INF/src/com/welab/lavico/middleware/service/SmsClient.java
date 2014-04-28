@@ -23,8 +23,6 @@ public class SmsClient {
 		ResourceBundle bundle=PropertyResourceBundle.getBundle("config");
 		if(client==null){
 			try {
-				System.out.println(bundle.getString("softwareSerialNo"));
-				System.out.println(bundle.getString("key"));
 				client=new Client(bundle.getString("softwareSerialNo"),bundle.getString("key"));
 			} catch (Exception e) {
 				e.printStackTrace();
