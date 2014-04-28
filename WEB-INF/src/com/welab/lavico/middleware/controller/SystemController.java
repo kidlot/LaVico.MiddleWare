@@ -73,14 +73,7 @@ public class SystemController {
 				throw new Error("miss arg content") ;
 			}
 
-			//System.out.println(mobile+":"+content) ;
-			
-			Client client = new Client("9SDK-EMY-0999-JCSMS","000000") ;
-			System.out.println("balance:"+client.getBalance()) ;
-			
-			int res = client.sendSMS(new String[] {"13179686629"}, "测试【郎维高Lavico】", 5) ;
-			System.out.println("sendSMS return:"+res) ;
-			
+			int res = SmsClient.getClient().sendSMS(new String[] {mobile}, content, 5) ;
 			
 			if(res==0){
 				rspn.put("success",true) ;
