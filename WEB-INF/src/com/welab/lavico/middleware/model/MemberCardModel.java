@@ -40,15 +40,20 @@ public class MemberCardModel {
 	 * @param mobile
 	 * @return true表示该手机号码已经存在
 	 */
-	public boolean isMobileExists(String brand,String mobile){
+	public int getMemberIdByMobile(String brand,String mobile){
 		String sql = 
-			"SELECT COUNT(*) NUM "
+			"SELECT I.SYS_MEMBER_ID "
 				+ "	FROM PUB_MEMBER_ID I,PUB_MEMBER_PSN P,PUB_MEMBER_CARD C "
 				+ " WHERE I.SYS_MEMBER_PSN_ID=P.SYS_MEMBER_PSN_ID"
 				+ " 	AND I.SYS_MEMBER_CARD_ID=C.SYS_MEMBER_CARD_ID"
 				+ " 	AND I.BRAND_CODE=?"
 				+ " 	AND P.MOBILE_TELEPHONE_NO=?" ;
-		return jdbcTpl.queryForInt(sql,new Object[]{brand,mobile})>0 ;
+		try{
+			return jdbcTpl.queryForInt(sql,new Object[]{brand,mobile}) ;
+		}catch(Throwable e){
+			e.printStackTrace();
+			return 0 ;
+		}
 	}
 	
 	/**

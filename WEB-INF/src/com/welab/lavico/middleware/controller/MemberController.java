@@ -175,9 +175,10 @@ public class MemberController {
 				throw new Error("缺少参数 mobile") ;
 			}
 			JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
-			boolean exists = new MemberCardModel(jdbcTpl,0).isMobileExists(brand,mobile) ;
-			
-			rspn.put("exists", exists) ;
+			int memberId = new MemberCardModel(jdbcTpl,0).getMemberIdByMobile(brand,mobile) ;
+
+			rspn.put("exists", memberId!=0) ;
+			rspn.put("memberId", memberId) ;
 			
 		} catch(Throwable e) {
 			rspn.put("error", e.getMessage()) ;

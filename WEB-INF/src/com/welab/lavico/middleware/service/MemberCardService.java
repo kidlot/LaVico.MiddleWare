@@ -6,7 +6,10 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Map;
+
 import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.welab.lavico.middleware.service.SpringJdbcDaoSupport;
 import com.welab.lavico.middleware.service.DaoBrandError;
 
@@ -129,16 +132,49 @@ public class MemberCardService {
 		if(openid==null||openid.isEmpty()){
 			throw new Error("missing arg openid") ;
 		}
+		
+		Map<String,Object> orimap = jdbcTpl.queryForMap(
+    			"select SYS_MEMBER_MIC_ID,SYS_MEMBER_ID from PUB_MEMBER_ID where SYS_MEMBER_ID=? and SYS_MEMBER_MIC_ID=?"
+    			, new Object[]{ memberid, openid }
+    	) ;
 
     	if( jdbcTpl.update(
-    			"update PUB_MEMBER_ID set SYS_MEMBER_MIC_ID='' where SYS_MEMBER_ID=? and SYS_MEMBER_MIC_ID=?" ,
-    			new Object[]{ memberid, openid }
+    			"update PUB_MEMBER_ID set SYS_MEMBER_MIC_ID='' where SYS_MEMBER_ID=? and SYS_MEMBER_MIC_ID=?"
+    			, new Object[]{ memberid, openid }
     		) < 1 )
     	{
     		return false ;
     	}
     	
-    	// jdbcTpl.update("insert into pub_field_changehis ")
+    	jdbcTpl.update(
+    			"insert into pub_field_changehis ("
+	    			+ "PK_PUB_FIELD_CHANGEHIS"
+	    			+ ", table_name"
+	    			+ ", field_name"
+	    			+ ", RK_VALUE"
+	    			+ ", OLD_VALUE"
+	    			+ ", NEW_VALUE"
+	    			+ ", INPUT_USER"
+	    			+ ", INPUT_DATE"
+	    			+ ", CHANGE_MODEL"
+    			+ ") values("
+	    			+ "	SYS_DOC_ID.NEXTVAL"
+	    			+ "	,'PUB_MEMBER_ID'"
+	    			+ "	,'SYS_MEMBER_MIC_ID'"
+	    			+ "	,?"
+	    			+ "	,?"
+	    			+ "	,''"
+	    			+ "	,?"
+	    			+ "	,?"
+	    			+ "	,'1'"
+	    			+ ")"
+	    		, new Object[]{
+    				(int)orimap.get("SYS_MEMBER_ID")
+    				, (String)orimap.get("SYS_MEMBER_MIC_ID")
+    				, brand+"999"
+    				, new java.sql.Date(System.currentTimeMillis())
+	    		}
+    	) ;
     	
     	return true ;
 	}

@@ -75,6 +75,31 @@ public class SystemController {
 			}
 
 			int res = SmsClient.getClient().sendSMS(mobiles,content,5) ;
+			
+			// 记录 log
+			for(int i=0;i<mobiles.length;i++) {
+				JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
+				/*jdbcTpl.query(
+					"insert into drp_message_log ("
+						+ "SYS_MESSAGE_ID"
+						+ ", MS_TYPE"
+						+ ", MS_SOURCE_TYPE"
+						+ ", MS_RECEIVE_USER"
+						+ ", INPUT_USER"
+						+ ", INPUT_DATE"
+					+ ") values ("
+						+ "SYS_DOC_ID.NEXTVAL"
+						+ ", '03'"
+						+ ", '05'"
+						+ ", ?"
+						+ ", ?"
+						+ ", ?"
+					, new Object[]{
+						mobiles[i], brand+"999", new java.sql.Date(System.currentTimeMillis())
+					}
+				) ;*/
+				
+			}
 
 			if(res==0){
 				rspn.put("success",true) ;
