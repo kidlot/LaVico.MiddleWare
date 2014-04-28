@@ -169,7 +169,7 @@ public class MemberCardService {
 	    			+ "	,'1'"
 	    			+ ")"
 	    		, new Object[]{
-    				(int)orimap.get("SYS_MEMBER_ID")
+    				(java.math.BigDecimal)orimap.get("SYS_MEMBER_ID")
     				, (String)orimap.get("SYS_MEMBER_MIC_ID")
     				, brand+"999"
     				, new java.sql.Date(System.currentTimeMillis())
