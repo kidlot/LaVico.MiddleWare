@@ -106,7 +106,7 @@ public class SystemController {
 								+ ", ?"
 								+ ", ?"
 								+ ", ?"
-								+ ", ?"
+								+ ", SYSDATE"
 								+ ", ?"
 							+ ")"
 			    		, new Object[]{
@@ -114,7 +114,6 @@ public class SystemController {
 							, mobiles[i]
 							, mobiles[i]
 							, brand+"999"
-							, new java.sql.Date(System.currentTimeMillis())
 							, res==0? 1: 0
 			    		}
 		    	) ;
