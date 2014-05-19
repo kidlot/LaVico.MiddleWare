@@ -82,6 +82,12 @@ public class CouponService {
 			    ) ;
 		    }
 
+		    // 更新有效期
+		    jdbcTpl.update(
+		    		"update DRP_PROMOTION_COUPON set BEGIN_DATE=SYSDATE, AUDIT_DATE=SYSDATE, CREAT_DATE=SYSDATE, INPUT_DATE=SYSDATE, END_DATE=ADD_MONTHS(END_DATE,6), COUPON_STATUS='02' where COUPON_NO=?"
+		    		, new Object[]{couponno}
+		    ) ;
+			    
 		    return couponno ;
 		    		
     	} catch (SQLException e) {
