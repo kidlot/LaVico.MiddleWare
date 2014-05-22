@@ -590,6 +590,10 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 
 	积分值（正数表示增加，负数表示扣减）
 	
+* memo
+
+	积分增加的注释，描述此次更新积分的原因
+	
 
 #### 返回：
 
