@@ -66,8 +66,11 @@ public class MemberModel {
     			+ " 	, MEM_PSN_ADDRESS"
     			+ " 	, MEM_PSN_HOPPY"
     			+ " 	, MEM_PSN_COLOR"
+    			+ " 	, MEM_CARD_NO"
     			+ " FROM"
-    			+ "		PUB_MEMBER_ID left join PUB_MEMBER_PSN on (PUB_MEMBER_PSN.SYS_MEMBER_PSN_ID=PUB_MEMBER_ID.SYS_MEMBER_PSN_ID)"
+    			+ "		PUB_MEMBER_ID "
+    			+ " left join PUB_MEMBER_PSN on (PUB_MEMBER_PSN.SYS_MEMBER_PSN_ID=PUB_MEMBER_ID.SYS_MEMBER_PSN_ID)"
+    			+ " left join PUB_MEMBER_CARD on (PUB_MEMBER_CARD.SYS_MEMBER_CARD_ID=PUB_MEMBER_ID.SYS_MEMBER_CARD_ID)"
     			+ " WHERE"
     			+ "		PUB_MEMBER_ID.SYS_MEMBER_ID=?"
     			, new Object[]{memberId}

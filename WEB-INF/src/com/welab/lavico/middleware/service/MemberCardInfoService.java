@@ -25,8 +25,14 @@ public class MemberCardInfoService {
     			"select TOTAL_CUR_POT from PUB_MEMBER_ID where SYS_MEMBER_ID=?"
     			, new Object[]{memberId}
 		    ) ;
+    		
+    		if(member.get("TOTAL_CUR_POT") != null){
+    			return ((java.math.BigDecimal) member.get("TOTAL_CUR_POT")).intValue() ;
+    		}else{
+    			return 0;
+    		}
 
-    		return ((java.math.BigDecimal) member.get("TOTAL_CUR_POT")).intValue() ;
+    		
     		
     	} catch (IncorrectResultSizeDataAccessException e) {
     		return -1 ;
