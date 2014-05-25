@@ -61,6 +61,7 @@ public class MemberModel {
 		return jdbcTpl.queryForMap(
     			"SELECT MEM_PSN_EMAIL"
     			+ " 	, MEM_INDUSTRY"
+    			+ " 	, MEM_PSN_BIRTHDAY"
     			+ " 	, PROVINCE"
     			+ " 	, CITY"
     			+ " 	, MEM_PSN_ADDRESS"
