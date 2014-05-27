@@ -30,6 +30,7 @@ public class MemberSpendingListModel {
 				+ "			select"
 				+ "				DRP_RETAIL_DETAIL.SALE_AMT as amt,"
 				+ "				DRP_RETAIL_DETAIL.SALE_DATE as \"date\","
+				+ "				DRP_RETAIL_HEADER.SALE_TIME as \"time\","
 				+ "				DRP_RETAIL_DETAIL.GAIN_POINT as point,"
 				+ "				PUB_CUSTOMER_TRANSIT.CUSTOMER_NAME as shop_name,"
 				+ "				PUB_BARCODE.PRODUCT_NAME as product_name,"
