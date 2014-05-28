@@ -213,6 +213,12 @@ public class MemberCardService {
 		if(name==null||name.isEmpty()){
 			throw new Error("missing arg member name.") ;
 		}
+		if( jdbcTpl.queryForInt(
+				"SELECT COUNT(*) FROM PUB_MEMBER_ID I,PUB_MEMBER_PSN P,PUB_MEMBER_CARD C WHERE I.SYS_MEMBER_PSN_ID = P.SYS_MEMBER_PSN_ID AND I.SYS_MEMBER_CARD_ID = C.SYS_MEMBER_CARD_ID AND I.BRAND_CODE = 'L' AND P.MOBILE_TELEPHONE_NO = '?';"
+				,new Object[]{mobile})>0
+			){
+			throw new Error("此手机号已被使用，如果确认是您的手机，请点击会员绑定！") ;
+		}
 
 	    Connection conn = jdbcTpl.getDataSource().getConnection();
 
