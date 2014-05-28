@@ -1,5 +1,6 @@
 package com.welab.lavico.middleware.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -55,6 +56,29 @@ public class MemberCardModel {
 			return 0 ;
 		}
 	}
+	
+
+	/**
+	 * 返回手机号当前绑定的微信ID
+	 * 
+	 * @param mobile
+	 * @return true表示该手机号码已经存在
+	 */
+	public boolean getMobileBindOpenid(String brand,String mobile){
+		String sql = 
+			"SELECT I.SYS_MEMBER_MIC_ID "
+				+ "	FROM PUB_MEMBER_ID I,PUB_MEMBER_PSN P"
+				+ " WHERE I.SYS_MEMBER_PSN_ID=P.SYS_MEMBER_PSN_ID"
+				+ " 	AND I.BRAND_CODE=?"
+				+ " 	AND P.MOBILE_TELEPHONE_NO=?" ;
+		try{
+			HashMap openid = (HashMap) jdbcTpl.queryForMap(sql,new Object[]{brand,mobile}) ;
+			return openid.get("SYS_MEMBER_MIC_ID")==null ? false : true ;
+		}catch(EmptyResultDataAccessException e){
+			return false ;
+		}
+	}
+	
 	
 	/**
 	 * 检查电话是否验证过
