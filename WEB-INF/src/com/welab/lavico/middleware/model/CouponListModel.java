@@ -28,11 +28,11 @@ public class CouponListModel {
 	}
 
 	public List<Map<String,Object>> queryCouponList(int memberId,String status,int pageNum,int perPage){
-		return queryCouponList("PUB_MEMBER_COUPON.SYS_MEMBER_ID",memberId,status,1,20) ;
+		return queryCouponList("PUB_MEMBER_COUPON.SYS_MEMBER_ID",memberId,status,pageNum,perPage) ;
 	}
 
 	public List<Map<String,Object>> queryCouponList(String promotionCode,String status,int pageNum,int perPage){
-		return queryCouponList("DRP_PROMOTION_THEME.PROMOTION_CODE",promotionCode,status,pageNum,20) ;
+		return queryCouponList("DRP_PROMOTION_THEME.PROMOTION_CODE",promotionCode,status,pageNum,perPage) ;
 	}
 	
 	private List<Map<String,Object>> queryCouponList(String column,Object value,String status,int pageNum,int perPage){
