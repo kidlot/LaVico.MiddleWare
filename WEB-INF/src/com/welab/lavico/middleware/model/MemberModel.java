@@ -49,7 +49,7 @@ public class MemberModel {
     			+ " 	, WAREHOUSE_CODE"
     			+ " 	, BRAND_CODE"
     			+ " 	, APP_TYPE"
-    			+ " 	, MEM_INDUSTRY"
+    			+ " 	, MEM_PSN_PROFESSION"
     			+ " 	, PROVINCE"
     			+ " 	, CITY"
     			+ " 	, MEM_PSN_ADDRESS"
