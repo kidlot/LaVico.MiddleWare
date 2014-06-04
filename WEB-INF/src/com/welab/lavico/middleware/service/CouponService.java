@@ -43,7 +43,7 @@ public class CouponService {
 		    statement.setString(4, brand+"999");
 		    
 		    
-		    if(qty<0){
+		    if(qty<=0){
 		    	statement.setString(5, null);
 		    }
 		    else{
