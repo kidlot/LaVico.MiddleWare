@@ -42,6 +42,7 @@ public class MemberModel {
 		System.out.println(memberId+">"+psnId) ;
     	int aff = jdbcTpl.update(
     			"insert into PUB_MEMBER_APPLY (MEM_PSN_EMAIL"
+    			+ " 	, INPUT_DATE"
     			+ " 	, MEM_APP_DATE"
     			+ " 	, PROCESS_STEP"
     			+ " 	, SOURCE_TYPE"
@@ -56,7 +57,7 @@ public class MemberModel {
     			+ " 	, MEM_PSN_COLOR"
     			+ "		, SYS_MEMBER_PSN_ID"
     			+ "		, SYS_MEMBER_APPLY_ID"
-    			+ ") values (?,SYSDATE,0,'03','L999','L',1,?,?,?,?,?,?,?,SYS_DOC_ID.NEXTVAL) "
+    			+ ") values (?,SYSDATE,SYSDATE,0,'03','L999','L',1,?,?,?,?,?,?,?,SYS_DOC_ID.NEXTVAL) "
     			, new Object[]{ email,industry,province,city,addr,hoppy,color,psnId}
     		) ;
     	System.out.println(aff);
