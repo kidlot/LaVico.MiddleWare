@@ -103,7 +103,7 @@ public class CouponController {
 		float qty ;
 		int point ;
 		
-		if(sQty==null||sQty.isEmpty()){
+		if(sQty==null||sQty.isEmpty()||sQty=="0"){
 			sQty = "-1" ;
 		}
 		if(sPoint==null||sPoint.isEmpty()){
