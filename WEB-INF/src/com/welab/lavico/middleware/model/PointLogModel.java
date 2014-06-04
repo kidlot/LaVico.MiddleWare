@@ -21,10 +21,15 @@ public class PointLogModel {
 	}
 
 	public List<Map<String,Object>> queryPage(int pageNum){
-		return queryPage(pageNum,20) ;
+		return queryPage(pageNum,20,null) ;
 	}
 
-	public List<Map<String,Object>> queryPage(int pageNum,int perPage){
+	public List<Map<String,Object>> queryPage(int pageNum,int perPage,String month){
+		
+		String codeWhere = "";
+		if(month != null){
+			codeWhere = " AND to_char(POT_DATE,'yyyymm')='"+month+"'";
+		}
 		
 		String sql = " select *"
 			+ "	from (select *"
@@ -32,8 +37,9 @@ public class PointLogModel {
 			+ "				from PUB_MEMBER_POINT"
 			+ "				where SYS_MEMBER_ID=?"
 			+ "				order by SYS_MEMBER_POT_ID desc) p"
-			+ "         where p.\"row_number\">?)"
+			+ "         where p.\"row_number\">?"+codeWhere+")"
 			+ " where rownum<=?" ;
+		
     	List<Map<String,Object>> rows = jdbcTpl.queryForList( sql
     				, new Object[]{ memberId, (pageNum-1)*perPage, perPage }
     			) ;

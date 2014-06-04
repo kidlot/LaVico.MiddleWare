@@ -101,7 +101,7 @@ public class PointController {
 
 		PointLogModel logModel = new PointLogModel(jdbcTpl,memberId) ;
 
-		rspn.put("log", logModel.queryPage((int)rspn.get("pageNum"),(int)rspn.get("perPage"))) ;
+		rspn.put("log", logModel.queryPage((int)rspn.get("pageNum"),(int)rspn.get("perPage"),request.getParameter("month"))) ;
 		rspn.put("total", logModel.totalLength() ) ;
 		
 		return rspn ;
