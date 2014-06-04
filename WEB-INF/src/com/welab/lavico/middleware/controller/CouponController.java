@@ -102,8 +102,8 @@ public class CouponController {
 		String sPoint = request.getParameter("point") ;
 		float qty ;
 		int point ;
-		
-		if(sQty==null||sQty.isEmpty()||sQty=="0"){
+
+		if(sQty==null||sQty.isEmpty()||sQty.equals("0")){
 			sQty = "-1" ;
 		}
 		if(sPoint==null||sPoint.isEmpty()){
