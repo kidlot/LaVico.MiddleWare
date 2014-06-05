@@ -57,12 +57,13 @@ public class PromotionListModel {
     		) ;
     		try{
 	    		Map<String,Object>rcd = jdbcTpl.queryForMap(
-	    				"select COUPON_TYPE as type, COUPON_CLASS as cls, COUPON_QTY as qty from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id"
-	    				+ "	where p.promotion_code=? and rownum<=1"
+	    				"select BASE_CODE_NAME , COUPON_TYPE as type, COUPON_CLASS as cls, COUPON_QTY as qty from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id left join PUB_BASE_CODE pbc on c.COUPON_TYPE = pbc.BASE_CODE_ID"
+	    				+ "	where pbc.BASE_CODE_TYPE='326' and p.promotion_code=? and rownum<=1"
 	    				, new Object[] { (String)promo.get("PROMOTION_CODE") }
 	    		) ;
-				promo.put("TYPE",rcd.get("TYPE")) ;
+				promo.put("TYPE",rcd.get("BASE_CODE_NAME")) ;
 				promo.put("CLS",rcd.get("CLASS")) ;
+				promo.put("TYPE_CODE",rcd.get("TYPE")) ;
 				promo.put("QTY",rcd.get("QTY")) ;
     		}catch(org.springframework.dao.EmptyResultDataAccessException e){
     			promo.put("TYPE",null) ;
