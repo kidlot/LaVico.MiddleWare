@@ -75,6 +75,8 @@ public class MemberModel {
     			+ " 	, MEM_PSN_HOPPY"
     			+ " 	, MEM_PSN_COLOR"
     			+ " 	, MEM_CARD_NO"
+    			+ " 	, MEM_PSN_CNAME"
+    			+ " 	, MEM_PSN_ENAME"
     			+ " FROM"
     			+ "		PUB_MEMBER_ID "
     			+ " left join PUB_MEMBER_PSN on (PUB_MEMBER_PSN.SYS_MEMBER_PSN_ID=PUB_MEMBER_ID.SYS_MEMBER_PSN_ID)"
