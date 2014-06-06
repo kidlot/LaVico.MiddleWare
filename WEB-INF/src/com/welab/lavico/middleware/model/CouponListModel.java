@@ -54,6 +54,7 @@ public class CouponListModel {
 				+ ", DRP_PROMOTION_THEME.PROMOTION_CODE"
 				+ ", DRP_PROMOTION_COUPON.COUPON_NO"
 				+ ", DRP_PROMOTION_COUPON.MEMO"
+				+ ", DRP_PROMOTION_COUPON.USED_DATE"
 				+ ", PUB_MEMBER_COUPON.SYS_MEMBER_ID"
 				+ ", row_number() OVER(ORDER BY null) AS \"row_number\""
 			+ " FROM PUB_MEMBER_COUPON "
