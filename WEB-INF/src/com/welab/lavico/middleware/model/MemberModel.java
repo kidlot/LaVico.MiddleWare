@@ -46,7 +46,7 @@ public class MemberModel {
 		System.out.println(memberId+">"+psnId) ;
 		
 
-		String seqid = (new DocumentNoService()).getDocumentNo(303050,null,brand+"999",jdbcTpl,brand+"999") ;
+		String seqid = (new DocumentNoService()).getDocumentNo(303048,null,brand+"999",jdbcTpl,brand+"999") ;
 		
 		
     	int aff = jdbcTpl.update(

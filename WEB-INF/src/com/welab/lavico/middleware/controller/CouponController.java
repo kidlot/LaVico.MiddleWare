@@ -148,6 +148,7 @@ public class CouponController {
 	 * 
 	 * HTTP Get Query Variables:
 	 * @param memberId 					会员MEMBER_ID
+	 * @param coupon_no 				coupon_no
 	 * 
 	 * @return {success:true/false,error:"error message",coupon_id:"xxxxx"}
 	 */
@@ -161,11 +162,14 @@ public class CouponController {
 		if(status==null||status.isEmpty()){
 			status = "02" ;
 		}
-		
+
+		String coupon_no = request.getParameter("coupon_no") ;
 		String sMemberId = request.getParameter("memberId") ;
 		String promotionCode = request.getParameter("promotionCode") ;
-		if( (promotionCode==null||promotionCode.isEmpty()) && (sMemberId==null||sMemberId.isEmpty()) ){
-			rspn.put("error","缺少参数 memberId 或 promotionCode.") ;
+		
+
+		if( (coupon_no==null||coupon_no.isEmpty()) && (promotionCode==null||promotionCode.isEmpty()) && (sMemberId==null||sMemberId.isEmpty()) ){
+			rspn.put("error","缺少参数 memberId 或 promotionCode 或 coupon_no") ;
 			return rspn ;
 		}
 		
@@ -183,6 +187,8 @@ public class CouponController {
 			return rspn ;
 		}
 		
+
+		
 		JdbcTemplate jdbcTpl = null ;
 		try{
 			Paginator.paginate(request,rspn) ;
@@ -194,17 +200,14 @@ public class CouponController {
 		
 		CouponListModel listModel = new CouponListModel(jdbcTpl) ;
 		
-		List<Map<String,Object>> list = 
-		promotionCode.isEmpty() ?
-				listModel.queryCouponList(iMemberId,status,(int)rspn.get("pageNum"),(int)rspn.get("perPage")) :
-				listModel.queryCouponList(promotionCode,status,(int)rspn.get("pageNum"),(int)rspn.get("perPage")) ;
+		List<Map<String,Object>> list = null;
+		list = listModel.queryCouponList(coupon_no,iMemberId,promotionCode,status,(int)rspn.get("pageNum"),(int)rspn.get("perPage")) ;
+		
 
 		rspn.put("list",list) ;
 		rspn.put(
 				"total"
-				, promotionCode.isEmpty() ?
-						listModel.totalLength(iMemberId,status):
-						listModel.totalLength(promotionCode,status)
+				, listModel.totalLength(coupon_no,iMemberId,promotionCode,status)
 		) ;
 		
 		return rspn ;
