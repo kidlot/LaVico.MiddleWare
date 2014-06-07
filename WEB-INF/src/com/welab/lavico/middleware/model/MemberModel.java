@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.welab.lavico.middleware.service.DocumentNoService;
+
 public class MemberModel {
 
 	public MemberModel(JdbcTemplate jdbcTpl,int memberId) {
@@ -25,21 +27,28 @@ public class MemberModel {
 	 * 
 	 * 
 	 * @return
+	 * @throws Exception 
 	 */
 	public int save(
-			String email
+			String brand
+			, String email
 			, String industry
 			, String province
 			, String city
 			, String addr
 			, String hoppy
-			, String color){
+			, String color) throws Exception{
 		
 		int psnId = jdbcTpl.queryForInt(
 				"select SYS_MEMBER_PSN_ID from PUB_MEMBER_ID where SYS_MEMBER_ID=?"
 				, new Object[]{ memberId }) ;
 	
 		System.out.println(memberId+">"+psnId) ;
+		
+
+		String seqid = (new DocumentNoService()).getDocumentNo(303048,null,brand+"999",jdbcTpl,brand+"999") ;
+		
+		
     	int aff = jdbcTpl.update(
     			"insert into PUB_MEMBER_APPLY (MEM_PSN_EMAIL"
     			+ " 	, INPUT_DATE"
@@ -58,8 +67,12 @@ public class MemberModel {
     			+ "		, SYS_MEMBER_PSN_ID"
     			+ "		, SYS_MEMBER_APPLY_ID"
     			+ "		, SYS_MEMBER_ID"
-    			+ ") values (?,SYSDATE,SYSDATE,0,'03','L999','L',1,?,?,?,?,?,?,?,SYS_DOC_ID.NEXTVAL,?) "
-    			, new Object[]{ email,industry,province,city,addr,hoppy,color,psnId,memberId}
+    			+ "		, INPUT_USER"
+    			+ "		, MEM_APP_NO"
+    			+ "		, LAST_UPDATE_DATE"
+    			+ "		, LAST_UPDATE_USER"
+    			+ ") values (?,SYSDATE,SYSDATE,0,'03','L999','L',1,?,?,?,?,?,?,?,SYS_DOC_ID.NEXTVAL,?,'L999',?,SYSDATE,'L999') "
+    			, new Object[]{ email,industry,province,city,addr,hoppy,color,psnId,memberId,seqid}
     		) ;
     	System.out.println(aff);
     	return aff ;

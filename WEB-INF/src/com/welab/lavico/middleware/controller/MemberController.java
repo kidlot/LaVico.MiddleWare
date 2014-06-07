@@ -417,7 +417,7 @@ public class MemberController {
 			if( color==null || color.isEmpty() ) 
 				throw new Error("缺少参数color") ;
 
-			int aff = new MemberModel(jdbcTpl,memberId).save(email,industry,province,city,addr,hoppy,color) ;
+			int aff = new MemberModel(jdbcTpl,memberId).save(brand,email,industry,province,city,addr,hoppy,color) ;
 			System.out.println(aff);
 			
 			if(aff<1)
