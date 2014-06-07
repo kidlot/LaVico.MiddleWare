@@ -57,8 +57,9 @@ public class MemberModel {
     			+ " 	, MEM_PSN_COLOR"
     			+ "		, SYS_MEMBER_PSN_ID"
     			+ "		, SYS_MEMBER_APPLY_ID"
-    			+ ") values (?,SYSDATE,SYSDATE,0,'03','L999','L',1,?,?,?,?,?,?,?,SYS_DOC_ID.NEXTVAL) "
-    			, new Object[]{ email,industry,province,city,addr,hoppy,color,psnId}
+    			+ "		, SYS_MEMBER_ID"
+    			+ ") values (?,SYSDATE,SYSDATE,0,'03','L999','L',1,?,?,?,?,?,?,?,SYS_DOC_ID.NEXTVAL,?) "
+    			, new Object[]{ email,industry,province,city,addr,hoppy,color,psnId,memberId}
     		) ;
     	System.out.println(aff);
     	return aff ;
