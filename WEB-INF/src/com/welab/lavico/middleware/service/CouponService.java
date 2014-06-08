@@ -77,7 +77,7 @@ public class CouponService {
 		    // 更新 memo 
 		    if(memo!=null){
 			    jdbcTpl.update(
-			    		"update DRP_PROMOTION_COUPON set MEMO=? where COUPON_NO=?"
+			    		"update DRP_PROMOTION_COUPON set MEMO=concat(MEMO,?) where COUPON_NO=?"
 			    		, new Object[]{memo,couponno}
 			    ) ;
 		    }

@@ -127,6 +127,7 @@ public class CouponController {
 		}
 		
 		try{
+
 			String couponNo = new CouponService().GetCoupon(brand, openid, promCode, otherPromId, qty, point, request.getParameter("memo")) ;
 			rspn.put("success",true) ;
 			rspn.put("coupon_no",couponNo) ;
