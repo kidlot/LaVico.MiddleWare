@@ -37,7 +37,7 @@ public class PromotionListModel {
 				+ "	from (select *"
 				+ "  	from (select PROMOTION_CODE, PROMOTION_NAME, PROMOTION_DESC, row_number() OVER(ORDER BY null) AS \"row_number\""
 				+ "			from DRP_PROMOTION_THEME"
-				+ "			where (PROMOTION_CLASS = '02' OR PROMOTION_CLASS = '03') AND PROCESS_STEP = 3 AND ACTIVE = '1'"+codeWhere+") p"
+				+ "			where (PROMOTION_CLASS = '02' OR PROMOTION_CLASS = '03') AND PROCESS_STEP = 3 AND BRAND_CODE='L' AND ACTIVE = '1'"+codeWhere+") p"
 				+ "     where p.\"row_number\">?)"
 				+ " where rownum<=?" ;
     	List<Map<String,Object>> promotions = jdbcTpl.queryForList( sql, args ) ;
