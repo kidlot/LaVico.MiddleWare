@@ -15,7 +15,7 @@ public class PointLogModel {
 
 	public int totalLength(){
 		return jdbcTpl.queryForInt(
-    			"select count(*) from PUB_MEMBER_POINT where SYS_MEMBER_ID=?"
+    			"select count(*) from PUB_MEMBER_POINT where SYS_MEMBER_ID=? AND POT_QTY is not null"
     			, new Object[]{memberId}
     	) ;
 	}
@@ -35,7 +35,7 @@ public class PointLogModel {
 			+ "	from (select *"
 			+ "  	from (select IO_FLAG, POT_DATE, MEMO, POT_QTY, SOURCE_TYPE, row_number() OVER(ORDER BY null) AS \"row_number\""
 			+ "				from PUB_MEMBER_POINT"
-			+ "				where SYS_MEMBER_ID=?"
+			+ "				where SYS_MEMBER_ID=? AND POT_QTY is not null"
 			+ "				order by SYS_MEMBER_POT_ID desc) p"
 			+ "         where p.\"row_number\">?"+codeWhere+")"
 			+ " where rownum<=?" ;
