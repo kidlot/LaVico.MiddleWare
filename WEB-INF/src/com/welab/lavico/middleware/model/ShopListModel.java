@@ -40,13 +40,14 @@ public class ShopListModel {
 	public List<Map<String,Object>> queryPage(int pageNum,int perPage,String city){
 
 		String whereCity ;
+		whereCity = "where regexp_like(CUSTOMER_CODE,'^.L')" ;
 		Object[] args ;
 		if(city!=null){
-			whereCity = "where CUSTOMER_CITY=? or CUSTOMER_CITY=?" ;
+			whereCity += " and CUSTOMER_CITY=? or CUSTOMER_CITY=?" ;
 			args = new Object[]{ city, city+"市", (pageNum-1)*perPage, perPage } ;
 		}
 		else{
-			whereCity = "" ;
+			whereCity += "" ;
 			args = new Object[]{ (pageNum-1)*perPage, perPage } ;
 		}
 
@@ -70,6 +71,8 @@ public class ShopListModel {
 				+ "		) p"
 				+ "     where p.\"row_number\">?)"
 				+ " where rownum<=?" ;
+		
+		System.out.println(sql) ;
 		List<Map<String,Object>> list = jdbcTpl.queryForList( sql, args ) ;
 		
 		Iterator<Map<String,Object>> iter = list.iterator() ;
