@@ -13,7 +13,7 @@ public class PromotionListModel {
 	}
 
 	public int totalLength(){
-		return jdbcTpl.queryForInt( "select count(*) from DRP_PROMOTION_THEME where PROMOTION_CLASS='02' AND ACTIVE = '1'" ) ;
+		return jdbcTpl.queryForInt( "select count(*) from DRP_PROMOTION_THEME where (PROMOTION_CLASS = '02' OR PROMOTION_CLASS = '03') AND PROCESS_STEP = 3 AND BRAND_CODE='L' AND ACTIVE = '1'" ) ;
 	}
 	
 	public List<Map<String,Object>> queryPage(int pageNum,String code){
@@ -31,6 +31,7 @@ public class PromotionListModel {
 			codeWhere = "" ;
 			args = new Object[]{ (pageNum-1)*perPage, perPage } ;
 		}
+		
 
 		// 查询有效的活动
 		String sql = " select *"
