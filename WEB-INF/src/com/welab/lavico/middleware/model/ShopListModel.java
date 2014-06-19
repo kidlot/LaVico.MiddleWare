@@ -40,7 +40,7 @@ public class ShopListModel {
 	public List<Map<String,Object>> queryPage(int pageNum,int perPage,String city){
 
 		String whereCity ;
-		whereCity = "where regexp_like(CUSTOMER_CODE,'^.L')" ;
+		whereCity = "where regexp_like(CUSTOMER_CODE,'^.L') and ACTIVE=1" ;
 		Object[] args ;
 		if(city!=null){
 			whereCity += " and CUSTOMER_CITY=? or CUSTOMER_CITY=?" ;
