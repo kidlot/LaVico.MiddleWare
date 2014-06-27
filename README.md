@@ -79,7 +79,7 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
   
   * MEM_PSN_BIRTHDAY
 
-      生日 yyyy-mm-dd格式
+      生日 yyyy-mm-dd格式(可选，非必填写)
 
   * MOBILE_TELEPHONE_NO
  
@@ -87,7 +87,7 @@ http://127.0.0.1:8080/lavico.middleware/L/Member/Apply?openid=1232&MOBILE_TELEPH
 
   * MEM_PSN_SEX
 
-      性别，0=女, 1=男
+      性别，0=女, 1=男（可选，非比填写）
 
   * MEM_PSN_CNAME
 
@@ -521,12 +521,12 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 #### 参数：
 * sex:
 
-     性别（male:1/female:0）
+     性别，0=女, 1=男     
  
 * birthday:
 
-      生日（1970-01-01）
-      
+     生日 yyyy-mm-dd格式
+     
 * email
 
 	
