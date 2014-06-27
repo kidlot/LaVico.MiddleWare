@@ -397,6 +397,8 @@ public class MemberController {
 		String addr = request.getParameter("addr") ;
 		String hoppy = request.getParameter("hoppy") ;
 		String color = request.getParameter("color") ;
+		String sex = request.getParameter("sex") ;
+		String birthday = request.getParameter("birthday") ;
 		
 		try{
 			JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
@@ -417,7 +419,7 @@ public class MemberController {
 			if( color==null || color.isEmpty() ) 
 				throw new Error("缺少参数color") ;
 
-			int aff = new MemberModel(jdbcTpl,memberId).save(brand,email,industry,province,city,addr,hoppy,color) ;
+			int aff = new MemberModel(jdbcTpl,memberId).save(brand,email,industry,province,city,addr,hoppy,color,sex,birthday) ;
 			System.out.println(aff);
 			
 			if(aff<1)

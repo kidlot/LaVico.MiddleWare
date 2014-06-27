@@ -37,7 +37,9 @@ public class MemberModel {
 			, String city
 			, String addr
 			, String hoppy
-			, String color) throws Exception{
+			, String color
+			, String sex
+			, String birthday) throws Exception{
 		
 		int psnId = jdbcTpl.queryForInt(
 				"select SYS_MEMBER_PSN_ID from PUB_MEMBER_ID where SYS_MEMBER_ID=?"
@@ -71,8 +73,10 @@ public class MemberModel {
     			+ "		, MEM_APP_NO"
     			+ "		, LAST_UPDATE_DATE"
     			+ "		, LAST_UPDATE_USER"
+    			+ "		, MEM_PSN_SEX"
+    			+ "		, MEM_PSN_BIRTHDAY"
     			+ ") values (?,SYSDATE,SYSDATE,0,'03','L999','L',1,?,?,?,?,?,?,?,SYS_DOC_ID.NEXTVAL,?,'L999',?,SYSDATE,'L999') "
-    			, new Object[]{ email,industry,province,city,addr,hoppy,color,psnId,memberId,seqid}
+    			, new Object[]{ email,industry,province,city,addr,hoppy,color,psnId,memberId,seqid,sex,birthday}
     		) ;
     	System.out.println(aff);
     	return aff ;
