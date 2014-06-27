@@ -519,7 +519,12 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 ### 保存会员资料到CRM {brand}/Member/SaveInfo/{memberId}
 
 #### 参数：
-
+* sex:
+   性别（1/0）
+ 
+* birthday:
+      生日（1970-01-02）
+      
 * email
 
 	
