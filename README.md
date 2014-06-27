@@ -520,10 +520,12 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 
 #### 参数：
 * sex:
-   性别（1/0）
+
+     性别（male:1/female:0）
  
 * birthday:
-      生日（1970-01-02）
+
+      生日（1970-01-01）
       
 * email
 
