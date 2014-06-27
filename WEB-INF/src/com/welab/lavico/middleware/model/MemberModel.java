@@ -75,10 +75,9 @@ public class MemberModel {
     			+ "		, LAST_UPDATE_USER"
     			+ "		, MEM_PSN_SEX"
     			+ "		, MEM_PSN_BIRTHDAY"
-    			+ ") values (?,SYSDATE,SYSDATE,0,'03','L999','L',1,?,?,?,?,?,?,?,SYS_DOC_ID.NEXTVAL,?,'L999',?,SYSDATE,'L999',?,?) "
-    			, new Object[]{ email,industry,province,city,addr,hoppy,color,psnId,memberId,seqid,sex.toString(),birthday}
+    			+ ") values (?,SYSDATE,SYSDATE,0,'03','L999','L',1,?,?,?,?,?,?,?,SYS_DOC_ID.NEXTVAL,?,'L999',?,SYSDATE,'L999',?,to_date('"+birthday+"','yyyy-mm-dd')) "
+    			, new Object[]{ email,industry,province,city,addr,hoppy,color,psnId,memberId,seqid,sex}
     		) ;
-    	System.out.println(aff);
     	return aff ;
 	}
 	
