@@ -68,6 +68,14 @@ public class CouponListModel {
 		if(status==null){
 			status = "02" ;
 		}
+		
+		if(status.equals("02")){
+			where += " (DRP_PROMOTION_COUPON.COUPON_STATUS='02' or DRP_PROMOTION_COUPON.COUPON_STATUS='01') and";
+		}else{
+			where += " DRP_PROMOTION_COUPON.COUPON_STATUS='03' and";
+		}
+		
+		// DRP_PROMOTION_COUPON.COUPON_STATUS= and 
 
 		String sql = "SELECT"
 				+ " DRP_PROMOTION_COUPON.BEGIN_DATE"
@@ -90,7 +98,7 @@ public class CouponListModel {
 				+ " left join DRP_PROMOTION_COUPON on (PUB_MEMBER_COUPON.SYS_PCOUPON_ID=DRP_PROMOTION_COUPON.SYS_PCOUPON_ID)"
 				+ " left join DRP_PROMOTION_THEME on (DRP_PROMOTION_COUPON.SYS_PTHEME_ID=DRP_PROMOTION_THEME.SYS_PTHEME_ID)"
 				+ " left join PUB_BASE_CODE on (DRP_PROMOTION_COUPON.COUPON_TYPE=PUB_BASE_CODE.BASE_CODE_ID)"
-			+ " WHERE "+where+" DRP_PROMOTION_COUPON.COUPON_STATUS=? and PUB_BASE_CODE.BASE_CODE_TYPE='326'"
+			+ " WHERE "+where+" PUB_BASE_CODE.BASE_CODE_TYPE='326'"
 			+ " ORDER by DRP_PROMOTION_COUPON.CREAT_DATE desc" ;
 		
 		sql = " select *"
@@ -100,7 +108,7 @@ public class CouponListModel {
 				+ " where rownum<=?" ;
 
 		System.out.println(sql);
-		return jdbcTpl.queryForList( sql,new Object[]{ status, (pageNum-1)*perPage, perPage } ) ;
+		return jdbcTpl.queryForList( sql,new Object[]{ (pageNum-1)*perPage, perPage } ) ;
 	}
 
 	private JdbcTemplate jdbcTpl ;
