@@ -31,12 +31,19 @@ public class CouponListModel {
 		if(promotionCode != null && !promotionCode.isEmpty()){
 			where += " DRP_PROMOTION_THEME.PROMOTION_CODE = '" + promotionCode + "' and";
 		}
+		
+		if(status.equals("02")){
+			where += " (DRP_PROMOTION_COUPON.COUPON_STATUS='02' or DRP_PROMOTION_COUPON.COUPON_STATUS='01') ";
+		}else{
+			where += " DRP_PROMOTION_COUPON.COUPON_STATUS='"+status+"' ";
+		
+		}
 		String sql = "SELECT count(*)"
 			+ " FROM PUB_MEMBER_COUPON "
 				+ " left join DRP_PROMOTION_COUPON on (PUB_MEMBER_COUPON.SYS_PCOUPON_ID=DRP_PROMOTION_COUPON.SYS_PCOUPON_ID)"
 				+ " left join DRP_PROMOTION_THEME on (DRP_PROMOTION_COUPON.SYS_PTHEME_ID=DRP_PROMOTION_THEME.SYS_PTHEME_ID)"
-				+ " WHERE "+where+" DRP_PROMOTION_COUPON.COUPON_STATUS=?" ;
-		return jdbcTpl.queryForInt(sql,new Object[]{status} ) ;
+				+ " WHERE "+where ;
+		return jdbcTpl.queryForInt(sql,new Object[]{} ) ;
 	}
 
 	/*
@@ -72,7 +79,7 @@ public class CouponListModel {
 		if(status.equals("02")){
 			where += " (DRP_PROMOTION_COUPON.COUPON_STATUS='02' or DRP_PROMOTION_COUPON.COUPON_STATUS='01') and";
 		}else{
-			where += " DRP_PROMOTION_COUPON.COUPON_STATUS='03' and";
+			where += " DRP_PROMOTION_COUPON.COUPON_STATUS='"+status+"' and";
 		}
 		
 		// DRP_PROMOTION_COUPON.COUPON_STATUS= and 
