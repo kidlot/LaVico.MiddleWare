@@ -106,7 +106,7 @@ public class CouponListModel {
 				+ " left join DRP_PROMOTION_THEME on (DRP_PROMOTION_COUPON.SYS_PTHEME_ID=DRP_PROMOTION_THEME.SYS_PTHEME_ID)"
 				+ " left join PUB_BASE_CODE on (DRP_PROMOTION_COUPON.COUPON_TYPE=PUB_BASE_CODE.BASE_CODE_ID)"
 			+ " WHERE "+where+" PUB_BASE_CODE.BASE_CODE_TYPE='326'"
-			+ " ORDER by DRP_PROMOTION_COUPON.CREAT_DATE desc" ;
+			+ " ORDER by DRP_PROMOTION_COUPON.BIND_DATE desc" ;
 		
 		sql = " select *"
 				+ "	from (select *"
