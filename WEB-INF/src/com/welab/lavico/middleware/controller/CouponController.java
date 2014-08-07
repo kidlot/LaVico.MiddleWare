@@ -100,6 +100,7 @@ public class CouponController {
 		String promCode = request.getParameter("PROMOTION_CODE") ;
 		String sQty = request.getParameter("qty") ;
 		String sPoint = request.getParameter("point") ;
+		String sParm = request.getParameter("parm") ;
 		float qty ;
 		int point ;
 
@@ -108,6 +109,9 @@ public class CouponController {
 		}
 		if(sPoint==null||sPoint.isEmpty()){
 			sPoint = "0" ;
+		}
+		if(sParm==null||sParm.isEmpty()){
+			sParm = "01" ;
 		}
 		
 		try{
@@ -128,7 +132,7 @@ public class CouponController {
 		
 		try{
 
-			String couponNo = new CouponService().GetCoupon(brand, openid, promCode, otherPromId, qty, point, request.getParameter("memo")) ;
+			String couponNo = new CouponService().GetCoupon(brand, openid, promCode, otherPromId, qty, point, request.getParameter("memo"), sParm) ;
 			rspn.put("success",true) ;
 			rspn.put("coupon_no",couponNo) ;
 		} catch(Error e) {

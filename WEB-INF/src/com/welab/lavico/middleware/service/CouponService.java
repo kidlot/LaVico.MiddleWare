@@ -29,6 +29,7 @@ public class CouponService {
 			,float qty
 			,int point
 			,String memo
+			,String parm
 			) throws Error {
 
     	JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
@@ -61,10 +62,11 @@ public class CouponService {
 
 		    statement.setString(8, "1");
 		    statement.setString(9, qty<0?"1":"0");
+		    statement.setString(10, parm);
 
-		    statement.registerOutParameter(10, Types.VARCHAR);
 		    statement.registerOutParameter(11, Types.VARCHAR);
 		    statement.registerOutParameter(12, Types.VARCHAR);
+		    statement.registerOutParameter(13, Types.VARCHAR);
 
 		    statement.execute() ;
 
