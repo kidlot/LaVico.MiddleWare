@@ -37,7 +37,7 @@ public class CouponService {
     	try {
 		    Connection conn = jdbcTpl.getDataSource().getConnection();
 
-		    CallableStatement statement = conn.prepareCall("{call PRO_MEMBER_GET_COUPON(?,?,?,?,?,?,?,?,?,?,?,?)}");
+		    CallableStatement statement = conn.prepareCall("{call PRO_MEMBER_GET_COUPON(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
 		    statement.setString(1, openid);
 		    statement.setString(2, otherPromId);
 		    statement.setString(3, promotionCode);
