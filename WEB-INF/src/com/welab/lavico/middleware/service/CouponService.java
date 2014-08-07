@@ -70,11 +70,11 @@ public class CouponService {
 
 		    statement.execute() ;
 
-		    if( statement.getString(10).equals("N") ){
-		    	throw new Error(statement.getString(11)) ;
+		    if( statement.getString(11).equals("N") ){
+		    	throw new Error(statement.getString(12)) ;
 		    }
 		    
-		    String couponno = statement.getString(12) ;
+		    String couponno = statement.getString(13) ;
 		    
 		    // 更新 memo 
 		    if(memo!=null){
