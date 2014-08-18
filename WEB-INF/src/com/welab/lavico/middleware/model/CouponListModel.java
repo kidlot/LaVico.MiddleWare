@@ -55,7 +55,7 @@ public class CouponListModel {
 		return queryCouponList("DRP_PROMOTION_THEME.PROMOTION_CODE",promotionCode,status,pageNum,perPage) ;
 	}
 	*/
-	public List<Map<String,Object>> queryCouponList(String coupon_no,int memberId,String promotionCode,String status,int pageNum,int perPage){
+	public List<Map<String,Object>> queryCouponList(String coupon_no,int memberId String sOpenid,String promotionCode,String status,int pageNum,int perPage){
 		
 		String where = "";
 		if(coupon_no != null && !coupon_no.isEmpty()){
@@ -66,6 +66,9 @@ public class CouponListModel {
 		}
 		if(promotionCode != null && !promotionCode.isEmpty()){
 			where += " DRP_PROMOTION_THEME.PROMOTION_CODE = '" + promotionCode + "' and";
+		}
+		if(sOpenid != null && !sOpenid.isEmpty()){
+			where += " DRP_PROMOTION_COUPON.OPENID = '" + sOpenid + "' and";
 		}
 		return queryCouponList(where,status,pageNum,perPage) ;
 	}

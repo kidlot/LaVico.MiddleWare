@@ -170,10 +170,11 @@ public class CouponController {
 
 		String coupon_no = request.getParameter("coupon_no") ;
 		String sMemberId = request.getParameter("memberId") ;
+		String sOpenid = request.getParameter("openid") ;
 		String promotionCode = request.getParameter("promotionCode") ;
 		
 
-		if( (coupon_no==null||coupon_no.isEmpty()) && (promotionCode==null||promotionCode.isEmpty()) && (sMemberId==null||sMemberId.isEmpty()) ){
+		if( (coupon_no==null||coupon_no.isEmpty()) && (promotionCode==null||promotionCode.isEmpty()) && (sOpenid==null||sOpenid.isEmpty()) && (sMemberId==null||sMemberId.isEmpty()) ){
 			rspn.put("error","缺少参数 memberId 或 promotionCode 或 coupon_no") ;
 			return rspn ;
 		}
@@ -206,7 +207,7 @@ public class CouponController {
 		CouponListModel listModel = new CouponListModel(jdbcTpl) ;
 		
 		List<Map<String,Object>> list = null;
-		list = listModel.queryCouponList(coupon_no,iMemberId,promotionCode,status,(int)rspn.get("pageNum"),(int)rspn.get("perPage")) ;
+		list = listModel.queryCouponList(coupon_no,iMemberId,sOpenid,promotionCode,status,(int)rspn.get("pageNum"),(int)rspn.get("perPage")) ;
 		
 
 		rspn.put("list",list) ;
