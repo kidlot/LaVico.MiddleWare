@@ -175,12 +175,15 @@ public class CouponController {
 		
 
 		if( (coupon_no==null||coupon_no.isEmpty()) && (promotionCode==null||promotionCode.isEmpty()) && (sOpenid==null||sOpenid.isEmpty()) && (sMemberId==null||sMemberId.isEmpty()) ){
-			rspn.put("error","缺少参数 memberId 或 promotionCode 或 coupon_no") ;
+			rspn.put("error","缺少参数 memberId 或 openid 或 promotionCode 或 coupon_no") ;
 			return rspn ;
 		}
 		
 		if(promotionCode==null||promotionCode.isEmpty())
 			promotionCode = "" ;
+		
+		if(sOpenid==null||sOpenid.isEmpty())
+			sOpenid = "" ;
 
 		if(sMemberId==null||sMemberId.isEmpty()){
 			sMemberId = "0" ;
@@ -213,7 +216,7 @@ public class CouponController {
 		rspn.put("list",list) ;
 		rspn.put(
 				"total"
-				, listModel.totalLength(coupon_no,iMemberId,promotionCode,status)
+				, listModel.totalLength(coupon_no,iMemberId,sOpenid,promotionCode,status)
 		) ;
 		
 		return rspn ;
