@@ -98,7 +98,6 @@ public class CouponListForOpenidModel {
 				+ ", DRP_PROMOTION_THEME.PROMOTION_NAME"
 				+ ", DRP_PROMOTION_COUPON.COUPON_NO"
 				+ ", DRP_PROMOTION_COUPON.MEMO"
-				+ ", PUB_MEMBER_COUPON.SYS_MEMBER_ID"
 				+ ", PUB_BASE_CODE.BASE_CODE_NAME"
 				+ ", row_number() OVER(ORDER BY null) AS \"row_number\""
 			+ " FROM DRP_PROMOTION_COUPON "
