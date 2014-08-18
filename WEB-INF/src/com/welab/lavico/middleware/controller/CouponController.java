@@ -233,7 +233,7 @@ public class CouponController {
 	 * @return {success:true/false,error:"error message",coupon_id:"xxxxx"}
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="{brand}/Coupon/GetCouponsForOpenid")
-    public @ResponseBody Map<String,Object> getCoupons(@PathVariable String brand,HttpServletRequest request) {
+    public @ResponseBody Map<String,Object> getCouponsforopenid(@PathVariable String brand,HttpServletRequest request) {
 
 		Map<String, Object> rspn = new HashMap<String, Object>();
 		
