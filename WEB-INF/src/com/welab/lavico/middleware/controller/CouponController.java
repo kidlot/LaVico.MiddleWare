@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.welab.lavico.middleware.controller.util.Paginator;
+import com.welab.lavico.middleware.model.CouponListForOpenidModel;
 import com.welab.lavico.middleware.model.CouponListModel;
 import com.welab.lavico.middleware.model.PromotionListModel;
 import com.welab.lavico.middleware.service.CouponService;
@@ -170,20 +171,16 @@ public class CouponController {
 
 		String coupon_no = request.getParameter("coupon_no") ;
 		String sMemberId = request.getParameter("memberId") ;
-		String sOpenid = request.getParameter("openid") ;
 		String promotionCode = request.getParameter("promotionCode") ;
 		
 
-		if( (coupon_no==null||coupon_no.isEmpty()) && (promotionCode==null||promotionCode.isEmpty()) && (sOpenid==null||sOpenid.isEmpty()) && (sMemberId==null||sMemberId.isEmpty()) ){
-			rspn.put("error","缺少参数 memberId 或 openid 或 promotionCode 或 coupon_no") ;
+		if( (coupon_no==null||coupon_no.isEmpty()) && (promotionCode==null||promotionCode.isEmpty()) && (sMemberId==null||sMemberId.isEmpty()) ){
+			rspn.put("error","缺少参数 memberId 或 promotionCode 或 coupon_no") ;
 			return rspn ;
 		}
 		
 		if(promotionCode==null||promotionCode.isEmpty())
 			promotionCode = "" ;
-		
-		if(sOpenid==null||sOpenid.isEmpty())
-			sOpenid = "" ;
 
 		if(sMemberId==null||sMemberId.isEmpty()){
 			sMemberId = "0" ;
@@ -210,13 +207,78 @@ public class CouponController {
 		CouponListModel listModel = new CouponListModel(jdbcTpl) ;
 		
 		List<Map<String,Object>> list = null;
-		list = listModel.queryCouponList(coupon_no,iMemberId,sOpenid,promotionCode,status,(int)rspn.get("pageNum"),(int)rspn.get("perPage")) ;
+		list = listModel.queryCouponList(coupon_no,iMemberId,promotionCode,status,(int)rspn.get("pageNum"),(int)rspn.get("perPage")) ;
 		
 
 		rspn.put("list",list) ;
 		rspn.put(
 				"total"
-				, listModel.totalLength(coupon_no,iMemberId,sOpenid,promotionCode,status)
+				, listModel.totalLength(coupon_no,iMemberId,promotionCode,status)
+		) ;
+		
+		return rspn ;
+	}
+	
+
+	/**
+	 * 获取优惠券-- 针对通过openid获取
+	 * 
+	 * Path Variables:
+	 * @param {brand} 					品牌名称
+	 * 
+	 * HTTP Get Query Variables:
+	 * @param memberId 					会员MEMBER_ID
+	 * @param coupon_no 				coupon_no
+	 * 
+	 * @return {success:true/false,error:"error message",coupon_id:"xxxxx"}
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="{brand}/Coupon/GetCouponsForOpenid")
+    public @ResponseBody Map<String,Object> getCoupons(@PathVariable String brand,HttpServletRequest request) {
+
+		Map<String, Object> rspn = new HashMap<String, Object>();
+		
+
+		String status = request.getParameter("status") ;
+		if(status==null||status.isEmpty()){
+			status = "02" ;
+		}
+
+		String coupon_no = request.getParameter("coupon_no") ;
+		String sOpenid = request.getParameter("openid") ;
+		String promotionCode = request.getParameter("promotionCode") ;
+		
+
+		if( (coupon_no==null||coupon_no.isEmpty()) && (promotionCode==null||promotionCode.isEmpty()) && (sOpenid==null||sOpenid.isEmpty()) ){
+			rspn.put("error","缺少参数 openid 或 promotionCode 或 coupon_no") ;
+			return rspn ;
+		}
+		
+		if(promotionCode==null||promotionCode.isEmpty())
+			promotionCode = "" ;
+		
+		if(sOpenid==null||sOpenid.isEmpty())
+			sOpenid = "" ;
+
+		
+		JdbcTemplate jdbcTpl = null ;
+		try{
+			Paginator.paginate(request,rspn) ;
+			jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
+		}catch(Throwable e){
+			rspn.put("error",e.getMessage()) ;
+			return rspn ;
+		}
+		
+		CouponListForOpenidModel listModel = new CouponListForOpenidModel(jdbcTpl) ;
+		
+		List<Map<String,Object>> list = null;
+		list = listModel.queryCouponList(coupon_no,sOpenid,promotionCode,status,(int)rspn.get("pageNum"),(int)rspn.get("perPage")) ;
+		
+
+		rspn.put("list",list) ;
+		rspn.put(
+				"total"
+				, listModel.totalLength(coupon_no,sOpenid,promotionCode,status)
 		) ;
 		
 		return rspn ;

@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class CouponListModel {
+public class CouponListForOpenidModel {
 
-	public CouponListModel(JdbcTemplate jdbcTpl) {
+	public CouponListForOpenidModel(JdbcTemplate jdbcTpl) {
 		this.jdbcTpl = jdbcTpl ;
 	}
 
@@ -20,16 +20,17 @@ public class CouponListModel {
 		return totalLength("DRP_PROMOTION_THEME.PROMOTION_CODE",promotionCode,status) ; 
 	}
 	*/
-	public int totalLength(String coupon_no,int memberId,String promotionCode,String status){
+	public int totalLength(String coupon_no,String sOpenid,String promotionCode,String status){
 		String where = "";
 		if(coupon_no != null && !coupon_no.isEmpty()){
 			where += " DRP_PROMOTION_COUPON.COUPON_NO = '" + coupon_no + "' and";
 		}
-		if(memberId != 0){
-			where += " PUB_MEMBER_COUPON.SYS_MEMBER_ID = " + memberId + " and";
-		}
-		if(promotionCode != null && !promotionCode.isEmpty()){
+		if(promotionCode != null && !promotionCode.isEmpty() && promotionCode!=""){
 			where += " DRP_PROMOTION_THEME.PROMOTION_CODE = '" + promotionCode + "' and";
+		}
+
+		if(sOpenid != null && !sOpenid.isEmpty() && sOpenid!=""){
+			where += " DRP_PROMOTION_COUPON.OPENID = '" + sOpenid + "' and";
 		}
 		
 		if(status.equals("02")){
@@ -39,8 +40,7 @@ public class CouponListModel {
 		
 		}
 		String sql = "SELECT count(*)"
-			+ " FROM PUB_MEMBER_COUPON "
-				+ " left join DRP_PROMOTION_COUPON on (PUB_MEMBER_COUPON.SYS_PCOUPON_ID=DRP_PROMOTION_COUPON.SYS_PCOUPON_ID)"
+			+ " FROM DRP_PROMOTION_COUPON "
 				+ " left join DRP_PROMOTION_THEME on (DRP_PROMOTION_COUPON.SYS_PTHEME_ID=DRP_PROMOTION_THEME.SYS_PTHEME_ID)"
 				+ " WHERE "+where ;
 		return jdbcTpl.queryForInt(sql,new Object[]{} ) ;
@@ -55,17 +55,17 @@ public class CouponListModel {
 		return queryCouponList("DRP_PROMOTION_THEME.PROMOTION_CODE",promotionCode,status,pageNum,perPage) ;
 	}
 	*/
-	public List<Map<String,Object>> queryCouponList(String coupon_no,int memberId,String promotionCode,String status,int pageNum,int perPage){
+	public List<Map<String,Object>> queryCouponList(String coupon_no, String sOpenid,String promotionCode,String status,int pageNum,int perPage){
 		
 		String where = "";
 		if(coupon_no != null && !coupon_no.isEmpty()){
 			where += " DRP_PROMOTION_COUPON.COUPON_NO = '" + coupon_no + "' and";
 		}
-		if(memberId != 0){
-			where += " PUB_MEMBER_COUPON.SYS_MEMBER_ID = " + memberId + " and";
-		}
-		if(promotionCode != null && !promotionCode.isEmpty()){
+		if(promotionCode != null && !promotionCode.isEmpty() && promotionCode!=""){
 			where += " DRP_PROMOTION_THEME.PROMOTION_CODE = '" + promotionCode + "' and";
+		}
+		if(sOpenid != null && !sOpenid.isEmpty() && sOpenid!=""){
+			where += " DRP_PROMOTION_COUPON.OPENID = '" + sOpenid + "' and";
 		}
 		return queryCouponList(where,status,pageNum,perPage) ;
 	}
@@ -101,8 +101,7 @@ public class CouponListModel {
 				+ ", PUB_MEMBER_COUPON.SYS_MEMBER_ID"
 				+ ", PUB_BASE_CODE.BASE_CODE_NAME"
 				+ ", row_number() OVER(ORDER BY null) AS \"row_number\""
-			+ " FROM PUB_MEMBER_COUPON "
-				+ " left join DRP_PROMOTION_COUPON on (PUB_MEMBER_COUPON.SYS_PCOUPON_ID=DRP_PROMOTION_COUPON.SYS_PCOUPON_ID)"
+			+ " FROM DRP_PROMOTION_COUPON "
 				+ " left join DRP_PROMOTION_THEME on (DRP_PROMOTION_COUPON.SYS_PTHEME_ID=DRP_PROMOTION_THEME.SYS_PTHEME_ID)"
 				+ " left join PUB_BASE_CODE on (DRP_PROMOTION_COUPON.COUPON_TYPE=PUB_BASE_CODE.BASE_CODE_ID)"
 			+ " WHERE "+where+" PUB_BASE_CODE.BASE_CODE_TYPE='326'"
