@@ -369,6 +369,75 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 ```
 
 
+
+
+
+
+### 会员所获优惠券的列表 {brand}/Coupon/GetCouponsForOpenid
+
+#### 参数：
+
+  * status
+
+		优惠券状态 01: 未生效  02: 已生效  03: 已使用  04: 已到期失效
+		
+		默认 02
+		
+  * openid [可选]
+
+      海澜CRM 用户id，由 MemberApple/MemberBind 返回    
+
+  * promotionCode [可选]
+
+      活动代码
+      
+  * perPage
+  
+  		每页多少行记录，默认 20
+  
+  * pageNum
+
+		第几页，默认 1
+
+
+#### 返回：
+
+```javascript
+    {
+        "coupons":[
+            {
+                "BEGIN_DATE":"2014-03-06 00:00:00",
+                "END_DATE":"2014-03-06 00:00:00",
+                "COUPON_STATUS":"01",				//  01: 未生效  02: 已生效  03: 已使用  04: 已到期失效
+				"PROMOTION_CODE":"CQA201401030002",	//  活动代号，和 Promotions 接口的 PROMOTION_CODE 一致
+				"COUPON_NO": "AV1403060004"	,	//  优惠券券号
+				"row_number": 1					//  序号
+			},
+            ... ...
+        ],
+        "total": 30,
+        "perPage": 20,
+        "pageNum": 20
+    }
+```
+
+#### CRM数据库说明：
+
+相关数据表： PUB_MEMBER_COUPON、DRP_PROMOTION_COUPON、DRP_PROMOTION_THEME
+     
+```sql
+SELECT 
+    DRP_PROMOTION_COUPON.BEGIN_DATE
+    , DRP_PROMOTION_COUPON.END_DATE
+    , COUPON_STATUS
+    , DRP_PROMOTION_THEME.PROMOTION_CODE
+    , DRP_PROMOTION_COUPON.COUPON_NO
+FROM DRP_PROMOTION_COUPON
+       left join DRP_PROMOTION_THEME on (DRP_PROMOTION_COUPON.SYS_PTHEME_ID=DRP_PROMOTION_THEME.SYS_PTHEME_ID)
+WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
+```
+
+
 ### 领取优惠券 {brand}/Coupon/FetchCoupon
 
 
@@ -395,7 +464,7 @@ WHERE PUB_MEMBER_COUPON.SYS_MEMBER_ID=9088949
 
   * parm
 
-    前后置状态：01 前置（注册后直接获得）  02 后置（注册前先和OPENID绑定，直到注册后才和memberid绑定）
+    前后置状态：01 前置（注册后直接获得） ; 02 后置（注册前先和OPENID绑定，直到注册后才和memberid绑定）
 
   * memo
 
