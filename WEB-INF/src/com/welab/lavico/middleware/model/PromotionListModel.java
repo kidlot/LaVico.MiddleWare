@@ -49,11 +49,11 @@ public class PromotionListModel {
 
     		// 活动所有优惠券
     		int total = jdbcTpl.queryForInt(
-    				"select count(*) as count from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id where p.promotion_code=?"
+    				"select count(*) as count from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id where c.COUPON_STATUS in ('01','02') and p.promotion_code=?"
     				, new Object[] { (String)promo.get("PROMOTION_CODE") }
     		) ;
     		int used = jdbcTpl.queryForInt(
-    				"select count(*) as count from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id where c.bind_flag = '1' and p.promotion_code=?"
+    				"select count(*) as count from drp_promotion_coupon c left join drp_promotion_theme p on c.sys_ptheme_id=p.sys_ptheme_id where c.COUPON_STATUS in ('01','02') and c.bind_flag = '1' and p.promotion_code=?"
     				, new Object[] { (String)promo.get("PROMOTION_CODE") }
     		) ;
     		try{
