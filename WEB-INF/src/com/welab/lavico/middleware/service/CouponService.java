@@ -30,6 +30,7 @@ public class CouponService {
 			,int point
 			,String memo
 			,String parm
+			,String sSign
 			) throws Error {
 
     	JdbcTemplate jdbcTpl = SpringJdbcDaoSupport.getJdbcTemplate(brand) ;
@@ -60,7 +61,7 @@ public class CouponService {
 			    statement.setInt(7, Math.abs(point));
 		    }
 
-		    statement.setString(8, "1");
+		    statement.setString(8, sSign);
 		    statement.setString(9, qty<0?"1":"0");
 		    statement.setString(10, parm);
 
