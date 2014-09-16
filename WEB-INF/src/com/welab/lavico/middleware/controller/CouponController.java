@@ -102,7 +102,7 @@ public class CouponController {
 		String sQty = request.getParameter("qty") ;
 		String sPoint = request.getParameter("point") ;
 		String sParm = request.getParameter("parm") ;
-		String sSign = "" ;
+		String sSign = request.getParameter("sign") ;
 		float qty ;
 		int point ;
 
@@ -114,15 +114,17 @@ public class CouponController {
 		}
 		if(sParm==null||sParm.isEmpty()){
 			sParm = "01" ;
-			sSign = "1" ;
+		}
+		if(sSign==null||sSign.isEmpty()){
+
+			if(sParm=="01"){
+				sSign = "1" ;
+			}
+			if(sParm=="02"){
+				sSign = "0" ;
+			}
 		}
 
-		if(sParm=="01"){
-			sSign = "1" ;
-		}
-		if(sParm=="02"){
-			sSign = "0" ;
-		}
 		
 		try{
 			qty = Float.parseFloat(sQty) ;
