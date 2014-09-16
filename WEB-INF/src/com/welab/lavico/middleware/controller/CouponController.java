@@ -117,10 +117,10 @@ public class CouponController {
 		}
 		if(sSign==null||sSign.isEmpty()){
 
-			if(sParm=="01"){
+			if(sParm.equals("01")){
 				sSign = "1" ;
 			}
-			if(sParm=="02"){
+			if(sParm.equals("02")){
 				sSign = "0" ;
 			}
 		}
