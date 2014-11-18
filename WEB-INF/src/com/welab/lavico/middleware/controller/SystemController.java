@@ -74,7 +74,7 @@ public class SystemController {
 				throw new Error("miss arg content") ;
 			}
 
-			int res = SmsClient.getClient().sendSMS(mobiles,content,5) ;
+			int res = SmsClient.getClient().sendSMS(mobiles,content,'1',5) ;
 
 			if(res==0){
 				rspn.put("success",true) ;

@@ -7,8 +7,8 @@
 		destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:hldrp301" />
-		<property name="username" value="wintest" />
-		<property name="password" value="testpound" />
+		<property name="username" value="krtdrp" />
+		<property name="password" value="krtpass" />
 		<property name="maxActive" value="5" />
 		<property name="maxIdle" value="3" />
 		<property name="minIdle" value="2" />
